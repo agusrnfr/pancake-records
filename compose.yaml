@@ -1,0 +1,22 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: bundle exec rails server -b 0.0.0.0
+    volumes:
+      - .:/app
+      - bundle:/usr/local/bundle
+      - sqlite_db:/app/db
+      - storage:/app/storage
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: development
+    stdin_open: true
+    tty: true
+
+volumes:
+  bundle:
+  sqlite_db:
+  storage:
