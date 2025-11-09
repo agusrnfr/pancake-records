@@ -1,0 +1,23 @@
+FROM ruby:3.4.5-alpine
+
+WORKDIR /app
+
+RUN apk add --no-cache \
+    build-base \
+    vips-dev \
+    sqlite-dev \
+    nodejs \
+    npm \
+    tzdata \
+    yaml-dev
+
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+COPY . .
+
+RUN chmod +x bin/*
+
+EXPOSE 3000
+
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
