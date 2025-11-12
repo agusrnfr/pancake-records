@@ -7,7 +7,6 @@ services:
     volumes:
       - .:/app
       - bundle:/usr/local/bundle
-      - sqlite_db:/app/db
       - storage:/app/storage
     ports:
       - "3000:3000"
@@ -18,5 +17,4 @@ services:
 
 volumes:
   bundle:
-  sqlite_db:
   storage:

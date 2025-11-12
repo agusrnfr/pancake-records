@@ -5,7 +5,6 @@ class CreateUsers < ActiveRecord::Migration[8.1]
       t.string :surname, null: false
       t.string :email, null: false, index: { unique: true }
       t.string :address
-      t.string :password_digest, null: false
       t.integer :role, default: 1, null: false # default: employee
 
       t.timestamps

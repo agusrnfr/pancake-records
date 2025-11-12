@@ -38,7 +38,7 @@ module PancakeRecords
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-		config.i18n.default_locale = :es
+		config.i18n.default_locale = :en
 		config.time_zone = 'Buenos Aires'
   end
 end
