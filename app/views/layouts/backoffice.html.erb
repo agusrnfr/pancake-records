@@ -51,6 +51,10 @@
     </div>
 
     <div class="navigation-links">
+      <%= link_to "/backoffice", class: "nav-link", title: "Inicio", aria: { label: "Inicio" } do %>
+        <i class="fa-solid fa-house"></i>
+        <span class="link-text">Inicio</span>
+      <% end %>
       <%= link_to "/backoffice/users", class: "nav-link", title: "Usuarios", aria: { label: "Usuarios" } do %>
         <i class="fa-solid fa-users"></i>
         <span class="link-text">Usuarios</span>
