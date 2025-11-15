@@ -39,14 +39,31 @@
       <p class="role"><%= current_user.role_name %></p>
     </div>
 
-    <div class="menu">
-      <%= link_to "Editar perfil", edit_user_registration_path %>
-      <%= link_to "Cerrar sesión", destroy_user_session_path, data: { "turbo-method": :delete } %>
+     <div class="menu">
+
+    <div class="menu-icons">
+      <%= link_to edit_user_registration_path, class: "menu-icon", title: "Editar perfil", aria: { label: "Editar perfil" } do %>
+        <i class="fa-solid fa-user-pen"></i>
+      <% end %>
+      <%= link_to destroy_user_session_path, data: { "turbo-method": :delete }, class: "menu-icon", title: "Cerrar sesión", aria: { label: "Cerrar sesión" } do %>
+        <i class="fa-solid fa-right-from-bracket"></i>
+      <% end %>
+    </div>
 
     <div class="navigation-links">
-      <%= link_to "Usuarios", "/backoffice/users" %>
-      <%= link_to "Discos", "/backoffice/records" %>
-      <%= link_to "Ventas", "/backoffice/sales" %>
+      <%= link_to "/backoffice/users", class: "nav-link", title: "Usuarios", aria: { label: "Usuarios" } do %>
+        <i class="fa-solid fa-users"></i>
+        <span class="link-text">Usuarios</span>
+      <% end %>
+      <%= link_to "/backoffice/records", class: "nav-link", title: "Discos", aria: { label: "Discos" } do %>
+        <i class="fa-solid fa-compact-disc"></i>
+        <span class="link-text">Discos</span>
+      <% end %>
+      <%= link_to "/backoffice/sales", class: "nav-link", title: "Ventas", aria: { label: "Ventas" } do %>
+        <i class="fa-solid fa-cash-register"></i>
+        <span class="link-text">Ventas</span>
+      <% end %>
+    </div>
     </div>
 
   </aside>
