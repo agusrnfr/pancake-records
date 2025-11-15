@@ -16,10 +16,10 @@
   --color-surface: #f9f9f9;
   --color-border: #ddd;
   --color-input-border: #ccc;
-  --color-button-bg: #467fcf;
-  --color-button-hover: #3a6ebf;
-  --color-button-text: #fff;
-  --color-link: #00e;
+  --color-button-bg:  #7A9A9E;
+  --color-button-hover: #5e7c80;
+  --color-button-text: #f2f2f2;
+  --color-link: #5F6673;
   --color-error-bg: #f8d7da;
   --color-error-border: #f5c2c7;
   --color-error-text: #842029;
@@ -40,6 +40,22 @@
   --color-side-bar: #707F8C;
   --color-side-bar-hover: #5a6a73;
   --color-side-bar-border: #606f7a;
+  --color-background-color: #F2F2F2;
+  --color--selection-bg: #ffcf4d;
+  --color--selection-fg: #1d1d1d;
+  --color-scrollbar: #FFD400;
+  --color-scrollbar-hover: #FFC300;
+}
+
+::selection {
+  background: var(--color--selection-bg);
+  color: var(--color--selection-fg);
+  text-shadow: none;
+}
+::-moz-selection {
+  background: var(--color--selection-bg);
+  color: var(--color--selection-fg);
+  text-shadow: none;
 }
 
 html {
@@ -349,4 +365,23 @@ div[id^="role_"] {
   margin-top: 0;
   margin-bottom: 2rem;
   font-size: 0.9rem;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-scrollbar) var(--color-body-bg);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-body-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar);
+  border-radius: 6px;
+  border: 2px solid var(--color-body-bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-scrollbar-hover);
 }

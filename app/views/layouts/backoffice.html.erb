@@ -7,9 +7,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
   <%= stylesheet_link_tag "backoffice", media: "all" %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <%= yield :styles %>
 
   <%= javascript_include_tag "backoffice", defer: true %>
+  <%= yield :scripts %>
 
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -23,8 +25,6 @@
 <div class="backoffice-wrapper">
 
   <aside class="sidebar">
-
-    <h2>Pancake Backoffice</h2>
 
     <div class="avatar">
       <% if current_user.avatar.attached? %>
@@ -66,6 +66,10 @@
       <%= link_to "/backoffice/sales", class: "nav-link", title: "Ventas", aria: { label: "Ventas" } do %>
         <i class="fa-solid fa-cash-register"></i>
         <span class="link-text">Ventas</span>
+      <% end %>
+      <%= link_to "/", class: "nav-link", title: "Catálogo", aria: { label: "Catálogo" } do %>
+        <i class="fa-solid fa-store"></i>
+        <span class="link-text">Catálogo</span>
       <% end %>
     </div>
     </div>
