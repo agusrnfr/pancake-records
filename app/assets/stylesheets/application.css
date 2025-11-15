@@ -8,6 +8,8 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+ @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 :root {
   --color-text: #222;
   --color-bg: #fff;
@@ -35,6 +37,9 @@
   --color-flash-alert-bg: #fff3cd;
   --color-flash-alert-border: #ffeeba;
   --color-gray-light: #ccc;
+  --color-side-bar: #707F8C;
+  --color-side-bar-hover: #5a6a73;
+  --color-side-bar-border: #606f7a;
 }
 
 html {
@@ -48,13 +53,11 @@ html {
 
 body {
   margin: 0;
-  padding: 2rem;
-
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding: 0; /* ← cambiarlo */
+  font-family: Montserrat, sans-serif;
   font-size: 16px;
   line-height: 1.6;
   color: var(--color-text);
-
   background-color: var(--color-body-bg);
 }
 

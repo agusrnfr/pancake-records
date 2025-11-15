@@ -1,0 +1,128 @@
+/* ===== WRAPPER GENERAL ===== */
+.backoffice-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 260px;
+  background: var(--color-side-bar);
+  color: #fff;
+  padding: 20px;
+  transition: width 0.3s ease, padding 0.3s ease;
+  position: relative;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+  padding: 20px 10px;
+}
+
+/* Título */
+.sidebar h2 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  transition: opacity 0.2s ease;
+}
+
+.sidebar.collapsed h2 {
+  opacity: 0;
+}
+
+/* Avatar */
+.avatar img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 10px auto;
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.sidebar.collapsed .avatar img {
+  width: 50px;
+  height: 50px;
+}
+
+/* User Info */
+.user-info {
+  text-align: center;
+  margin-bottom: 20px;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .user-info {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Menú */
+
+.menu {
+  text-align: center;
+}
+
+.navigation-links a {
+  display: block;
+  padding: 10px 0;
+  text-decoration: none;
+  color: #fff;
+  border-top: 1px solid rgba(255,255,255,0.25);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.navigation-links a:first-child {
+  border-top: 1px solid rgba(255,255,255,0.25);
+}
+
+.navigation-links a:hover {
+  background: rgba(0,0,0,0.35);
+  color: #fff;
+}
+
+.navigation-links a:last-child {
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+}
+
+
+.sidebar.collapsed .menu a {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/* Borde separador */
+.sidebar hr {
+  border-color: #333;
+}
+
+/* ===== CONTENT ===== */
+.content {
+  flex: 1;
+  padding: 30px;
+}
+
+/* ===== BOTÓN DE COLAPSE ===== */
+.sidebar-toggle {
+  position: absolute;
+  top: 5px;
+  right: -18px;
+  background: var(--color-side-bar);
+  border: 2px solid var(--color-side-bar-border);
+  color: white;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 20px;
+  font-size: 16px;
+  z-index: 2000;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+  background: var(--color-side-bar-hover);
+}               
+
+.sidebar.collapsed .sidebar-toggle {
+  transform: rotate(180deg);
+}

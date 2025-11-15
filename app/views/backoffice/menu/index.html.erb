@@ -1,3 +1,11 @@
-<h1> Hola </h1>
-<p> Bienvenido al backoffice de pancake records </p> 
-<p> esta pagina si requiere login </p>
+<h1>Bienvenido al Backoffice</h1>
+
+<p>Usá el menú de la izquierda para administrar usuarios, discos y ventas.</p>
+
+<% if current_user.manager? %>
+  <p>Como Manager, podés gestionar ventas y ver información general.</p>
+<% elsif current_user.employee? %>
+  <p>Como Empleado, podés cargar ventas y consultar productos.</p>
+<% else %>
+  <p>Como Administrador, tenés acceso total al sistema.</p>
+<% end %>

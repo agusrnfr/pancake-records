@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Backoffice | Pancake Records</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+  <%= stylesheet_link_tag "backoffice", media: "all" %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+
+  <%= javascript_include_tag "backoffice", defer: true %>
+
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= javascript_importmap_tags %>
+
+</head>
+
+<body>
+
+<div class="backoffice-wrapper">
+
+  <aside class="sidebar">
+
+    <h2>Pancake Backoffice</h2>
+
+    <div class="avatar">
+      <% if current_user.avatar.attached? %>
+        <%= image_tag current_user.avatar, alt: "avatar" %>
+      <% else %>
+        <%= image_tag "https://via.placeholder.com/90", alt: "avatar" %>
+      <% end %>
+    </div>
+
+    <div class="user-info">
+      <p><strong><%= current_user.name %> <%= current_user.surname %></strong></p>
+      <p class="role"><%= current_user.role_name %></p>
+    </div>
+
+    <div class="menu">
+      <%= link_to "Editar perfil", edit_user_registration_path %>
+      <%= link_to "Cerrar sesión", destroy_user_session_path, data: { "turbo-method": :delete } %>
+
+    <div class="navigation-links">
+      <%= link_to "Usuarios", "/backoffice/users" %>
+      <%= link_to "Discos", "/backoffice/records" %>
+      <%= link_to "Ventas", "/backoffice/sales" %>
+    </div>
+
+  </aside>
+
+  <main class="content">
+    <%= yield %>
+  </main>
+
+</div>
+
+</body>
+</html>

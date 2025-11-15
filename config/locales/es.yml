@@ -1,0 +1,14 @@
+es:
+  activerecord:
+    models:
+      user: Usuario
+    attributes:
+      user:
+        email: Correo electrónico
+        role: Rol
+    enums:
+      user:
+        role:
+          administrator: Administrador
+          employee: Empleado
+          manager: Gerente

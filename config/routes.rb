@@ -15,6 +15,11 @@ Rails.application.routes.draw do
 
   namespace :backoffice do
     root :to => "menu#index"
+
+		resources :users, only: [:index]
+  	resources :records, only: [:index]
+  	resources :sales, only: [:index]
+
   end
 
 end

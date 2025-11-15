@@ -11,4 +11,9 @@ class User < ApplicationRecord
   enum :role, { administrator: 0, employee: 1, manager: 2 }
 
   validates :email, presence: true, uniqueness: true
+
+	def role_name
+    I18n.t("activerecord.enums.user.role.#{role}")
+  end
+
 end
