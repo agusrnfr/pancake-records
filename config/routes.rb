@@ -17,9 +17,14 @@ Rails.application.routes.draw do
     root :to => "menu#index"
 
 		resources :users, only: [:index]
-  	resources :records, only: [:index]
+		resources :products do
+			member do
+				patch :increment_stock
+				patch :decrement_stock
+				patch :soft_delete
+        patch :restore
+			end
+		end
   	resources :sales, only: [:index]
-
   end
-
 end

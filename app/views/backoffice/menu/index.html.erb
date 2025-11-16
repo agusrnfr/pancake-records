@@ -5,7 +5,7 @@
   <section class="intro">
     <h1>Bienvenido, <%= (current_user.respond_to?(:name) && current_user.name.present?) ? current_user.name : current_user.email %>.</h1>
     <p>Gestioná Pancake Records desde este panel.</p>
-        <p>Tu rol es el de <strong><%= current_user.role_name %></strong>.</p>
+    <p>Tu rol es el de <strong><%= current_user.role_name %></strong>.</p>
   </section>
   <section class="permisos-wrapper">
     <h2>Tus permisos</h2>
@@ -25,7 +25,6 @@
           <% end %>
         </ul>
       </div>
-
       <div class="permiso-card">
         <h3>Discos</h3>
         <ul>
@@ -39,7 +38,6 @@
           <% end %>
         </ul>
       </div>
-
       <div class="permiso-card">
         <h3>Ventas</h3>
         <ul>
@@ -52,7 +50,6 @@
           <% end %>
         </ul>
       </div>
-
       <div class="permiso-card">
         <h3>Otros</h3>
         <ul>
@@ -70,5 +67,6 @@
       </div>
     </div>
   </section>
-      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/3UkYhZrL4RrjQbxxth6uQ0?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/3UkYhZrL4RrjQbxxth6uQ0?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 </div>
+<%= render partial: "backoffice/back_button" %>

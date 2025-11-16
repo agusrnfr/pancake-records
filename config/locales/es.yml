@@ -2,13 +2,25 @@ es:
   activerecord:
     models:
       user: Usuario
+      product: Producto
     attributes:
       user:
         email: Correo electrónico
         role: Rol
+      product:
+        status: Estado
+        format: Formato
+        condition: Condición
     enums:
       user:
         role:
           administrator: Administrador
           employee: Empleado
           manager: Gerente
+      product:
+        format:
+          vinyl: Vinilo
+          cd: CD
+        condition:
+          used: Usado
+          brand_new: Nuevo
