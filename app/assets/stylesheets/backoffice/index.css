@@ -1,0 +1,91 @@
+.intro {
+	margin: 0 0 5px;
+	background: rgba(255, 255, 255, 0.08);
+	padding: 14px 20px;
+	border-radius: 14px;
+	text-align: center;
+}
+.backoffice-center {
+	max-width: 880px;
+	margin: 0 auto;
+	padding: 20px 26px 60px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 26px;
+	text-align: center;
+}
+
+.backoffice-center h1 {
+	margin: 0 0 4px;
+	font-size: 2rem;
+	letter-spacing: 0.5px;
+}
+
+.permisos-wrapper {
+	width: 100%;
+	text-align: center;
+}
+
+.permisos-wrapper h2 {
+	margin: 0 0 18px;
+	font-size: 1.5rem;
+	letter-spacing: 0.6px;
+}
+
+.permisos-grid {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.permiso-card {
+	background: #bf8a26;
+	padding: 18px 20px;
+	border-radius: 16px;
+	box-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.45);
+	backdrop-filter: blur(6px);
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	transition: transform 0.28s ease, box-shadow 0.28s ease;
+	will-change: transform;
+}
+
+.permiso-card:hover {
+	transform: translateY(-4px) scale(1.04);
+	box-shadow: 0 14px 28px -8px rgba(0, 0, 0, 0.55);
+}
+
+.permiso-card h3 {
+	margin: 0;
+	font-size: 1.5rem;
+	font-weight: 600;
+	letter-spacing: 0.4px;
+	color: #f2f2f2;
+}
+
+.permiso-card ul {
+	list-style: disc;
+	margin: 0;
+	padding-left: 18px;
+	display: grid;
+	gap: 6px;
+	font-size: 0.80rem;
+    color: #f2f2f2;
+	line-height: 1.15rem;
+}
+
+.permiso-card li::marker {
+	color: #ffcf4d;
+}
+
+@media (min-width: 760px) {
+  .permisos-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .permisos-grid .permiso-card:last-child {
+    grid-column: 2;
+  }
+}

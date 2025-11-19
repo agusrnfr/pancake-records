@@ -20,6 +20,9 @@ Bundler.require(*Rails.groups)
 
 module PancakeRecords
   class Application < Rails::Application
+    # Use the responders controller from the responders gem
+    config.app_generators.scaffold_controller :responders_controller
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.1
 
@@ -38,7 +41,7 @@ module PancakeRecords
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-		config.i18n.default_locale = :en
+		config.i18n.default_locale = :es
 		config.time_zone = 'Buenos Aires'
   end
 end

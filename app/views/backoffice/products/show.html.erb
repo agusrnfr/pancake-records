@@ -1,0 +1,88 @@
+<div class="show-header">
+  <h1><%= @product.name %></h1>
+  <%= link_to edit_backoffice_product_path(@product), class: "icon-btn warning", aria: { label: "Editar #{@product.name}" }, data: { turbo_frame: "_top" } do %>
+    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+    <span class="sr-only">Editar</span>
+  <% end %>
+  <% if @product.removed_at %>
+    <%= button_to restore_backoffice_product_path(@product), method: :patch,
+                    class: "icon-btn restore separator-left",
+                    aria: { label: "Restaurar #{@product.name}" },
+                    data: { turbo_confirm: "¿Restaurar #{@product.name}?" } do %>
+      <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+      <span class="sr-only">Restaurar</span>
+    <% end %>
+  <% else %>
+    <%= button_to soft_delete_backoffice_product_path(@product), method: :patch,
+                    class: "icon-btn danger separator-left",
+                    aria: { label: "Eliminar #{@product.name}" },
+                    data: { turbo_confirm: "¿Seguro que querés eliminar #{@product.name}?" } do %>
+      <i class="fa-solid fa-trash" aria-hidden="true"></i>
+      <span class="sr-only">Eliminar</span>
+    <% end %>
+  <% end %>
+</div>
+<section class="product-meta">
+  <p><strong>Autor:</strong> <%= @product.author %></p>
+  <p><strong>Precio:</strong> <%= number_to_currency(@product.price, unit: "$", separator: ".", delimiter: ",") %></p>
+  <p><strong>Stock:</strong> <%= @product.stock %></p>
+  <p><strong>Formato:</strong> <%= @product.format_name %></p>
+  <p><strong>Condición:</strong> <%= @product.condition_name %></p>
+  <p><strong>Fecha de ingreso:</strong> <%= l(@product.inventory_entry_date) %></p>
+  <p><strong>Fecha de actualización:</strong> <%= l(Time.at(@product.updated_at).to_date) %></p>
+  <% if @product.removed_at %>
+    <p><strong>Fecha de eliminación:</strong> <%= l(@product.removed_at) %></p>
+  <% end %>
+  <p><strong>Estado:</strong>
+    <% status_text, status_class = if @product.removed_at
+      ["Eliminado", "removed"]
+    elsif @product.stock == 0
+      ["Sin stock", "nodata"]
+    else
+      ["Activo", "ok"]
+    end %>
+    <span class="status <%= status_class %>"><%= status_text %></span>
+  </p>
+</section>
+<section class="product-genres">
+  <h2>Géneros</h2>
+  <% if @product.genres.any? %>
+    <div class="tags">
+      <% @product.genres.each do |g| %>
+        <span class="tag"><%= g.name %></span>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="empty-info">Sin géneros asociados</p>
+  <% end %>
+</section>
+<section class="product-description">
+  <h2>Descripción</h2>
+  <p><%= @product.description.presence || "(Sin descripción)" %></p>
+</section>
+<section class="product-images">
+  <h2>Imágenes</h2>
+  <% if @product.images.attached? %>
+    <div class="image-preview-list">
+      <% @product.images.each do |img| %>
+        <div class="image-preview">
+          <%= image_tag img, class: "preview-img", alt: @product.name %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="empty-info">No hay imágenes adjuntas</p>
+  <% end %>
+</section>
+<section class="product-audio">
+  <h2>Muestra de audio</h2>
+  <% if @product.audio_sample.attached? %>
+    <audio controls>
+      <source src="<%= url_for(@product.audio_sample) %>">
+      Tu navegador no soporta audio.
+    </audio>
+  <% else %>
+    <p class="empty-info">Sin muestra de audio</p>
+  <% end %>
+</section>
+<%= render partial: "backoffice/back_button" %>

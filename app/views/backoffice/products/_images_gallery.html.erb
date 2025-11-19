@@ -1,0 +1,13 @@
+<% imgs = product.images.attachments %>
+
+<% if imgs.any? %>
+  <div class="image-preview-list">
+    <% imgs.each do |att| %>
+      <div class="image-preview" id="<%= dom_id(att) %>">
+        <%= image_tag att, class: "preview-img", alt: product.name %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="empty-info">No hay imágenes adjuntas</p>
+<% end %>
