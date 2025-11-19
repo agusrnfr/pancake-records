@@ -16,4 +16,24 @@ class User < ApplicationRecord
     I18n.t("activerecord.enums.user.role.#{role}")
   end
 
+  scope :whth_email, ->(email) {
+    return all if email.blank? || !emails.keys.include?(email)
+    where(email: emails[email])
+  }
+
+  scope :with_surname, ->(surname) {
+    return all if surname.blank? || !surnames.keys.include?(surname)
+    where(surname: surnames[surname])
+  }
+
+  scope :with_name, ->(name) {
+    return all if name.blank? || !names.keys.include?(name)
+    where(name: names[name])
+  }
+
+  scope :with_role, ->(role) {
+    return all if role.blank? || !roles.keys.include?(role)
+    where(role: roles[role])
+  }
+
 end

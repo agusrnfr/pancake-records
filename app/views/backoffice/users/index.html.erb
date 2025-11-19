@@ -1,4 +1,125 @@
-<h1>Gestión de Usuarios</h1>
-<p>Habria que pasar todo lo de users menos el login aca (creo)</p>
-
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "backoffice/products" %>
+<% end %>
+<section class="header-section">
+  <h1>Administración de Usuarios</h1>
+</section>
 <%= render partial: "backoffice/back_button" %>
+<section class="filters">
+  <%= form_with url: backoffice_users_path, method: :get,
+                class: "filters-form",
+                data: { controller: "live-search" },
+                html: { 'data-live-search-target': 'form' } do %>
+    <%= hidden_field_tag :page, params[:page] || 1 %>
+    <div class="filters-grid">
+      <div class="filter-block">
+        <label for="q">Nombre</label>
+        <%= text_field_tag :q, params[:q],
+              placeholder: "Nombre de usuario",
+              class: "filter-input search-input" %>
+      </div>
+      <div class="filter-block">
+        <label for="status">Email</label>
+        <%= text_field_tag :q, params[:q],
+              placeholder: "Nombre de usuario",
+              class: "filter-input search-input" %>
+      </div>
+      <div class="filter-block">
+        <label for="format">Apodo</label>
+        <%= text_field_tag :q, params[:q],
+              placeholder: "Nombre de usuario",
+              class: "filter-input search-input" %>
+      </div>
+      <div class="filter-block">
+        <label for="condition">Rol</label>
+        <%= select_tag :condition,
+              options_for_select(
+                [["Administrador", "admin"], ["Gerente", "manager"], ["Empleado", "employee"]],
+                params[:condition]),
+              class: "filter-select",
+              data: { action: "change->live-search#changed" } %>
+      </div>
+      <div class="buttons-block">
+        <button type="submit" class="icon-btn search" aria-label="Buscar">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <span class="sr-only">Buscar</span>
+        </button>
+        <%= link_to backoffice_users_path,
+              class: "icon-btn clear",
+              aria: { label: "Limpiar filtros" } do %>
+          <i class="fa-solid fa-broom" aria-hidden="true"></i>
+          <span class="sr-only">Limpiar</span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</section>
+<% if @users.any? %>
+  <%= turbo_frame_tag :users_list do %>
+    <table class="records-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apodo</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th class="actions-col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="records-body">
+        <% @users.each do |u| %>
+          <tr class="<%= u.removed_at ? "removed-row" : "" %>">
+            <td><%= u.name %></td>
+            <td><%= u.surname %></td>
+            <td><%= u.email %></td>
+            <td><%= u.role %></td>
+            <td class="actions">
+              <%= link_to backoffice_users_path(p), class: "icon-btn view", aria: { label: "Ver #{p.name}" }, data: { turbo_frame: "_top" } do %>
+                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                <span class="sr-only">Ver</span>
+              <% end %>
+              <%= link_to edit_backoffice_users_path(p), class: "icon-btn warning", aria: { label: "Editar #{p.name}" }, data: { turbo_frame: "_top" } do %>
+                <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+                <span class="sr-only">Editar</span>
+              <% end %>
+              <% if p.removed_at %>
+                <%= button_to restore_backoffice_users_path(p), method: :patch,
+                    class: "icon-btn restore separator-left",
+                    aria: { label: "Restaurar #{p.name}" },
+                    data: { turbo_confirm: "¿Restaurar #{p.name}?" } do %>
+                  <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                  <span class="sr-only">Restaurar</span>
+                <% end %>
+              <% else %>
+                <%= button_to soft_delete_backoffice_users_path(p), method: :patch,
+                    class: "icon-btn danger separator-left",
+                    aria: { label: "Eliminar #{p.name}" },
+                    data: { turbo_confirm: "¿Seguro que querés eliminar #{p.name}?" } do %>
+                  <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                  <span class="sr-only">Eliminar</span>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="pagination bottom" aria-label="Paginación">
+      <% if @total_pages > 1 %>
+       <div class="results-info">Mostrando <%= @users.size %> de <%= @total_count %> registros</div>
+        <div class="pages">
+          <% prev_page = @current_page - 1 %>
+          <% next_page = @current_page + 1 %>
+          <%= link_to "«", backoffice_users_path(request.query_parameters.merge(page: prev_page)), class: "page-link#{' disabled' if prev_page < 1}", aria: { label: 'Página anterior' } unless @current_page == 1 %>
+          <% 1.upto(@total_pages) do |pg| %>
+            <%= link_to pg, backoffice_users_path(request.query_parameters.merge(page: pg)), class: "page-link#{' active' if pg == @current_page}" %>
+          <% end %>
+          <%= link_to "»", backoffice_users_path(request.query_parameters.merge(page: next_page)), class: "page-link#{' disabled' if next_page > @total_pages}", aria: { label: 'Página siguiente' } unless @current_page == @total_pages %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end%>
+<%= link_to new_backoffice_product_path, class: "floating-btn" do %>
+  +
+<% end %>
