@@ -1,0 +1,8 @@
+<h1>Nuevo Producto</h1>
+<%= form_with model: [:backoffice, @product], html: { multipart: true }, local: true do |f| %>
+  <%= render partial: "form", locals: { f: f } %>
+  <div class="form-actions">
+    <%= f.submit "Crear", class: "btn-submit" %>
+  </div>
+<% end %>
+<%= render partial: "backoffice/back_button" %>

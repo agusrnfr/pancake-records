@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Backoffice | Pancake Records</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <%= stylesheet_link_tag "backoffice", media: "all" %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= yield :styles %>
+    <%= javascript_include_tag "backoffice", defer: true %>
+    <%= yield :scripts %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body>
+    <div class="backoffice-wrapper">
+      <aside class="sidebar">
+        <div class="avatar">
+          <% if current_user.avatar.attached? %>
+            <%= image_tag current_user.avatar, alt: "avatar" %>
+          <% else %>
+            <%= image_tag "https://via.placeholder.com/90", alt: "avatar" %>
+          <% end %>
+        </div>
+        <div class="user-info">
+          <p><strong><%= current_user.name %> <%= current_user.surname %></strong></p>
+          <p class="role"><%= current_user.role_name %></p>
+        </div>
+        <div class="menu">
+          <div class="menu-icons">
+            <%= link_to edit_user_registration_path, class: "menu-icon", title: "Editar perfil", aria: { label: "Editar perfil" } do %>
+              <i class="fa-solid fa-user-pen"></i>
+            <% end %>
+            <%= link_to destroy_user_session_path, data: { "turbo-method": :delete }, class: "menu-icon", title: "Cerrar sesión", aria: { label: "Cerrar sesión" } do %>
+              <i class="fa-solid fa-right-from-bracket"></i>
+            <% end %>
+          </div>
+          <div class="navigation-links">
+            <%= link_to "/backoffice", class: "nav-link", title: "Inicio", aria: { label: "Inicio" } do %>
+              <i class="fa-solid fa-house"></i>
+              <span class="link-text">Inicio</span>
+            <% end %>
+            <%= link_to "/backoffice/users", class: "nav-link", title: "Usuarios", aria: { label: "Usuarios" } do %>
+              <i class="fa-solid fa-users"></i>
+              <span class="link-text">Usuarios</span>
+            <% end %>
+            <%= link_to "/backoffice/products", class: "nav-link", title: "Discos", aria: { label: "Discos" } do %>
+              <i class="fa-solid fa-compact-disc"></i>
+              <span class="link-text">Discos</span>
+            <% end %>
+            <%= link_to "/backoffice/sales", class: "nav-link", title: "Ventas", aria: { label: "Ventas" } do %>
+              <i class="fa-solid fa-cash-register"></i>
+              <span class="link-text">Ventas</span>
+            <% end %>
+            <%= link_to "/", class: "nav-link", title: "Catálogo", aria: { label: "Catálogo" } do %>
+              <i class="fa-solid fa-store"></i>
+              <span class="link-text">Catálogo</span>
+            <% end %>
+          </div>
+        </div>
+      </aside>
+      <main class="content">
+        <% if flash[:notice].present? %>
+          <script>
+            Swal.fire({
+              icon: 'success',
+              title: '<%= j flash[:notice] %>',
+              confirmButtonColor: '#3085d6',
+            });
+          </script>
+        <% end %>
+        <% if flash[:alert].present? %>
+          <script>
+            Swal.fire({
+              icon: 'error',
+              title: '<%= j flash[:alert] %>',
+              confirmButtonColor: '#d33',
+            });
+          </script>
+        <% end %>
+        <%= yield %>
+      </main>
+    </div>
+  </body>
+</html>
