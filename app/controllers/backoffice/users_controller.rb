@@ -1,4 +1,5 @@
 class Backoffice::UsersController < Backoffice::BaseController
+    load_and_authorize_resource
     def index
     per_page = 10
     page = params[:page].to_i
@@ -21,25 +22,28 @@ class Backoffice::UsersController < Backoffice::BaseController
   end
 
   def create
-    @users = Product.new(users_params)
-
-    if @users.save
-      redirect_to backoffice_users_path, notice: "Usuario creado correctamente"
-    else
-      render :new, status: :unprocessable_entity
-    end
+    @user = User.new(user_params)
+    @user.password = Devise.friendly_token[0, 20] # si vos le asignás password temporal
+    @user.save!
   end
 
   def edit
   end
 
   def update
-    @users.assign_attributes(users_params)
+    @user.assign_attributes(user_params)
 
-    if @product.save
+    if @user.save
       redirect_to backoffice_users_path, notice: "Usuario actualizado"
     else
-      render :edit, status: :unprocessable_entity
+      render :edit
     end
   end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :surname, :email, :address, :role)
+  end
+
 end
