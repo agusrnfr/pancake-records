@@ -14,28 +14,28 @@
     <div class="filters-grid">
       <div class="filter-block">
         <label for="q">Nombre</label>
-        <%= text_field_tag :q, params[:q],
+        <%= text_field_tag :name, params[:name],
               placeholder: "Nombre de usuario",
               class: "filter-input search-input" %>
       </div>
       <div class="filter-block">
         <label for="status">Email</label>
-        <%= text_field_tag :q, params[:q],
-              placeholder: "Nombre de usuario",
+        <%= text_field_tag :email, params[:email],
+              placeholder: "Email de usuario",
               class: "filter-input search-input" %>
       </div>
       <div class="filter-block">
         <label for="format">Apodo</label>
-        <%= text_field_tag :q, params[:q],
+        <%= text_field_tag :surname, params[:surname],
               placeholder: "Nombre de usuario",
               class: "filter-input search-input" %>
       </div>
       <div class="filter-block">
-        <label for="condition">Rol</label>
-        <%= select_tag :condition,
+        <label for="role">Rol</label>
+        <%= select_tag :role,
               options_for_select(
-                [["Administrador", "admin"], ["Gerente", "manager"], ["Empleado", "employee"]],
-                params[:condition]),
+                [["Todos", ""], ["Administrador", "administrator"], ["Gerente", "manager"], ["Empleado", "employee"]],
+                params[:role]),
               class: "filter-select",
               data: { action: "change->live-search#changed" } %>
       </div>
@@ -60,41 +60,28 @@
       <thead>
         <tr>
           <th>Nombre</th>
-          <th>Apodo</th>
           <th>Email</th>
+          <th>Apodo</th>
           <th>Rol</th>
           <th class="actions-col">Acciones</th>
         </tr>
       </thead>
       <tbody class="records-body">
         <% @users.each do |u| %>
-          <tr class="<%= u.removed_at ? "removed-row" : "" %>">
             <td><%= u.name %></td>
-            <td><%= u.surname %></td>
             <td><%= u.email %></td>
-            <td><%= u.role %></td>
+            <td><%= u.surname %></td>
+            <td><%= u.role_name %></td>
             <td class="actions">
-              <%= link_to backoffice_users_path(p), class: "icon-btn view", aria: { label: "Ver #{p.name}" }, data: { turbo_frame: "_top" } do %>
-                <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                <span class="sr-only">Ver</span>
-              <% end %>
-              <%= link_to edit_backoffice_users_path(p), class: "icon-btn warning", aria: { label: "Editar #{p.name}" }, data: { turbo_frame: "_top" } do %>
+              <%= link_to edit_backoffice_user_path(u), class: "icon-btn warning", aria: { label: "Editar #{u.name}" }, data: { turbo_frame: "_top" } do %>
                 <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
                 <span class="sr-only">Editar</span>
               <% end %>
-              <% if p.removed_at %>
-                <%= button_to restore_backoffice_users_path(p), method: :patch,
-                    class: "icon-btn restore separator-left",
-                    aria: { label: "Restaurar #{p.name}" },
-                    data: { turbo_confirm: "¿Restaurar #{p.name}?" } do %>
-                  <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
-                  <span class="sr-only">Restaurar</span>
-                <% end %>
-              <% else %>
-                <%= button_to soft_delete_backoffice_users_path(p), method: :patch,
+              <% unless u == current_user %>
+                <%= button_to backoffice_user_path(u), method: :delete,
                     class: "icon-btn danger separator-left",
-                    aria: { label: "Eliminar #{p.name}" },
-                    data: { turbo_confirm: "¿Seguro que querés eliminar #{p.name}?" } do %>
+                    aria: { label: "Eliminar #{u.name}" },
+                    data: { turbo_confirm: "¿Seguro que querés eliminar #{u.name}?" } do %>
                   <i class="fa-solid fa-trash" aria-hidden="true"></i>
                   <span class="sr-only">Eliminar</span>
                 <% end %>

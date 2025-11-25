@@ -1,11 +1,11 @@
 class Backoffice::UsersController < Backoffice::BaseController
-    load_and_authorize_resource
-    def index
+  load_and_authorize_resource
+  def index
     per_page = 10
     page = params[:page].to_i
     page = 1 if page < 1
 
-    scope = Product.filtered(params).order(created_at: :desc)
+    scope = User.filtered(params).order(created_at: :desc)
     @total_count = scope.count
     @total_pages = (@total_count.to_f / per_page).ceil
     page = @total_pages if @total_pages > 0 && page > @total_pages
@@ -14,17 +14,17 @@ class Backoffice::UsersController < Backoffice::BaseController
     @current_page = page
   end
 
-  def show
-  end
-
   def new
-    @users = Product.new
   end
 
   def create
-    @user = User.new(user_params)
-    @user.password = Devise.friendly_token[0, 20] # si vos le asignás password temporal
+    @user.password = Devise.friendly_token[0, 20] 
     @user.save!
+    if @user.save
+      redirect_to backoffice_users_path, notice: "Usuario creado correctamente"
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit
@@ -39,6 +39,11 @@ class Backoffice::UsersController < Backoffice::BaseController
       render :edit
     end
   end
+
+  def destroy
+    @user.destroy
+    redirect_to backoffice_users_path, notice: "Usuario eliminado"
+	end
 
   private
 

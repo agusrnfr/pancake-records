@@ -16,24 +16,26 @@ class User < ApplicationRecord
     I18n.t("activerecord.enums.user.role.#{role}")
   end
 
-  scope :whth_email, ->(email) {
-    return all if email.blank? || !emails.keys.include?(email)
-    where(email: emails[email])
-  }
+  def self.filtered(params)
+  results = all
 
-  scope :with_surname, ->(surname) {
-    return all if surname.blank? || !surnames.keys.include?(surname)
-    where(surname: surnames[surname])
-  }
+  if params[:email].present?
+    results = results.where("email LIKE ?", "%#{params[:email]}%")
+  end
 
-  scope :with_name, ->(name) {
-    return all if name.blank? || !names.keys.include?(name)
-    where(name: names[name])
-  }
+  if params[:surname].present?
+    results = results.where("surname LIKE ?", "%#{params[:surname]}%")
+  end
 
-  scope :with_role, ->(role) {
-    return all if role.blank? || !roles.keys.include?(role)
-    where(role: roles[role])
-  }
+  if params[:name].present?
+    results = results.where("name LIKE ?", "%#{params[:name]}%")
+  end
 
+  if params[:role].present?
+    results = results.where(role: params[:role])
+  end
+
+  results
+end
+  
 end

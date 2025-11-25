@@ -16,7 +16,9 @@ Rails.application.routes.draw do
   namespace :backoffice do
     root :to => "menu#index"
 
-		resources :users, only: [:index, :new, :create, :edit, :update]
+		resources :users, only: [:index, :new, :create, :edit, :update, :destroy] do
+      resource :password, only: [:edit, :update], controller: "passwords"
+    end
 		resources :products do
 			member do
 				patch :increment_stock
