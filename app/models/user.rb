@@ -16,4 +16,26 @@ class User < ApplicationRecord
     I18n.t("activerecord.enums.user.role.#{role}")
   end
 
+  def self.filtered(params)
+  results = all
+
+  if params[:email].present?
+    results = results.where("email LIKE ?", "%#{params[:email]}%")
+  end
+
+  if params[:surname].present?
+    results = results.where("surname LIKE ?", "%#{params[:surname]}%")
+  end
+
+  if params[:name].present?
+    results = results.where("name LIKE ?", "%#{params[:name]}%")
+  end
+
+  if params[:role].present?
+    results = results.where(role: params[:role])
+  end
+
+  results
+end
+  
 end
