@@ -2,7 +2,7 @@
 <%= form_with model: [:backoffice, @user], html: { multipart: true }, local: true do |f| %>
   <%= render partial: "edit_user_form", locals: { f: f } %> 
    <% if @user == current_user %>
-  <%= link_to edit_backoffice_user_password_path(@user) do %>
+  <%= link_to edit_user_registration_path(@user) do %>
     <div class="form-actions">
       Cambiar mi contraseña
     </div>

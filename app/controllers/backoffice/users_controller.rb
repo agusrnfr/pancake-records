@@ -26,6 +26,9 @@ class Backoffice::UsersController < Backoffice::BaseController
       render :new, status: :unprocessable_entity
     end
   end
+  
+   def show
+  end
 
   def edit
   end
