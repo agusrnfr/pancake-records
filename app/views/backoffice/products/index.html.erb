@@ -138,20 +138,20 @@
         <% end %>
       </tbody>
     </table>
-    <div class="pagination bottom" aria-label="Paginación">
-      <div class="results-info">
-        <%= page_entries_info @products, entry_name: 'productos' %>
-      </div>
-      <div class="pages">
-        <%= paginate @products, window: 2, params: request.query_parameters %>
-      </div>
-    </div>
   <% end %>
 <% else %>
   <div class="empty-state">
     <p>No hay discos para mostrar</p>
   </div>
 <% end %>
+<div class="pagination wrapper">
+<div class="results-info">
+  <%= page_entries_info @products, entry_name: 'productos' %>
+</div>
+<div class="pagination bottom" aria-label="Paginación">
+  <%= paginate @products, window: 2, params: request.query_parameters %>
+</div>
+</div>
 <%= link_to new_backoffice_product_path, class: "floating-btn" do %>
   +
 <% end %>

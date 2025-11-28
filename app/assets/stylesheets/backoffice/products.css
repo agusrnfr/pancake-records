@@ -49,7 +49,6 @@
 	transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
 }
 
-
 .pagination .pages a.page-link,
 .pagination .pages a.page-link:visited {
 	color: #333;
@@ -98,16 +97,6 @@
 	padding: 10px 8px;
 	border-bottom: 1px solid #ddd;
 	text-align: left;
-}
-
-.stock-btn {
-	padding: 4px 10px;
-	font-size: 16px;
-	cursor: pointer;
-}
-
-.stock-value {
-	font-weight: bold;
 }
 
 .status.ok {
@@ -276,7 +265,6 @@ form.button_to .icon-btn {
 	filter: brightness(1.1);
 }
 
-
 .form-field label.required::after {
 	content: " *";
 	color: #c0392b;
@@ -356,15 +344,24 @@ form.button_to .icon-btn {
 }
 
 .page-dots {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 4px;
-  padding: 8px 12px;
-  color: #333;
-  font-size: 1rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 4px;
+	padding: 8px 12px;
+	color: #333;
+	font-size: 1rem;
 }
 
+.results-info {
+	align-self: flex-end;
+}
+
+.pagination.bottom {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
 
 @media (max-width: 640px) {
 	.product-meta {

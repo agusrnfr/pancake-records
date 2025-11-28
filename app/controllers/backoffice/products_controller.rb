@@ -6,7 +6,7 @@ class Backoffice::ProductsController < ApplicationController
 
 
   def index
-    per_page = 10
+    per_page = 8
     scope = Product.filtered(params).order(created_at: :desc)
     @total_count = scope.count
     @products = scope.page(params[:page]).per(per_page)
