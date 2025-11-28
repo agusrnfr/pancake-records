@@ -69,3 +69,7 @@ gem "devise-i18n"
 gem "responders"
 
 gem 'htmlbeautifier'
+
+gem "kaminari"
+gem "kaminari-activerecord"
+gem "kaminari-actionview"

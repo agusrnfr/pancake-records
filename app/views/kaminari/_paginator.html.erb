@@ -1,0 +1,49 @@
+<% if total_pages > 1 %>
+  <% current_num = current_page.number %>
+  <% last_num    = total_pages %>
+
+  <% unique = [1, last_num] %>
+
+  <% unique += [current_num - 2, current_num - 1] %>
+
+  <% unique << current_num %>
+
+  <% unique += [current_num + 1, current_num + 2] %>
+
+  <% unique = unique.select { |p| p.between?(1, last_num) }.uniq.sort %>
+
+  <nav class="pagination" role="navigation" aria-label="Paginación">
+    <div class="pages">
+
+      <% prev_disabled = current_page.first? %>
+      <%= link_to (prev_disabled ? "#" : url_for(params.merge(page: current_num - 1))),
+          class: ["page-link", (prev_disabled ? "disabled" : nil)].compact.join(" "),
+          aria: { label: "Anterior" } do %>
+        «
+      <% end %>
+
+      <% unique.each_with_index do |p, idx| %>
+        <%= link_to p,
+            url_for(params.merge(page: p)),
+            class: ["page-link", (p == current_num ? "active" : nil)].compact.join(" "),
+            aria: { label: "Página #{p}" } %>
+
+        <% if idx == 0 && unique[1] > p + 1 %>
+          <span class="page-dots" aria-hidden="true">…</span>
+        <% end %>
+
+        <% if idx == unique.size - 2 && unique[idx + 1] > p + 1 %>
+          <span class="page-dots" aria-hidden="true">…</span>
+        <% end %>
+      <% end %>
+
+      <% next_disabled = current_page.last? %>
+      <%= link_to (next_disabled ? "#" : url_for(params.merge(page: current_num + 1))),
+          class: ["page-link", (next_disabled ? "disabled" : nil)].compact.join(" "),
+          aria: { label: "Siguiente" } do %>
+        »
+      <% end %>
+
+    </div>
+  </nav>
+<% end %>

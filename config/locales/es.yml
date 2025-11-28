@@ -24,3 +24,9 @@ es:
         condition:
           used: Usado
           brand_new: Nuevo
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries: "Mostrando %{count} %{entry_name}"
+      more_pages:
+        display_entries: "Mostrando %{first}–%{last} de %{total} %{entry_name}"

@@ -27,32 +27,40 @@
 }
 
 .pagination {
-	margin: 14px 0;
+	margin: 16px 0;
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
+	gap: 8px;
 }
 .pagination .pages {
 	display: flex;
-	gap: 6px;
+	gap: 8px;
 	flex-wrap: wrap;
+	align-items: center;
 }
 .page-link {
-	padding: 4px 8px;
-	background: #eee;
-	border-radius: 4px;
+	padding: 6px 10px;
+	background: #f0f0f0;
+	border-radius: 6px;
 	text-decoration: none;
-	font-size: 12px;
+	font-size: 13px;
 	color: #333;
+	border: 1px solid #ddd;
+	transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+.page-link:hover {
+	background: #e6e6e6;
+	transform: translateY(-1px);
 }
 .page-link.active {
 	background: #3498db;
 	color: #fff;
+	border-color: #3498db;
 	font-weight: 600;
 }
 .page-link.disabled {
 	pointer-events: none;
-	opacity: 0.4;
+	opacity: 0.45;
 }
 .results-info {
 	font-size: 12px;
@@ -367,6 +375,17 @@ form.button_to .icon-btn {
 	margin-bottom: 20px;
 	gap: 12px;
 }
+
+.page-dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 4px;
+  padding: 8px 12px;
+  color: #333;
+  font-size: 1rem;
+}
+
 
 @media (max-width: 640px) {
 	.product-meta {

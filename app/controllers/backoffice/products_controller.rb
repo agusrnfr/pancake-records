@@ -2,19 +2,14 @@ class Backoffice::ProductsController < ApplicationController
 	include ActionView::RecordIdentifier
   before_action :set_product, only: [:show, :edit, :update, :increment_stock, :decrement_stock, :soft_delete, :restore]
   layout "backoffice"
+	load_and_authorize_resource
+
 
   def index
     per_page = 10
-    page = params[:page].to_i
-    page = 1 if page < 1
-
     scope = Product.filtered(params).order(created_at: :desc)
     @total_count = scope.count
-    @total_pages = (@total_count.to_f / per_page).ceil
-    page = @total_pages if @total_pages > 0 && page > @total_pages
-
-    @products = scope.offset((page - 1) * per_page).limit(per_page)
-    @current_page = page
+    @products = scope.page(params[:page]).per(per_page)
   end
 
   def show
@@ -71,7 +66,7 @@ class Backoffice::ProductsController < ApplicationController
 
   def restore
     if @product.removed_at.nil?
-      redirect_to backoffice_products_path, alert: "El producto ya está activo"
+      redirect_to backoffice_products_path, alert: "El producto ya está disponible"
     else
       @product.update(removed_at: nil)
       redirect_to backoffice_products_path, notice: "Producto restaurado correctamente"

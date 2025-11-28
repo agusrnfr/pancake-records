@@ -25,7 +25,7 @@ class Product < ApplicationRecord
     case status
     when "eliminado" then where.not(removed_at: nil)
     when "sin_stock" then where(removed_at: nil, stock: 0)
-    when "activo" then where(removed_at: nil).where.not(stock: 0)
+    when "disponible" then where(removed_at: nil).where.not(stock: 0)
     else
       all
     end

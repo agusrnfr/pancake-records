@@ -23,7 +23,7 @@
         <%= select_tag :status,
               options_for_select(
                 [["Todos", ""],
-                 ["Activo", "activo"],
+                 ["Disponible", "disponible"],
                  ["Sin stock", "sin_stock"],
                  ["Eliminado", "eliminado"]],
                 params[:status]),
@@ -104,7 +104,7 @@
               <% elsif p.stock == 0 %>
                 <span class="status nodata">Sin stock</span>
               <% else %>
-                <span class="status ok">Activo</span>
+                <span class="status ok">Disponible</span>
               <% end %>
             </td>
             <td class="actions">
@@ -139,18 +139,12 @@
       </tbody>
     </table>
     <div class="pagination bottom" aria-label="Paginación">
-      <% if @total_pages > 1 %>
-       <div class="results-info">Mostrando <%= @products.size %> de <%= @total_count %> registros</div>
-        <div class="pages">
-          <% prev_page = @current_page - 1 %>
-          <% next_page = @current_page + 1 %>
-          <%= link_to "«", backoffice_products_path(request.query_parameters.merge(page: prev_page)), class: "page-link#{' disabled' if prev_page < 1}", aria: { label: 'Página anterior' } unless @current_page == 1 %>
-          <% 1.upto(@total_pages) do |pg| %>
-            <%= link_to pg, backoffice_products_path(request.query_parameters.merge(page: pg)), class: "page-link#{' active' if pg == @current_page}" %>
-          <% end %>
-          <%= link_to "»", backoffice_products_path(request.query_parameters.merge(page: next_page)), class: "page-link#{' disabled' if next_page > @total_pages}", aria: { label: 'Página siguiente' } unless @current_page == @total_pages %>
-        </div>
-      <% end %>
+      <div class="results-info">
+        <%= page_entries_info @products, entry_name: 'productos' %>
+      </div>
+      <div class="pages">
+        <%= paginate @products, params: request.query_parameters %>
+      </div>
     </div>
   <% end %>
 <% else %>
