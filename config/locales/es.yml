@@ -32,8 +32,4 @@ es:
         display_entries: "Mostrando %{first}–%{last} de %{total} %{entry_name}"
   views:
     pagination:
-      previous: "Anterior"
-      next: "Siguiente"
       truncate: "..."
-      first: "Primera"
-      last: "Última"

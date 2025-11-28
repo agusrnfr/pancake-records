@@ -1,13 +1,16 @@
-<% imgs = product.images.attachments %>
-
-<% if imgs.any? %>
-  <div class="image-preview-list">
-    <% imgs.each do |att| %>
-      <div class="image-preview" id="<%= dom_id(att) %>">
-        <%= image_tag att, class: "preview-img", alt: product.name %>
-      </div>
-    <% end %>
-  </div>
-<% else %>
-  <p class="empty-info">No hay imágenes adjuntas</p>
+<%= turbo_frame_tag :product_images do %>
+  <% # Usar attachments inyectados si se pasan desde turbo stream para asegurar consistencia %>
+  <% imgs = (defined?(attachments) && attachments.present?) ? attachments : product.images.attachments %>
+  <% imgs = imgs.select(&:persisted?) %>
+  <% if imgs.any? %>
+    <div class="image-preview-list">
+      <% imgs.each do |att| %>
+        <div class="image-preview">
+          <%= image_tag att, class: "preview-img", alt: product.name %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="empty-info">No hay imágenes adjuntas</p>
+  <% end %>
 <% end %>

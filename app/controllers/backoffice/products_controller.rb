@@ -26,6 +26,7 @@ class Backoffice::ProductsController < ApplicationController
     if @product.save
       redirect_to backoffice_products_path, notice: "Producto creado correctamente"
     else
+      flash.now[:alert] = @product.errors.full_messages.join(". ")
       render :new, status: :unprocessable_entity
     end
   end
@@ -40,6 +41,7 @@ class Backoffice::ProductsController < ApplicationController
     if @product.save
       redirect_to backoffice_products_path, notice: "Producto actualizado"
     else
+      flash.now[:alert] = @product.errors.full_messages.join(". ")
       render :edit, status: :unprocessable_entity
     end
   end

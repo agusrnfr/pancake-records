@@ -14,7 +14,9 @@ class Product < ApplicationRecord
   validates :name, :author, :price, :stock, :format, :condition, :inventory_entry_date, presence: true
 	validates :price, numericality: { greater_than_or_equal_to: 0 }
 	validates :stock, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validate  :must_have_at_least_one_image
+
+	validates :images, attached: true, content_type: ['image/png','image/jpeg'], size: { less_than: 6.megabytes , message: 'es demasiado grande (máx 6MB)' }
+	validates :audio_sample, content_type: ['audio/mpeg'], size: { less_than: 10.megabytes }, allow_blank: true
 
   scope :search, ->(term) {
     return all if term.blank?
@@ -72,12 +74,6 @@ class Product < ApplicationRecord
 
   def genre_names
     @genre_names.present? ? @genre_names : genres.pluck(:name).join(", ")
-  end
-
-  private
-
-  def must_have_at_least_one_image
-    errors.add(:images, "debe incluir al menos una imagen") unless images.attached?
   end
 
 end

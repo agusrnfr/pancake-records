@@ -70,6 +70,11 @@ gem "responders"
 
 gem 'htmlbeautifier'
 
-gem "kaminari"
-gem "kaminari-activerecord"
-gem "kaminari-actionview"
+gem "kaminari", "~> 1.2"
+
+gem "kaminari-activerecord" , "~> 1.2"
+
+gem "kaminari-actionview", "~> 1.2"
+
+gem 'active_storage_validations', "~> 3.0"
+
