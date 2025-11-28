@@ -1,6 +1,6 @@
 class Backoffice::ProductsController < ApplicationController
 	include ActionView::RecordIdentifier
-  before_action :set_product, only: [:show, :edit, :update, :increment_stock, :decrement_stock, :soft_delete, :restore]
+  before_action :set_product, only: [:show, :edit, :update, :soft_delete, :restore]
   layout "backoffice"
 	load_and_authorize_resource
 
@@ -47,32 +47,21 @@ class Backoffice::ProductsController < ApplicationController
     end
   end
 
-  def increment_stock
-    @product.increment!(:stock)
-    redirect_to backoffice_products_path
-  end
-
-  def decrement_stock
-    @product.update(stock: [@product.stock - 1, 0].max)
-    redirect_to backoffice_products_path
-  end
-
-
 	def soft_delete
-		if @product.removed_at
-			redirect_to backoffice_products_path, alert: "Ya está eliminado"
-		else
-			@product.update(removed_at: Date.current, stock: 0)
-			redirect_to backoffice_products_path, notice: "Producto marcado como eliminado"
-		end
+    if @product.removed_at
+      redirect_back fallback_location: backoffice_products_path, alert: "Ya está eliminado"
+    else
+      @product.update(removed_at: Date.current, stock: 0)
+      redirect_back fallback_location: backoffice_products_path, notice: "Producto marcado como eliminado"
+    end
 	end
 
   def restore
     if @product.removed_at.nil?
-      redirect_to backoffice_products_path, alert: "El producto ya está disponible"
+      redirect_back fallback_location: backoffice_products_path, alert: "El producto ya está disponible"
     else
       @product.update(removed_at: nil)
-      redirect_to backoffice_products_path, notice: "Producto restaurado correctamente"
+      redirect_back fallback_location: backoffice_products_path, notice: "Producto restaurado correctamente"
     end
   end
 
