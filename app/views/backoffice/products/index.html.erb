@@ -6,69 +6,62 @@
 </section>
 <%= render partial: "backoffice/back_button" %>
 <section class="filters">
-  <%= form_with url: backoffice_products_path, method: :get,
-                class: "filters-form",
-                data: { controller: "live-search" },
-                html: { 'data-live-search-target': 'form' } do %>
-    <%= hidden_field_tag :page, params[:page] || 1 %>
+  <%= search_form_for @q,
+        url: backoffice_products_path,
+        method: :get,
+        class: "filters-form",
+        data: { controller: "live-search" },
+        html: { 'data-live-search-target': 'form' } do |f| %>
     <div class="filters-grid">
       <div class="filter-block">
-        <label for="q">Buscar</label>
-        <%= text_field_tag :q, params[:q],
+        <label>Buscar</label>
+        <%= f.search_field :name_or_author_cont,
               placeholder: "Nombre o Autor",
               class: "filter-input search-input" %>
       </div>
       <div class="filter-block">
-        <label for="status">Estado</label>
-        <%= select_tag :status,
-              options_for_select(
-                [["Todos", ""],
-                 ["Disponible", "disponible"],
-                 ["Sin stock", "sin_stock"],
-                 ["Eliminado", "eliminado"]],
-                params[:status]),
-              class: "filter-select",
-              data: { action: "change->live-search#changed" } %>
+        <label>Estado</label>
+        <%= f.select :status_eq,
+              [["Todos", ""],
+               ["Disponible", "disponible"],
+               ["Sin stock", "sin_stock"],
+               ["Eliminado", "eliminado"]],
+              {}, class: "filter-select",
+                 data: { action: "change->live-search#changed" } %>
       </div>
       <div class="filter-block">
-        <label for="format">Formato</label>
-        <%= select_tag :format,
-              options_for_select([["Todos", ""], ["Vinilo", "vinyl"], ["CD", "cd"]],
-                params[:format]),
-              class: "filter-select",
-              data: { action: "change->live-search#changed" } %>
+        <label>Formato</label>
+        <%= f.select :format_eq,
+              [["Todos", ""], ["Vinilo", "0"], ["CD", "1"]],
+              {}, class: "filter-select",
+                 data: { action: "change->live-search#changed" } %>
       </div>
       <div class="filter-block">
-        <label for="condition">Condición</label>
-        <%= select_tag :condition,
-              options_for_select(
-                [["Todas", ""], ["Usado", "used"], ["Nuevo", "brand_new"]],
-                params[:condition]),
-              class: "filter-select",
-              data: { action: "change->live-search#changed" } %>
+        <label>Condición</label>
+        <%= f.select :condition_eq,
+              [["Todas", ""], ["Usado", "0"], ["Nuevo", "1"]],
+              {}, class: "filter-select",
+                 data: { action: "change->live-search#changed" } %>
       </div>
       <div class="filter-block">
-        <label for="from_date">Desde fecha</label>
-        <%= date_field_tag :from_date, params[:from_date],
+        <label>Desde fecha</label>
+        <%= f.date_field :inventory_entry_date_gteq,
               class: "filter-input",
               data: { action: "change->live-search#changed" } %>
       </div>
       <div class="filter-block">
-        <label for="to_date">Hasta fecha</label>
-        <%= date_field_tag :to_date, params[:to_date],
+        <label>Hasta fecha</label>
+        <%= f.date_field :inventory_entry_date_lteq,
               class: "filter-input",
               data: { action: "change->live-search#changed" } %>
       </div>
       <div class="buttons-block">
-        <button type="submit" class="icon-btn search" aria-label="Buscar">
-          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-          <span class="sr-only">Buscar</span>
+        <button type="submit" class="icon-btn search">
+          <i class="fa-solid fa-magnifying-glass"></i>
         </button>
         <%= link_to backoffice_products_path,
-              class: "icon-btn clear",
-              aria: { label: "Limpiar filtros" } do %>
-          <i class="fa-solid fa-broom" aria-hidden="true"></i>
-          <span class="sr-only">Limpiar</span>
+            class: "icon-btn clear" do %>
+          <i class="fa-solid fa-broom"></i>
         <% end %>
       </div>
     </div>
@@ -145,12 +138,12 @@
   </div>
 <% end %>
 <div class="pagination wrapper">
-<div class="results-info">
-  <%= page_entries_info @products, entry_name: 'productos' %>
-</div>
-<div class="pagination bottom" aria-label="Paginación">
-  <%= paginate @products, window: 2, params: request.query_parameters %>
-</div>
+  <div class="results-info">
+    <%= page_entries_info @products, entry_name: 'productos' %>
+  </div>
+  <div class="pagination bottom" aria-label="Paginación">
+    <%= paginate @products, window: 2, params: request.query_parameters %>
+  </div>
 </div>
 <%= link_to new_backoffice_product_path, class: "floating-btn" do %>
   +

@@ -5,12 +5,13 @@ class Backoffice::ProductsController < ApplicationController
 	load_and_authorize_resource
 
 
-  def index
-    per_page = 8
-    scope = Product.filtered(params).order(created_at: :desc)
-    @total_count = scope.count
-    @products = scope.page(params[:page]).per(per_page)
-  end
+	def index
+		@q = Product.ransack(params[:q])
+		@products = @q.result(distinct: true)
+									.order(created_at: :desc)
+									.page(params[:page])
+									.per(8)
+	end
 
   def show
   end

@@ -78,3 +78,5 @@ gem "kaminari-actionview", "~> 1.2"
 
 gem 'active_storage_validations', "~> 3.0"
 
+gem 'ransack', "~> 4.4"
+
