@@ -48,13 +48,19 @@
 	border: 1px solid #ddd;
 	transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
 }
+
+
+.pagination .pages a.page-link,
+.pagination .pages a.page-link:visited {
+	color: #333;
+}
 .page-link:hover {
 	background: #e6e6e6;
 	transform: translateY(-1px);
 }
 .page-link.active {
 	background: #3498db;
-	color: #fff;
+	color: #f2f2f2 !important;
 	border-color: #3498db;
 	font-weight: 600;
 }
@@ -321,7 +327,7 @@ form.button_to .icon-btn {
 }
 .tag {
 	background: #3498db;
-	color: #fff;
+	color: #f2f2f2;
 	padding: 4px 10px;
 	border-radius: 16px;
 	font-size: 12px;
@@ -336,33 +342,6 @@ form.button_to .icon-btn {
 
 .image-preview {
 	position: relative;
-}
-.remove-image-btn {
-	position: absolute;
-	top: 6px;
-	right: 6px;
-	background: rgba(140, 16, 4, 0.9);
-	color: #fff;
-	border: none;
-	padding: 4px 6px;
-	border-radius: 6px;
-	cursor: pointer;
-	font-size: 12px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-	transition: background 0.2s ease, transform 0.2s ease;
-}
-.remove-image-btn i {
-	font-size: 14px;
-}
-.remove-image-btn:hover {
-	background: #8c1004;
-	transform: scale(1.05);
-}
-.remove-image-btn:active {
-	transform: scale(0.95);
 }
 
 .status {
