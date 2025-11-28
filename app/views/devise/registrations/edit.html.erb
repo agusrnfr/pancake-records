@@ -2,18 +2,47 @@
   <%= stylesheet_link_tag "backoffice/index" %>
 <% end %>
 <section class="header-section">
-  <h1>Cambiar contraseña</h1>
+  <h1>Editar perfil</h1>
 </section>
 <%= render partial: "backoffice/back_button" %>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-<%= render "devise/shared/error_messages", resource: resource %>
-
+<%= form_for(resource, as: resource_name, url: backoffice_user_registration_path, html: { method: :put, multipart: true }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+  <div class="form-grid">
+    <div class="field mb-3">
+      <%= f.label :name, "Nombre Completo" %>
+      <%= f.text_field :name, class: "form-control", required: true %>
+    </div>
+    <div class="field mb-3">
+      <%= f.label :surname, "Apellido" %>
+      <%= f.text_field :surname, class: "form-control", required: true %>
+    </div>
+    <div class="field mb-3">
+      <%= f.label :email, "Email" %>
+      <%= f.email_field :email, class: "form-control", required: true %>
+    </div>
+    <div class="field mb-3">
+      <%= f.label :address, "Dirección" %>
+      <%= f.text_field :address, class: "form-control" %>
+    </div>
+    <% unless @user == current_user %>
+      <div class="field mb-3">
+        <%= f.label :role, "Rol" %>
+        <%= f.select :role, User.roles.keys.map { |r| [r.humanize, r] }, {}, class: "form-select" %>
+      </div>
+    <% end %>
+    <div class="form-field full">
+      <%= f.label :avatar, "Avatar" %>
+      <%= f.file_field :avatar, uniq: true, accept: "image/*", class: "input-file", required: !f.object.avatar.attached? %>
+    </div>
+    <% if f.object.avatar.attached? &&
+      f.object.avatar.attachment.blob.present? &&
+      f.object.avatar.attachment.blob.persisted? %>
+    <%= image_tag f.object.avatar, alt: "avatar", class: "avatar" %>
+  <% end %>
   <div class="field">
     <%= f.label :current_password %> <i>(necesitamos tu contraseña actual para confirmar los cambios)</i><br />
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
-
   <div class="field">
     <%= f.label :password %> <i>(dejar en blanco si no quieres cambiarla)</i><br />
     <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
@@ -22,13 +51,12 @@
       <em><%= @minimum_password_length %> caracteres mínimo</em>
     <% end %>
   </div>
-
   <div class="field">
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
-
   <div class="actions">
     <%= f.submit "Actualizar" %>
   </div>
+</div>
 <% end %>

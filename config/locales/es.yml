@@ -7,6 +7,9 @@ es:
       user:
         email: Correo electrónico
         role: Rol
+        surname: Apellido
+        address: Dirección
+        name: Nombre
       product:
         status: Estado
         format: Formato

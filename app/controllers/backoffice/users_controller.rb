@@ -39,7 +39,7 @@ class Backoffice::UsersController < Backoffice::BaseController
     if @user.save
       redirect_to backoffice_users_path, notice: "Usuario actualizado"
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 

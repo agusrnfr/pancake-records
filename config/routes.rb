@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {
-  registrations: "users/registrations"
-  }
+  devise_for :users, skip: [:registrations]
+
   
   get "up" => "rails/health#show", as: :rails_health_check
 
@@ -10,7 +9,15 @@ Rails.application.routes.draw do
   namespace :backoffice do
     root :to => "menu#index"
 
-		resources :users, only: [:index, :new, :create, :edit, :update, :destroy, :show] 
+    devise_scope :user do
+      resource :registration,
+        only: [:edit, :update],
+        path: 'users',
+        controller: '/users/registrations',
+        as: :user_registration
+    end
+
+		resources :users 
 		resources :products do
 			member do
 				patch :increment_stock

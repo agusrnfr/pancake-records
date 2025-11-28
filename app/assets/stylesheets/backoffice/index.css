@@ -81,6 +81,12 @@
 	color: #ffcf4d;
 }
 
+.avatar {
+	width: 200px;
+	height: 200px;
+	overflow: hidden;
+}
+
 @media (min-width: 760px) {
   .permisos-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));

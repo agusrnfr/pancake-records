@@ -1,13 +1,3 @@
-<% if @user.errors.any? %>
-    <div class="alert alert-danger">
-      <h4><%= pluralize(@user.errors.count, "error") %> impide guardar este usuario:</h4>
-      <ul>
-        <% @user.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
 <div class="form-grid">
   <div class="field mb-3">
     <%= f.label :name, "Nombre Completo" %>
@@ -15,7 +5,7 @@
   </div>
 
   <div class="field mb-3">
-    <%= f.label :surname, "Apodo" %>
+    <%= f.label :surname, "Apellido" %>
     <%= f.text_field :surname, class: "form-control", required: true %>
   </div>
 
