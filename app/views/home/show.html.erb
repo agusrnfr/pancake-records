@@ -1,0 +1,144 @@
+<% content_for :title, "#{@product.name} - Pancake Records" %>
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "storefront" %>
+<% end %>
+
+<div class="product-detail">
+  <%= link_to root_path, class: "back-link" do %>
+    <i class="fa-solid fa-arrow-left"></i> Volver al catálogo
+  <% end %>
+
+  <div class="product-detail-content">
+    <!-- Imágenes del producto -->
+    <div class="product-images-section">
+      <% if @product.images.attached? %>
+        <div class="main-image">
+          <% if @product.cover_image.present? %>
+            <%= image_tag @product.cover_image, class: "product-main-image", alt: @product.name %>
+          <% end %>
+        </div>
+        <% if @product.images.count > 1 %>
+          <div class="image-thumbnails">
+            <% @product.images.each do |img| %>
+              <div class="thumbnail <%= 'active' if img == @product.cover_image %>">
+                <%= image_tag img, alt: @product.name %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="product-image-placeholder large">
+          <i class="fa-solid fa-music"></i>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Información del producto -->
+    <div class="product-info-section">
+      <div class="product-header">
+        <h1 class="product-title"><%= @product.name %></h1>
+        <p class="product-artist"><%= @product.author %></p>
+        <div class="product-badges">
+          <% if @product.condition == 'used' %>
+            <span class="badge used">Usado</span>
+          <% else %>
+            <span class="badge new">Nuevo</span>
+          <% end %>
+          <span class="badge format"><%= @product.format_name %></span>
+        </div>
+      </div>
+
+      <div class="product-price-section">
+        <span class="price-label">Precio</span>
+        <span class="price-value"><%= number_to_currency(@product.price, unit: "$", separator: ".", delimiter: ",") %></span>
+      </div>
+
+      <div class="product-stock-section">
+        <span class="stock-label">Stock disponible</span>
+        <span class="stock-value <%= 'low-stock' if @product.stock < 5 %>">
+          <%= @product.stock %> unidades
+        </span>
+      </div>
+
+      <% if @product.description.present? %>
+        <div class="product-description-section">
+          <h2>Descripción</h2>
+          <p><%= simple_format(@product.description) %></p>
+        </div>
+      <% end %>
+
+      <div class="product-details">
+        <div class="detail-item">
+          <strong>Géneros:</strong>
+          <div class="genres-list">
+            <% @product.genres.each do |genre| %>
+              <span class="genre-tag"><%= genre.name %></span>
+            <% end %>
+          </div>
+        </div>
+        <div class="detail-item">
+          <strong>Formato:</strong> <%= @product.format_name %>
+        </div>
+        <div class="detail-item">
+          <strong>Condición:</strong> <%= @product.condition_name %>
+        </div>
+        <% if @product.inventory_entry_date.present? %>
+          <div class="detail-item">
+            <strong>Fecha de ingreso:</strong> <%= l(@product.inventory_entry_date, format: :long) %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Audio sample para discos usados -->
+      <% if @product.condition == 'used' && @product.audio_sample.attached? %>
+        <div class="audio-sample-section">
+          <h2>Muestra de audio</h2>
+          <audio controls class="audio-player">
+            <source src="<%= url_for(@product.audio_sample) %>" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+          </audio>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Productos relacionados -->
+  <% if @related_products.any? %>
+    <section class="related-products">
+      <h2>Tal vez también te interese...</h2>
+      <div class="products-grid">
+        <% @related_products.each do |product| %>
+          <div class="product-card">
+            <%= link_to product_path(product), class: "product-link" do %>
+              <div class="product-image-wrapper">
+                <% if product.cover_image.present? %>
+                  <%= image_tag product.cover_image, class: "product-image", alt: product.name %>
+                <% else %>
+                  <div class="product-image-placeholder">
+                    <i class="fa-solid fa-music"></i>
+                  </div>
+                <% end %>
+                <% if product.condition == 'used' %>
+                  <span class="product-badge used">Usado</span>
+                <% else %>
+                  <span class="product-badge new">Nuevo</span>
+                <% end %>
+              </div>
+              <div class="product-info">
+                <h3 class="product-name"><%= product.name %></h3>
+                <p class="product-artist"><%= product.author %></p>
+                <div class="product-footer">
+                  <span class="product-price"><%= number_to_currency(product.price, unit: "$", separator: ".", delimiter: ",") %></span>
+                  <span class="product-stock <%= 'low-stock' if product.stock < 5 %>">
+                    <%= product.stock %> disponibles
+                  </span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+</div>
+

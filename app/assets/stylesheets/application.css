@@ -9,379 +9,379 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
- @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 :root {
-  --color-text: #222;
-  --color-bg: #fff;
-  --color-surface: #f9f9f9;
-  --color-border: #ddd;
-  --color-input-border: #ccc;
-  --color-button-bg:  #3498db;
-  --color-button-hover: #2980b9;
-  --color-button-text: #f2f2f2;
-  --color-link: #3498db;
-  --color-error-bg: #f8d7da;
-  --color-error-border: #f5c2c7;
-  --color-error-text: #842029;
-  --color-error-input-bg: #fff5f5;
-  --color-error-input-border: #dc3545;
-  --color-body-bg: #f0f2f5;
-  --color-container-border: #e0e0e0;
-  --color-container-shadow: rgb(0 0 0 / 5%);
-  --color-danger: #c00;
-  --color-danger-hover: #900;
-  --color-flash-notice-text: #2e7d32;
-  --color-flash-notice-bg: #e2f0d9;
-  --color-flash-notice-border: #c8e6c9;
-  --color-flash-alert-text: #856404;
-  --color-flash-alert-bg: #fff3cd;
-  --color-flash-alert-border: #ffeeba;
-  --color-gray-light: #ccc;
-  --color-side-bar: #707F8C;
-  --color-side-bar-hover: #5a6a73;
-  --color-side-bar-border: #606f7a;
-  --color-background-color: #F2F2F2;
-  --color--selection-bg: #ffcf4d;
-  --color--selection-fg: #1d1d1d;
-  --color-scrollbar: #FFD400;
-  --color-scrollbar-hover: #FFC300;
+	--color-text: #222;
+	--color-bg: #fff;
+	--color-surface: #f9f9f9;
+	--color-border: #ddd;
+	--color-input-border: #ccc;
+	--color-button-bg: #3498db;
+	--color-button-hover: #2980b9;
+	--color-button-text: #f2f2f2;
+	--color-link: #3498db;
+	--color-error-bg: #f8d7da;
+	--color-error-border: #f5c2c7;
+	--color-error-text: #842029;
+	--color-error-input-bg: #fff5f5;
+	--color-error-input-border: #dc3545;
+	--color-body-bg: #f0f2f5;
+	--color-container-border: #e0e0e0;
+	--color-container-shadow: rgb(0 0 0 / 5%);
+	--color-danger: #c00;
+	--color-danger-hover: #900;
+	--color-flash-notice-text: #2e7d32;
+	--color-flash-notice-bg: #e2f0d9;
+	--color-flash-notice-border: #c8e6c9;
+	--color-flash-alert-text: #856404;
+	--color-flash-alert-bg: #fff3cd;
+	--color-flash-alert-border: #ffeeba;
+	--color-gray-light: #ccc;
+	--color-side-bar: #707f8c;
+	--color-side-bar-hover: #5a6a73;
+	--color-side-bar-border: #606f7a;
+	--color-background-color: #f2f2f2;
+	--color--selection-bg: #ffcf4d;
+	--color--selection-fg: #1d1d1d;
+	--color-scrollbar: #ffd400;
+	--color-scrollbar-hover: #ffc300;
 }
 
 ::selection {
-  background: var(--color--selection-bg);
-  color: var(--color--selection-fg);
-  text-shadow: none;
+	background: var(--color--selection-bg);
+	color: var(--color--selection-fg);
+	text-shadow: none;
 }
 ::-moz-selection {
-  background: var(--color--selection-bg);
-  color: var(--color--selection-fg);
-  text-shadow: none;
+	background: var(--color--selection-bg);
+	color: var(--color--selection-fg);
+	text-shadow: none;
 }
 
 html {
-  overflow-y: scroll;
-  box-sizing: border-box;
+	overflow-y: scroll;
+	box-sizing: border-box;
 }
 
-*, *::before, *::after {
-  box-sizing: inherit;
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
 }
 
 body {
-  margin: 0;
-  padding: 0; /* ← cambiarlo */
-  font-family: Montserrat, sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--color-text);
-  background-color: var(--color-body-bg);
-}
-
-a,
-a:visited {
-  color: var(--color-link);
+	margin: 0;
+	padding: 0; /* ← cambiarlo */
+	font-family: Montserrat, sans-serif;
+	font-size: 16px;
+	line-height: 1.6;
+	color: var(--color-text);
+	background-color: var(--color-body-bg);
 }
 
 .container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 2rem;
+	margin: 0 64px;
+	padding: 2rem;
 
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-container-border);
-  border-radius: 4px;
-  box-shadow: 0 1px 3px var(--color-container-shadow);
+	background-color: var(--color-bg);
+	border: 1px solid var(--color-container-border);
+	border-radius: 4px;
+	box-shadow: 0 1px 3px var(--color-container-shadow);
 }
 
 form {
-  margin-bottom: 1rem;
-  padding: 1.5rem;
+	margin-bottom: 1rem;
+	padding: 1.5rem;
 
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
 }
 
 form label {
-  margin-bottom: 0.3rem;
-  font-weight: bold;
+	margin-bottom: 0.3rem;
+	font-weight: bold;
 }
 
 form input[type="text"],
 form input[type="email"],
 form input[type="password"] {
-  width: 100%;
-  margin-bottom: 1.25rem;
-  padding: 0.75rem;
+	width: 100%;
+	margin-bottom: 1.25rem;
+	padding: 0.75rem;
 
-  border: 1px solid var(--color-input-border);
-  border-radius: 4px;
+	border: 1px solid var(--color-input-border);
+	border-radius: 4px;
 }
 
-form input[type="checkbox"]{
-  margin-bottom: 1.25rem;
+form input[type="checkbox"] {
+	margin-bottom: 1.25rem;
 }
 
 form input[type="submit"] {
-  cursor: pointer;
+	cursor: pointer;
 
-  padding: 0.75rem 1.5rem;
+	padding: 0.75rem 1.5rem;
 
-  font-weight: bold;
-  color: var(--color-button-text);
+	font-weight: bold;
+	color: var(--color-button-text);
 
-  background-color: var(--color-button-bg);
-  border: none;
-  border-radius: 4px;
+	background-color: var(--color-button-bg);
+	border: none;
+	border-radius: 4px;
 }
 
 form input[type="submit"]:hover {
-  background-color: var(--color-button-hover);
+	background-color: var(--color-button-hover);
 }
 
 form select {
-  width: 100%;
-  margin-bottom: 1.25rem;
-  padding: 0.75rem;
+	width: 100%;
+	margin-bottom: 1.25rem;
+	padding: 0.75rem;
 
-  font-family: inherit;
-  font-size: 1rem;
+	font-family: inherit;
+	font-size: 1rem;
 
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-input-border);
-  border-radius: 4px;
+	background-color: var(--color-bg);
+	border: 1px solid var(--color-input-border);
+	border-radius: 4px;
 }
 
 input:has(+ br + em) {
-  margin-bottom: 0 !important;
+	margin-bottom: 0 !important;
 }
 
 form textarea {
-  resize: vertical;
+	resize: vertical;
 
-  width: 100%;  height: 8rem;
-  margin-bottom: 1.25rem;
-  padding: 0.75rem;
+	width: 100%;
+	height: 8rem;
+	margin-bottom: 1.25rem;
+	padding: 0.75rem;
 
-  font-family: inherit;
-  font-size: 1rem;
+	font-family: inherit;
+	font-size: 1rem;
 
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-input-border);
-  border-radius: 4px;
+	background-color: var(--color-bg);
+	border: 1px solid var(--color-input-border);
+	border-radius: 4px;
 }
 
 input:has(+ br + em) + br + em {
-  display: block;
-  margin-bottom: 1.25rem;
+	display: block;
+	margin-bottom: 1.25rem;
 }
 
 form.button_to {
-  all: unset;
-  display: inline;
+	all: unset;
+	display: inline;
 }
 
 form.button_to button {
-  all: unset;
+	all: unset;
 
-  cursor: pointer;
+	cursor: pointer;
 
-  display: inline-block;
+	display: inline-block;
 
-  margin-left: 0.2rem;
+	margin-left: 0.2rem;
 
-  color: var(--color-danger);
-  text-decoration: underline;
+	color: var(--color-danger);
+	text-decoration: underline;
 }
 
 form.button_to::before {
-  content: "|";
-  margin: 0;
+	content: "|";
+	margin: 0;
 }
 
 form.button_to:first-child::before {
-  content: none;
+	content: none;
 }
 
 #error_explanation {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
+	margin-bottom: 1.5rem;
+	padding: 1rem;
 
-  color: var(--color-error-text);
+	color: var(--color-error-text);
 
-  background-color: var(--color-error-bg);
-  border: 1px solid var(--color-error-border);
-  border-radius: 4px;
+	background-color: var(--color-error-bg);
+	border: 1px solid var(--color-error-border);
+	border-radius: 4px;
 }
 
 #error_explanation h2 {
-  margin-top: 0;
-  font-size: 1.25rem;
+	margin-top: 0;
+	font-size: 1.25rem;
 }
 
 #error_explanation ul {
-  margin: 0.5rem 0 0;
-  padding-left: 1.25rem;
+	margin: 0.5rem 0 0;
+	padding-left: 1.25rem;
 }
 
 #error_explanation li {
-  margin-bottom: 0.25rem;
+	margin-bottom: 0.25rem;
 }
 
 .field_with_errors {
-  display: contents;
+	display: contents;
 }
 
 .field_with_errors input {
-  background-color: var(--color-error-input-bg);
-  border-color: var(--color-error-input-border);
+	background-color: var(--color-error-input-bg);
+	border-color: var(--color-error-input-border);
 }
 
 .flash {
-  margin: 1rem 0 0;
-  padding: 1rem;
+	margin: 1rem 0 0;
+	padding: 1rem;
 
-  font-weight: bold;
+	font-weight: bold;
 
-  opacity: 1;
-  border-radius: 4px;
+	opacity: 1;
+	border-radius: 4px;
 
-  transition: opacity 1.5s ease;
+	transition: opacity 1.5s ease;
 }
 
 .flash.opacity-0 {
-  opacity: 0;
+	opacity: 0;
 }
 
 .flash.notice {
-  color: var(--color-flash-notice-text);
-  background-color: var(--color-flash-notice-bg);
-  border: 1px solid var(--color-flash-notice-border);
+	color: var(--color-flash-notice-text);
+	background-color: var(--color-flash-notice-bg);
+	border: 1px solid var(--color-flash-notice-border);
 }
 
 .flash.alert {
-  color: var(--color-flash-alert-text);
-  background-color: var(--color-flash-alert-bg);
-  border: 1px solid var(--color-flash-alert-border);
+	color: var(--color-flash-alert-text);
+	background-color: var(--color-flash-alert-bg);
+	border: 1px solid var(--color-flash-alert-border);
 }
 
 .flash.error {
-  color: var(--color-error-text);
-  background-color: var(--color-error-bg);
-  border: 1px solid var(--color-error-border);
+	color: var(--color-error-text);
+	background-color: var(--color-error-bg);
+	border: 1px solid var(--color-error-border);
 }
 
 .site-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
 
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
+	margin-bottom: 1.5rem;
+	padding-bottom: 0.5rem;
 
-  border-bottom: 1px solid var(--color-border);
+	border-bottom: 1px solid var(--color-border);
 }
 
 .header-right {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  align-items: flex-end;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	align-items: flex-end;
 }
 
 .user-nav,
 .admin-nav {
-  font-size: 0.9rem;
-  text-align: right;
+	font-size: 0.9rem;
+	text-align: right;
 }
 
 .admin-nav {
-  margin-top: 0.8rem;
+	margin-top: 0.8rem;
 }
 
 .branding a {
-  color: var(--color-text);
-  text-decoration: none;
+	color: var(--color-text);
+	text-decoration: none;
 }
 
 .branding {
-  position: relative;
+	position: relative;
 
-  font-family: Georgia, serif;
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  text-shadow: 1px 1px 0 var(--color-gray-light);
+	font-family: Georgia, serif;
+	font-size: 3rem;
+	font-weight: 700;
+	color: var(--color-primary);
+	text-shadow: 1px 1px 0 var(--color-gray-light);
 }
 
 .branding::after {
-  content: "™";
+	content: "™";
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	position: absolute;
+	top: 10px;
+	right: -2rem;
 
-  position: absolute;
-  top: 10px;
-  right: -1.5rem;
-
-  font-size: 1.5rem;
+	font-size: 1.5rem;
 }
 
 .user-meta {
-  margin: 0 0 0.8rem;
+	margin: 0 0 0.8rem;
 }
 
 .user-meta p {
-  margin: 0.1rem 0;
+	margin: 0.1rem 0;
 }
 
 div[id^="item_"] p,
 div[id^="user_"] p,
 div[id^="role_"] p {
-  margin: 0.1rem 0;
+	margin: 0.1rem 0;
 }
 
 div[id^="item_"],
 div[id^="user_"],
 div[id^="role_"] {
-  margin: 1rem 0 0.5rem;
+	margin: 1rem 0 0.5rem;
 }
 
 #items > div[id^="item_"],
 #roles > div[id^="role_"],
 #users > div[id^="user_"] {
-  margin-bottom: 0.5rem;
-  padding: 1rem;
-  background: var(--color-surface);
-  border: 1px solid var(--color-input-border);
+	margin-bottom: 0.5rem;
+	padding: 1rem;
+	background: var(--color-surface);
+	border: 1px solid var(--color-input-border);
 }
 
 #items > div[id^="item_"] p,
 #roles > div[id^="role_"] p,
 #users > div[id^="user_"] p {
-  margin: 0.25rem 0;
+	margin: 0.25rem 0;
 }
 
 #items > div[id^="item_"] + p,
 #roles > div[id^="role_"] + p,
 #users > div[id^="user_"] + p {
-  margin-top: 0;
-  margin-bottom: 2rem;
-  font-size: 0.9rem;
+	margin-top: 0;
+	margin-bottom: 2rem;
+	font-size: 0.9rem;
 }
 * {
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-scrollbar) var(--color-body-bg);
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-scrollbar) var(--color-body-bg);
 }
 
 ::-webkit-scrollbar {
-  width: 12px;
+	width: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-body-bg);
+	background: var(--color-body-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-scrollbar);
-  border-radius: 6px;
-  border: 2px solid var(--color-body-bg);
+	background: var(--color-scrollbar);
+	border-radius: 6px;
+	border: 2px solid var(--color-body-bg);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-scrollbar-hover);
+	background: var(--color-scrollbar-hover);
 }

@@ -1,4 +1,192 @@
-<h1> Hola </h1>
-<p> Bienvenido pancake records </p> 
-<p> esta pagina no requiere login </p>
-<h1> aca hay cds </h1>
+<% content_for :title, "Pancake Records - Tienda de Discos" %>
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "storefront" %>
+<% end %>
+
+<!-- Hero Landing Section -->
+<section class="hero-landing">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-title">Pancake Records</h1>
+      <p class="hero-subtitle">Tu destino para los mejores discos en vinilo y CD</p>
+      <p class="hero-description">Descubrí música clásica, moderna y de colección. Desde los clásicos del rock hasta los últimos lanzamientos.</p>
+      <a href="#catalogo" class="hero-cta">
+        <span>Explorar Catálogo</span>
+        <i class="fa-solid fa-arrow-down"></i>
+      </a>
+    </div>
+    <div class="hero-image">
+      <div class="vinyl-stack">
+        <div class="vinyl vinyl-1"></div>
+        <div class="vinyl vinyl-2"></div>
+        <div class="vinyl vinyl-3"></div>
+        <div class="vinyl vinyl-4"></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M0,0 C150,100 350,0 600,50 C850,100 1050,0 1200,50 L1200,120 L0,120 Z" fill="currentColor"></path>
+    </svg>
+  </div>
+</section>
+
+<div class="storefront" id="catalogo">
+  <div class="storefront-header">
+    <h1>Nuestro Catálogo</h1>
+    <p class="subtitle">Descubrí los mejores discos en vinilo y CD</p>
+  </div>
+
+  <!-- Filtros y Búsqueda -->
+  <section class="filters-section">
+    <%= search_form_for @q,
+          url: root_path,
+          method: :get,
+          class: "filters-form",
+          html: { 'data-turbo-frame': '_top' } do |f| %>
+      
+      <div class="search-bar">
+        <%= f.search_field :name_or_author_cont,
+              placeholder: "Buscar por título o artista...",
+              class: "search-input",
+              value: params.dig(:q, :name_or_author_cont) %>
+        <button type="submit" class="search-btn">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label>Género</label>
+          <%= f.collection_select :genres_id_eq,
+                @genres,
+                :id,
+                :name,
+                { include_blank: "Todos los géneros", selected: params.dig(:q, :genres_id_eq) },
+                { class: "filter-select" } %>
+        </div>
+
+        <div class="filter-group">
+          <label>Formato</label>
+          <%= f.select :format_eq,
+                [["Todos", ""], ["Vinilo", "0"], ["CD", "1"]],
+                { selected: params.dig(:q, :format_eq) },
+                { class: "filter-select" } %>
+        </div>
+
+        <div class="filter-group">
+          <label>Condición</label>
+          <%= f.select :condition_eq,
+                [["Todas", ""], ["Usado", "0"], ["Nuevo", "1"]],
+                { selected: params.dig(:q, :condition_eq) },
+                { class: "filter-select" } %>
+        </div>
+
+        <div class="filter-group">
+          <label>Año</label>
+          <%= f.number_field :year_eq,
+                placeholder: "Ej: 2020",
+                class: "filter-input",
+                value: params.dig(:q, :year_eq),
+                min: 1900,
+                max: Date.today.year %>
+        </div>
+
+        <div class="filter-actions">
+          <button type="submit" class="btn btn-primary">Filtrar</button>
+          <%= link_to root_path, class: "btn btn-secondary" do %>
+            Limpiar
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </section>
+
+  <!-- Navegación por categorías -->
+  <section class="category-nav">
+    <h2>Navegar por categorías</h2>
+    <div class="category-buttons">
+      <%= link_to root_path, class: "category-btn #{'active' if params[:q].blank?}" do %>
+        Todos
+      <% end %>
+      <%= link_to root_path(q: { format_eq: "0" }), class: "category-btn #{'active' if params.dig(:q, :format_eq) == '0'}" do %>
+        Vinilos
+      <% end %>
+      <%= link_to root_path(q: { format_eq: "1" }), class: "category-btn #{'active' if params.dig(:q, :format_eq) == '1'}" do %>
+        CDs
+      <% end %>
+      <%= link_to root_path(q: { condition_eq: "1" }), class: "category-btn #{'active' if params.dig(:q, :condition_eq) == '1'}" do %>
+        Nuevos
+      <% end %>
+      <%= link_to root_path(q: { condition_eq: "0" }), class: "category-btn #{'active' if params.dig(:q, :condition_eq) == '0'}" do %>
+        Usados
+      <% end %>
+      <% @genres.first(6).each do |genre| %>
+        <%= link_to root_path(q: { genres_id_eq: genre.id }), class: "category-btn #{'active' if params.dig(:q, :genres_id_eq).to_s == genre.id.to_s}" do %>
+          <%= genre.name %>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- Grid de productos -->
+  <section class="products-section">
+    <% if @products.any? %>
+      <div class="products-grid">
+        <% @products.each do |product| %>
+          <div class="product-card">
+            <%= link_to product_path(product), class: "product-link" do %>
+              <div class="product-image-wrapper">
+                <% if product.cover_image.present? %>
+                  <%= image_tag product.cover_image, class: "product-image", alt: product.name %>
+                <% else %>
+                  <div class="product-image-placeholder">
+                    <i class="fa-solid fa-music"></i>
+                  </div>
+                <% end %>
+                <% if product.condition == 'used' %>
+                  <span class="product-badge used">Usado</span>
+                <% else %>
+                  <span class="product-badge new">Nuevo</span>
+                <% end %>
+              </div>
+              <div class="product-info">
+                <h3 class="product-name"><%= product.name %></h3>
+                <p class="product-artist"><%= product.author %></p>
+                <% if product.description.present? %>
+                  <p class="product-description"><%= truncate(product.description, length: 80) %></p>
+                <% end %>
+                <div class="product-meta">
+                  <span class="product-format"><%= product.format_name %></span>
+                  <% if product.genres.any? %>
+                    <span class="product-genre"><%= product.genres.first.name %></span>
+                  <% end %>
+                </div>
+                <div class="product-footer">
+                  <span class="product-price"><%= number_to_currency(product.price, unit: "$", separator: ".", delimiter: ",") %></span>
+                  <span class="product-stock <%= 'low-stock' if product.stock < 5 %>">
+                    <%= product.stock %> disponibles
+                  </span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Paginación -->
+      <div class="pagination-wrapper">
+        <%= paginate @products, window: 2, params: request.query_parameters %>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <h2>No se encontraron productos</h2>
+        <p>Intenta ajustar tus filtros de búsqueda</p>
+        <%= link_to root_path, class: "btn btn-primary" do %>
+          Ver todos los productos
+        <% end %>
+      </div>
+    <% end %>
+  </section>
+</div>
