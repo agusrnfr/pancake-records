@@ -81,6 +81,18 @@
 	color: #ffcf4d;
 }
 
+.avatar {
+	width: 200px;
+	height: 200px;
+	overflow: hidden;
+}
+
+.icon-btn.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 @media (min-width: 760px) {
   .permisos-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));

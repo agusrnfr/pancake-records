@@ -1,0 +1,26 @@
+<div class="show-header">
+  <h1><%= @user.name %></h1>
+  <%= link_to edit_backoffice_user_path(@user), class: "icon-btn warning", aria: { label: "Editar #{@user.name}" }, data: { turbo_frame: "_top" } do %>
+    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+    <span class="sr-only">Editar</span>
+  <% end %>
+</div>
+<section class="user-meta">
+  <p><strong>Nombre Completo:</strong> <%= @user.name %> 
+  <p><strong>Apellido:</strong> <%= @user.surname %></p>
+  <p><strong>Email:</strong> <%= @user.email %></p>
+  <p><strong>Dirección:</strong> <%= @user.address %></p>
+  <p><strong>Rol:</strong> <%= @user.role_name %></p>
+  <p><strong>Fecha de ingreso:</strong> <%= l(@user.created_at) %></p>
+  <p><strong>Fecha de actualización:</strong> <%= l(Time.at(@user.updated_at).to_date) %></p>
+  <section class="user-avatar">
+  <p><strong>Avatar:</strong>
+  <% if @user.avatar.attached? %>
+    <div class="image-preview-list">
+        <%= image_tag @user.avatar, class: "avatar", alt: @user.name %>
+    </div>
+  <% else %>
+    <p class="empty-info">No hay imágenes adjuntas</p>
+  <% end %>
+</section>
+<%= render partial: "backoffice/back_button" %>

@@ -1,0 +1,26 @@
+<div class="form-grid">
+  <div class="field mb-3">
+    <%= f.label :name, "Nombre Completo" %>
+    <%= f.text_field :name, class: "form-control", required: true %>
+  </div>
+
+  <div class="field mb-3">
+    <%= f.label :surname, "Apellido" %>
+    <%= f.text_field :surname, class: "form-control", required: true %>
+  </div>
+
+  <div class="field mb-3">
+    <%= f.label :email, "Email" %>
+    <%= f.email_field :email, class: "form-control", required: true %>
+  </div>
+
+  <div class="field mb-3">
+    <%= f.label :address, "Dirección" %>
+    <%= f.text_field :address, class: "form-control" %>
+  </div>
+
+  <div class="field mb-3">
+    <%= f.label :role, "Rol" %>
+    <%= f.select :role, User.roles.keys.map { |r| [r.humanize, r] }, {}, class: "form-select" %>
+  </div>
+</div>

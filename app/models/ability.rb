@@ -8,7 +8,10 @@ class Ability
       can :manage, :all
     elsif user.manager?
       can :read, :all
+      can :manage, User, role: ['employee', 'manager']
+      cannot [:create, :update, :delete], User, role: 'administrator' 
       can :manage, Sale
+      can :manage, Product
     elsif user.employee?
       can :read, Product
       can :create, Sale
