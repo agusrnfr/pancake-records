@@ -445,11 +445,11 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
-  letter_opener
-  letter_opener_web (~> 3.0)
   kaminari (~> 1.2)
   kaminari-actionview (~> 1.2)
   kaminari-activerecord (~> 1.2)
+  letter_opener
+  letter_opener_web (~> 3.0)
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.1)
