@@ -82,6 +82,7 @@
 	width: 100%;
 	border-collapse: collapse;
 	margin-top: 20px;
+	table-layout: auto;
 }
 
 .records-body tr {
@@ -97,6 +98,11 @@
 	padding: 10px 8px;
 	border-bottom: 1px solid #ddd;
 	text-align: left;
+	overflow: visible;
+}
+
+.records-table tbody tr:last-child td {
+	border-bottom: 1px solid #ddd;
 }
 
 .status.ok {
@@ -123,6 +129,8 @@
 	color: #f2f2f2 !important;
 	border-radius: 6px;
 	text-decoration: none;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 .icon-btn i {
 	font-size: 16px;
@@ -133,6 +141,8 @@
 }
 .icon-btn.danger {
 	background: #8c1004;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 .icon-btn.restore {
 	background: #27ae60;
@@ -181,12 +191,14 @@ form.button_to .icon-btn {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 10px;
-	align-items: center;
 	min-width: 0;
+	white-space: nowrap;
 }
 
 .actions-col {
 	width: 160px;
+	min-width: 160px;
+	text-align: center;
 }
 
 .floating-btn {
@@ -361,6 +373,73 @@ form.button_to .icon-btn {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+.sale-info,
+.buyer-info,
+.sale-products {
+	margin-bottom: 28px;
+	background: #fafafa;
+	padding: 16px 18px;
+	border: 1px solid #e0e0e0;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sale-info h2,
+.buyer-info h2,
+.sale-products h2 {
+	margin: 0 0 16px;
+	font-size: 1.05rem;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+	color: #333;
+}
+
+.sale-info p,
+.buyer-info p {
+	margin: 10px 0;
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+.sale-info p strong,
+.buyer-info p strong {
+	color: #555;
+	margin-right: 8px;
+}
+
+.products-summary {
+	margin-top: 16px;
+	padding-top: 16px;
+	border-top: 1px solid #e0e0e0;
+}
+
+.products-summary p {
+	margin: 8px 0;
+	font-size: 13px;
+}
+
+.btn-pdf {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 24px;
+	background: #c0392b;
+	color: #ffffff !important;
+	border-radius: 6px;
+	text-decoration: none;
+	font-weight: 600;
+	transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-pdf:hover {
+	background: #a93226;
+	transform: translateY(-1px);
+}
+
+.btn-pdf i {
+	font-size: 18px;
 }
 
 @media (max-width: 640px) {

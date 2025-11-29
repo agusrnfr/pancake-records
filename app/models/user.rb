@@ -20,16 +20,16 @@ class User < ApplicationRecord
   end
 
   def self.filtered(params)
-  results = all
-  results = results.where("email LIKE ?", "%#{params[:email]}%") if params[:email].present?
+    results = all
+    results = results.where("email LIKE ?", "%#{params[:email]}%") if params[:email].present?
 
-  results = results.where("surname LIKE ?", "%#{params[:surname]}%") if params[:surname].present?
+    results = results.where("surname LIKE ?", "%#{params[:surname]}%") if params[:surname].present?
 
-  results = results.where("name LIKE ?", "%#{params[:name]}%") if params[:name].present?
+    results = results.where("name LIKE ?", "%#{params[:name]}%") if params[:name].present?
 
-  results = results.where(role: params[:role]) if params[:role].present?
+    results = results.where(role: params[:role]) if params[:role].present?
 
-  results
-end
+    results
+  end
   
 end
