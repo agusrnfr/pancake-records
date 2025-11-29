@@ -1,5 +1,6 @@
 class Backoffice::UsersController < Backoffice::BaseController
   load_and_authorize_resource
+
   def index
     per_page = 10
     page = params[:page].to_i
@@ -18,9 +19,11 @@ class Backoffice::UsersController < Backoffice::BaseController
   end
 
   def create
-    @user.password = Devise.friendly_token[0, 20] 
-    @user.save!
+    temporary_password = Devise.friendly_token[0, 20]
+    @user.password = temporary_password
+    
     if @user.save
+      UserMailer.welcome_email(@user, temporary_password).deliver_now
       redirect_to backoffice_users_path, notice: "Usuario creado correctamente"
     else
       render :new, status: :unprocessable_entity
@@ -39,7 +42,7 @@ class Backoffice::UsersController < Backoffice::BaseController
     if @user.save
       redirect_to backoffice_users_path, notice: "Usuario actualizado"
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 

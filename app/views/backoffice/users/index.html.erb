@@ -1,5 +1,5 @@
 <% content_for :styles do %>
-  <%= stylesheet_link_tag "backoffice/products" %>
+  <%= stylesheet_link_tag "backoffice/index" %>
 <% end %>
 <section class="header-section">
   <h1>Administración de Usuarios</h1>
@@ -19,15 +19,15 @@
               class: "filter-input search-input" %>
       </div>
       <div class="filter-block">
-        <label for="status">Email</label>
-        <%= text_field_tag :email, params[:email],
-              placeholder: "Email de usuario",
+        <label for="format">Apellido</label>
+        <%= text_field_tag :surname, params[:surname],
+              placeholder: "Nombre de usuario",
               class: "filter-input search-input" %>
       </div>
       <div class="filter-block">
-        <label for="format">Apodo</label>
-        <%= text_field_tag :surname, params[:surname],
-              placeholder: "Nombre de usuario",
+        <label for="status">Email</label>
+        <%= text_field_tag :email, params[:email],
+              placeholder: "Email de usuario",
               class: "filter-input search-input" %>
       </div>
       <div class="filter-block">
@@ -60,8 +60,8 @@
       <thead>
         <tr>
           <th>Nombre</th>
+          <th>Apellido</th>
           <th>Email</th>
-          <th>Apodo</th>
           <th>Rol</th>
           <th class="actions-col">Acciones</th>
         </tr>
@@ -69,23 +69,32 @@
       <tbody class="records-body">
         <% @users.each do |u| %>
             <td><%= u.name %></td>
-            <td><%= u.email %></td>
             <td><%= u.surname %></td>
+            <td><%= u.email %></td>
             <td><%= u.role_name %></td>
             <td class="actions">
-               <%= link_to backoffice_user_path(u), class: "icon-btn view", aria: { label: "Ver #{u.name}" }, data: { turbo_frame: "_top" } do %>
+               <%= link_to backoffice_user_path(u), 
+                  class: "icon-btn view #{'disabled' unless can?(:read, u)}", 
+                  aria: { label: "Ver #{u.name}" }, 
+                  data: { turbo_frame: "_top" },
+                  disabled: !can?(:read, u) do %>
                 <i class="fa-solid fa-eye" aria-hidden="true"></i>
                 <span class="sr-only">Ver</span>
               <% end %>
-              <%= link_to edit_backoffice_user_path(u), class: "icon-btn warning", aria: { label: "Editar #{u.name}" }, data: { turbo_frame: "_top" } do %>
-                <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                <span class="sr-only">Editar</span>
-              <% end %>
               <% unless u == current_user %>
+                <%= link_to edit_backoffice_user_path(u), 
+                    class: "icon-btn warning #{'disabled' unless can?(:update, u)}", 
+                    aria: { label: "Editar #{u.name}" }, 
+                    data: { turbo_frame: "_top" },
+                    disabled: !can?(:update, u) do %>
+                  <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+                  <span class="sr-only">Editar</span>
+                <% end %>
                 <%= button_to backoffice_user_path(u), method: :delete,
-                    class: "icon-btn danger separator-left",
+                    class: "icon-btn danger separator-left #{'disabled' unless can?(:destroy, u)}",
                     aria: { label: "Eliminar #{u.name}" },
-                    data: { turbo_confirm: "¿Seguro que querés eliminar #{u.name}?" } do %>
+                    data: { turbo_confirm: "¿Seguro que querés eliminar #{u.name}?" },
+                    disabled: !can?(:destroy, u) do %>
                   <i class="fa-solid fa-trash" aria-hidden="true"></i>
                   <span class="sr-only">Eliminar</span>
                 <% end %>

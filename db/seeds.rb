@@ -10,6 +10,7 @@ admin = User.create!(
   surname: "admin",
   password: "password123",
   name: "Administrador",
+  address: "Calle Falsa 123",
   role: :administrator
 )
 
@@ -18,6 +19,7 @@ manager = User.create!(
   surname: "gerente",
   password: "password123",
   name: "Gerente General",
+  address: "Calle Falsa 123",
   role: :manager
 )
 
@@ -26,6 +28,7 @@ employee = User.create!(
   surname: "empleado",
   password: "password123",
   name: "Empleado Demo",
+  address: "Calle Falsa 123",
   role: :employee
 )
 

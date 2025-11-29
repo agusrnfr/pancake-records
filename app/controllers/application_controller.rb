@@ -12,6 +12,13 @@ class ApplicationController < ActionController::Base
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
 
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { redirect_to backoffice_root_path(current_user), alert: "No tenés permisos para realizar la acción seleccionada." }
+      format.turbo_stream { redirect_to backoffice_root_path(current_user), status: :see_other, alert: "No tenés permisos para realizar la acción seleccionada." }
+    end
+  end
+
   protected
 
   def configure_permitted_parameters

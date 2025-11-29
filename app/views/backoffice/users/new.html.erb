@@ -1,3 +1,4 @@
+<%= render "/devise/shared/error_messages", resource: @user %>
 <h1>Nuevo Usuario</h1>
 <%= form_with model: [:backoffice, @user], html: { multipart: true }, local: true do |f| %>
   <%= render partial: "new_user_form", locals: { f: f } %>

@@ -30,7 +30,7 @@
         </div>
         <div class="menu">
           <div class="menu-icons">
-            <%= link_to edit_backoffice_user_path(current_user), class: "menu-icon", title: "Editar perfil", aria: { label: "Editar perfil" } do %>
+            <%= link_to edit_backoffice_user_registration_path, class: "menu-icon", title: "Editar perfil", aria: { label: "Editar perfil" } do %>
               <i class="fa-solid fa-user-pen"></i>
             <% end %>
             <%= link_to destroy_user_session_path, data: { "turbo-method": :delete }, class: "menu-icon", title: "Cerrar sesión", aria: { label: "Cerrar sesión" } do %>
