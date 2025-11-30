@@ -31,7 +31,7 @@ class User < ApplicationRecord
   end
 
   def self.filtered(params)
-    scope = not_removed # Por defecto solo usuarios no eliminados
+    scope = not_removed 
     scope = scope.where("email LIKE ?", "%#{params[:email]}%") if params[:email].present?
     scope = scope.where("surname LIKE ?", "%#{params[:surname]}%") if params[:surname].present?
     scope = scope.where("name LIKE ?", "%#{params[:name]}%") if params[:name].present?
@@ -51,7 +51,6 @@ class User < ApplicationRecord
     removed_at.present?
   end
 
-  # check de login de usuarios eliminados lógicamente
   def active_for_authentication?
     super && !removed?
   end
@@ -70,6 +69,10 @@ class User < ApplicationRecord
     return if  ROLE_PERMISSIONS[assigned_by.role.to_sym].include?(role)
     
     errors.add(:role, "No tienes permiso para asignar el rol de #{role}")
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["address", "email", "name", "role", "surname"]
   end
   
 end
