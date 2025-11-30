@@ -225,6 +225,10 @@ form.button_to .icon-btn {
 	filter: brightness(1.1);
 }
 
+.filters-form {
+	position: relative;
+}
+
 .filters-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -265,7 +269,7 @@ form.button_to .icon-btn {
 	justify-content: flex-start;
 	position: absolute;
 	bottom: 0;
-	right: 0;
+	right: 10px;
 }
 .icon-btn.search {
 	background: #3498db;
