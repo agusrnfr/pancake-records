@@ -34,6 +34,115 @@ employee = User.create!(
   role: :employee
 )
 
+User.create!(
+  email: "lucas.fernandez@pancake.com",
+  surname: "Fernández",
+  password: "123456",
+  name: "Lucas",
+  address: "Calle San Martín 1020, Rosario",
+  role: :administrator
+)
+
+User.create!(
+  email: "camila.rodriguez@pancake.com",
+  surname: "Rodríguez",
+  password: "123456",
+  name: "Camila",
+  address: "Bv. Oroño 340, Córdoba",
+  role: :administrator
+)
+
+
+User.create!(
+  email: "valentina.perez@pancake.com",
+  surname: "Pérez",
+  password: "123456",
+  name: "Valentina",
+  address: "Av. Pellegrini 1200, Rosario",
+  role: :manager
+)
+
+User.create!(
+  email: "diego.alvarez@pancake.com",
+  surname: "Álvarez",
+  password: "123456",
+  name: "Diego",
+  address: "Calle Belgrano 760, Mar del Plata",
+  role: :manager
+)
+
+User.create!(
+  email: "julieta.ramos@pancake.com",
+  surname: "Ramos",
+  password: "123456",
+  name: "Julieta",
+  address: "Av. Santa Fe 2300, Buenos Aires",
+  role: :manager
+)
+
+User.create!(
+  email: "nicolas.garcia@pancake.com",
+  surname: "García",
+  password: "123456",
+  name: "Nicolás",
+  address: "Calle Mitre 500, Salta",
+  role: :manager
+)
+
+User.create!(
+  email: "sofia.gomez@pancake.com",
+  surname: "Gómez",
+  password: "123456",
+  name: "Sofía",
+  address: "Av. Rivadavia 1120, Buenos Aires",
+  role: :employee
+)
+
+User.create!(
+  email: "juan.cruz@pancake.com",
+  surname: "Cruz",
+  password: "123456",
+  name: "Juan",
+  address: "Calle Catamarca 450, Mendoza",
+  role: :employee
+)
+
+User.create!(
+  email: "florencia.suarez@pancake.com",
+  surname: "Suárez",
+  password: "123456",
+  name: "Florencia",
+  address: "Av. Alem 320, Tucumán",
+  role: :employee
+)
+
+User.create!(
+  email: "tomas.martinez@pancake.com",
+  surname: "Martínez",
+  password: "123456",
+  name: "Tomás",
+  address: "Calle Roca 190, Rosario",
+  role: :employee
+)
+
+User.create!(
+  email: "maria.castro@pancake.com",
+  surname: "Castro",
+  password: "123456",
+  name: "María",
+  address: "Av. San Juan 880, Buenos Aires",
+  role: :employee
+)
+
+User.create!(
+  email: "agustin.sosa@pancake.com",
+  surname: "Sosa",
+  password: "123456",
+  name: "Agustín",
+  address: "Calle Alberdi 250, La Plata",
+  role: :employee
+)
+
 
 begin
   file = URI.open("https://avatars.githubusercontent.com/u/89029960?v=4")

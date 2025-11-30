@@ -10,34 +10,34 @@
             url: backoffice_users_path, 
             method: :get,
             class: "filters-form",
-            data: { controller: "live-search" },
-            html: { 'data-live-search-target': 'form' } do %>
+            data: { controller: "live-search", 'live-search-target': 'form' } do |f| %>
   <%= hidden_field_tag :page, params[:page] || 1 %>
     <div class="filters-grid">
       <div class="filter-block">
-        <label for="q">Nombre</label>
-        <%= text_field_tag :name, params[:name],
+        <label for="q_name_cont">Nombre</label>
+        <%= f.search_field :name_cont,
               placeholder: "Nombre de usuario",
               class: "filter-input search-input" %>
       </div>
       <div class="filter-block">
-        <label for="format">Apellido</label>
-        <%= text_field_tag :surname, params[:surname],
-              placeholder: "Nombre de usuario",
+        <label for="q_surname_cont">Apellido</label>
+        <%= f.search_field :surname_cont,
+              placeholder: "Apellido de usuario",
               class: "filter-input search-input" %>
       </div>
       <div class="filter-block">
-        <label for="status">Email</label>
-        <%= text_field_tag :email, params[:email],
+        <label for="q_email_cont">Email</label>
+        <%= f.search_field :email_cont,
               placeholder: "Email de usuario",
               class: "filter-input search-input" %>
       </div>
       <div class="filter-block">
-        <label for="role">Rol</label>
-        <%= select_tag :role,
+        <label for="q_role_eq">Rol</label>
+        <%= f.select :role_eq,
               options_for_select(
-                [["Todos", ""], ["Administrador", "administrator"], ["Gerente", "manager"], ["Empleado", "employee"]],
-                params[:role]),
+                [["Todos", ""], ["Administrador", "0"], ["Gerente", "2"], ["Empleado", "1"]],
+                params.dig(:q, :role_eq)),
+              {},
               class: "filter-select",
               data: { action: "change->live-search#changed" } %>
       </div>

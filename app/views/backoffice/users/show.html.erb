@@ -1,8 +1,10 @@
 <div class="show-header">
   <h1><%= @user.name %></h1>
-  <%= link_to edit_backoffice_user_path(@user), class: "icon-btn warning", aria: { label: "Editar #{@user.name}" }, data: { turbo_frame: "_top" } do %>
-    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-    <span class="sr-only">Editar</span>
+  <% unless @user == current_user || @user.removed? %>
+    <%= link_to edit_backoffice_user_path(@user), class: "icon-btn warning", aria: { label: "Editar #{@user.name}" }, data: { turbo_frame: "_top" } do %>
+      <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+      <span class="sr-only">Editar</span>
+    <% end %>
   <% end %>
 </div>
 <section class="user-meta">
