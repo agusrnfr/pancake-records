@@ -17,6 +17,26 @@ class Backoffice::UsersController < Backoffice::BaseController
   end
 
   def create
+    # Verificar si hay un usuario eliminado con el mismo email
+    existing_removed_user = User.removed.find_by(email: user_params[:email])
+    
+    if existing_removed_user && params[:confirm_restore] != 'true'
+      # Usuario eliminado existe, mostrar confirmación
+      @user = User.new(user_params)
+      @existing_user = existing_removed_user
+      @show_restore_confirmation = true
+      render :new, status: :unprocessable_entity
+      return
+    end
+
+    if existing_removed_user && params[:confirm_restore] == 'true'
+      # Restaurar usuario existente sin actualizar sus valores
+      existing_removed_user.restore!
+      redirect_to backoffice_users_path, notice: "Usuario restaurado correctamente"
+      return
+    end
+
+    # Crear nuevo usuario normalmente
     @user.assigned_by = current_user
     @user.password = Devise.friendly_token.first(20)
     if @user.save
@@ -44,9 +64,22 @@ class Backoffice::UsersController < Backoffice::BaseController
   end
 
   def destroy
-    @user.destroy
-    redirect_to backoffice_users_path, notice: "Usuario eliminado"
+    if @user.removed?
+      redirect_to backoffice_users_path, alert: "El usuario ya está eliminado"
+    else
+      @user.remove!
+      redirect_to backoffice_users_path, notice: "Usuario eliminado correctamente"
+    end
 	end
+
+  def restore
+    if @user.removed?
+      @user.restore!
+      redirect_to backoffice_users_path, notice: "Usuario restaurado correctamente"
+    else
+      redirect_to backoffice_users_path, alert: "El usuario no está eliminado"
+    end
+  end
 
   private
 
