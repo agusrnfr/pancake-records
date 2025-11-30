@@ -81,12 +81,6 @@
 	color: #ffcf4d;
 }
 
-.avatar {
-	width: 200px;
-	height: 200px;
-	overflow: hidden;
-}
-
 .icon-btn.disabled {
   opacity: 0.5;
   pointer-events: none;

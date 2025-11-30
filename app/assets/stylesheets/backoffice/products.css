@@ -442,6 +442,12 @@ form.button_to .icon-btn {
 	font-size: 18px;
 }
 
+.avatar {
+	width: 200px;
+	height: 200px;
+	overflow: hidden;
+}
+
 @media (max-width: 640px) {
 	.product-meta {
 		grid-template-columns: 1fr;
