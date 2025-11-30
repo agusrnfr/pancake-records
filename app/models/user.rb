@@ -11,25 +11,40 @@ class User < ApplicationRecord
   enum :role, { administrator: 0, employee: 1, manager: 2 }
 
   validates :email, presence: true, uniqueness: true
-  validates :name, presence: true
-  validates :surname, presence: true
-  validates :address, presence: true
+  validates :name, :surname, :address, presence: true
+  validate :validate_role_assignment, if: -> { assigned_by.present? && role_changed? }
+  
+  attr_accessor :assigned_by
+
+  ROLE_PERMISSIONS = {
+    administrator: %w[administrator manager employee],
+    manager: %w[manager employee],
+    employee: []
+  }.freeze
 
 	def role_name
     I18n.t("activerecord.enums.user.role.#{role}")
   end
 
   def self.filtered(params)
-    results = all
-    results = results.where("email LIKE ?", "%#{params[:email]}%") if params[:email].present?
-
-    results = results.where("surname LIKE ?", "%#{params[:surname]}%") if params[:surname].present?
-
-    results = results.where("name LIKE ?", "%#{params[:name]}%") if params[:name].present?
-
-    results = results.where(role: params[:role]) if params[:role].present?
-
-    results
+    scope = all
+    scope = scope.where("email LIKE ?", "%#{params[:email]}%") if params[:email].present?
+    scope = scope.where("surname LIKE ?", "%#{params[:surname]}%") if params[:surname].present?
+    scope = scope.where("name LIKE ?", "%#{params[:name]}%") if params[:name].present?
+    scope = scope.where(role: params[:role]) if params[:role].present?
+    scope
+  end
+  
+  def self.assignable_roles_for(user)
+    ROLE_PERMISSIONS[user.role.to_sym]
+  end
+  
+  private
+  
+  def validate_role_assignment    
+    return if  ROLE_PERMISSIONS[assigned_by.role.to_sym].include?(role)
+    
+    errors.add(:role, "No tienes permiso para asignar el rol de #{role}")
   end
   
 end
