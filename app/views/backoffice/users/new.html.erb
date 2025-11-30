@@ -1,9 +1,27 @@
 <%= render "/devise/shared/error_messages", resource: @user %>
+
+<% if @show_restore_confirmation && @existing_user %>
+  <div class="alert alert-warning">
+    <strong> Usuario eliminado encontrado</strong>
+    <p>Ya existe un usuario eliminado con el email <strong><%= @existing_user.email %></strong></p>
+    <p>¿Deseas restaurar este usuario? Se restaurará con sus datos originales (nombre: <%= @existing_user.name %>, apellido: <%= @existing_user.surname %>).</p>
+    <div class="alert-actions">
+    
+      <%= form_with url: backoffice_users_path, method: :post, local: true, style: "display: inline;" do |f| %>
+          <%= link_to "Cancelar", new_backoffice_user_path, class: "btn-submit btn-cancel" %>
+        <%= hidden_field_tag 'user[email]', @user.email %>
+        <%= hidden_field_tag 'confirm_restore', 'true' %>
+        <%= f.submit "Sí, restaurar usuario existente", class: "btn-submit btn-restore" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
 <h1>Nuevo Usuario</h1>
 <%= form_with model: [:backoffice, @user], html: { multipart: true }, local: true do |f| %>
   <%= render partial: "new_user_form", locals: { f: f } %>
   <div class="form-actions">
-    <%= f.submit "Crear", class: "btn-submit" %>
+    <%= f.submit "Crear", class: "btn-submit", disabled: @show_restore_confirmation %>
   </div>
 <% end %>
 <%= render partial: "backoffice/back_button" %>
