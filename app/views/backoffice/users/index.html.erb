@@ -1,5 +1,5 @@
 <% content_for :styles do %>
-  <%= stylesheet_link_tag "backoffice/index" %>
+  <%= stylesheet_link_tag "backoffice/products" %>
 <% end %>
 <section class="header-section">
   <h1>Administración de Usuarios</h1>
@@ -35,13 +35,14 @@
         <label for="q_role_eq">Rol</label>
         <%= f.select :role_eq,
               options_for_select(
-                [["Todos", ""], ["Administrador", "administrator"], ["Gerente", "manager"], ["Empleado", "employee"]],
+                [["Todos", ""], ["Administrador", "0"], ["Gerente", "2"], ["Empleado", "1"]],
                 params.dig(:q, :role_eq)),
               {},
               class: "filter-select",
               data: { action: "change->live-search#changed" } %>
       </div>
-      <div class="buttons-block">
+    </div>
+          <div class="buttons-block">
         <button type="submit" class="icon-btn search" aria-label="Buscar">
           <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
           <span class="sr-only">Buscar</span>
@@ -53,7 +54,6 @@
           <span class="sr-only">Limpiar</span>
         <% end %>
       </div>
-    </div>
   <% end %>
 </section>
 <% if @users.any? %>
