@@ -71,3 +71,17 @@ gem "devise-i18n"
 gem "responders"
 
 gem 'htmlbeautifier'
+
+gem "kaminari", "~> 1.2"
+
+gem "kaminari-activerecord" , "~> 1.2"
+
+gem "kaminari-actionview", "~> 1.2"
+
+gem 'active_storage_validations', "~> 3.0"
+
+gem 'ransack', "~> 4.4"
+
+gem 'prawn', '~> 2.4'
+gem 'prawn-table', '~> 0.2.2'
+

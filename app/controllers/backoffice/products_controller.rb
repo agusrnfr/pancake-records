@@ -1,21 +1,17 @@
 class Backoffice::ProductsController < ApplicationController
 	include ActionView::RecordIdentifier
-  before_action :set_product, only: [:show, :edit, :update, :increment_stock, :decrement_stock, :soft_delete, :restore]
+  before_action :set_product, only: [:show, :edit, :update, :soft_delete, :restore]
   layout "backoffice"
+	load_and_authorize_resource
 
-  def index
-    per_page = 10
-    page = params[:page].to_i
-    page = 1 if page < 1
 
-    scope = Product.filtered(params).order(created_at: :desc)
-    @total_count = scope.count
-    @total_pages = (@total_count.to_f / per_page).ceil
-    page = @total_pages if @total_pages > 0 && page > @total_pages
-
-    @products = scope.offset((page - 1) * per_page).limit(per_page)
-    @current_page = page
-  end
+	def index
+		@q = Product.ransack(params[:q])
+		@products = @q.result(distinct: true)
+									.order(created_at: :desc)
+									.page(params[:page])
+									.per(8)
+	end
 
   def show
   end
@@ -31,6 +27,7 @@ class Backoffice::ProductsController < ApplicationController
     if @product.save
       redirect_to backoffice_products_path, notice: "Producto creado correctamente"
     else
+      flash.now[:alert] = @product.errors.full_messages.join(". ")
       render :new, status: :unprocessable_entity
     end
   end
@@ -45,36 +42,26 @@ class Backoffice::ProductsController < ApplicationController
     if @product.save
       redirect_to backoffice_products_path, notice: "Producto actualizado"
     else
+      flash.now[:alert] = @product.errors.full_messages.join(". ")
       render :edit, status: :unprocessable_entity
     end
   end
 
-  def increment_stock
-    @product.increment!(:stock)
-    redirect_to backoffice_products_path
-  end
-
-  def decrement_stock
-    @product.update(stock: [@product.stock - 1, 0].max)
-    redirect_to backoffice_products_path
-  end
-
-
 	def soft_delete
-		if @product.removed_at
-			redirect_to backoffice_products_path, alert: "Ya está eliminado"
-		else
-			@product.update(removed_at: Date.current, stock: 0)
-			redirect_to backoffice_products_path, notice: "Producto marcado como eliminado"
-		end
+    if @product.removed_at
+      redirect_back fallback_location: backoffice_products_path, alert: "Ya está eliminado"
+    else
+      @product.update(removed_at: Date.current, stock: 0)
+      redirect_back fallback_location: backoffice_products_path, notice: "Producto marcado como eliminado"
+    end
 	end
 
   def restore
     if @product.removed_at.nil?
-      redirect_to backoffice_products_path, alert: "El producto ya está activo"
+      redirect_back fallback_location: backoffice_products_path, alert: "El producto ya está disponible"
     else
       @product.update(removed_at: nil)
-      redirect_to backoffice_products_path, notice: "Producto restaurado correctamente"
+      redirect_back fallback_location: backoffice_products_path, notice: "Producto restaurado correctamente"
     end
   end
 

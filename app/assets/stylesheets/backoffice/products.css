@@ -27,32 +27,45 @@
 }
 
 .pagination {
-	margin: 14px 0;
+	margin: 16px 0;
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
+	gap: 8px;
 }
 .pagination .pages {
 	display: flex;
-	gap: 6px;
+	gap: 8px;
 	flex-wrap: wrap;
+	align-items: center;
 }
 .page-link {
-	padding: 4px 8px;
-	background: #eee;
-	border-radius: 4px;
+	padding: 6px 10px;
+	background: #f0f0f0;
+	border-radius: 6px;
 	text-decoration: none;
-	font-size: 12px;
+	font-size: 13px;
 	color: #333;
+	border: 1px solid #ddd;
+	transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+
+.pagination .pages a.page-link,
+.pagination .pages a.page-link:visited {
+	color: #333;
+}
+.page-link:hover {
+	background: #e6e6e6;
+	transform: translateY(-1px);
 }
 .page-link.active {
 	background: #3498db;
-	color: #fff;
+	color: #f2f2f2 !important;
+	border-color: #3498db;
 	font-weight: 600;
 }
 .page-link.disabled {
 	pointer-events: none;
-	opacity: 0.4;
+	opacity: 0.45;
 }
 .results-info {
 	font-size: 12px;
@@ -69,6 +82,7 @@
 	width: 100%;
 	border-collapse: collapse;
 	margin-top: 20px;
+	table-layout: auto;
 }
 
 .records-body tr {
@@ -84,16 +98,11 @@
 	padding: 10px 8px;
 	border-bottom: 1px solid #ddd;
 	text-align: left;
+	overflow: visible;
 }
 
-.stock-btn {
-	padding: 4px 10px;
-	font-size: 16px;
-	cursor: pointer;
-}
-
-.stock-value {
-	font-weight: bold;
+.records-table tbody tr:last-child td {
+	border-bottom: 1px solid #ddd;
 }
 
 .status.ok {
@@ -120,6 +129,8 @@
 	color: #f2f2f2 !important;
 	border-radius: 6px;
 	text-decoration: none;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 .icon-btn i {
 	font-size: 16px;
@@ -130,6 +141,8 @@
 }
 .icon-btn.danger {
 	background: #8c1004;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 .icon-btn.restore {
 	background: #27ae60;
@@ -178,12 +191,14 @@ form.button_to .icon-btn {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 10px;
-	align-items: center;
 	min-width: 0;
+	white-space: nowrap;
 }
 
 .actions-col {
 	width: 160px;
+	min-width: 160px;
+	text-align: center;
 }
 
 .floating-btn {
@@ -262,7 +277,6 @@ form.button_to .icon-btn {
 	filter: brightness(1.1);
 }
 
-
 .form-field label.required::after {
 	content: " *";
 	color: #c0392b;
@@ -313,7 +327,7 @@ form.button_to .icon-btn {
 }
 .tag {
 	background: #3498db;
-	color: #fff;
+	color: #f2f2f2;
 	padding: 4px 10px;
 	border-radius: 16px;
 	font-size: 12px;
@@ -329,33 +343,6 @@ form.button_to .icon-btn {
 .image-preview {
 	position: relative;
 }
-.remove-image-btn {
-	position: absolute;
-	top: 6px;
-	right: 6px;
-	background: rgba(140, 16, 4, 0.9);
-	color: #fff;
-	border: none;
-	padding: 4px 6px;
-	border-radius: 6px;
-	cursor: pointer;
-	font-size: 12px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-	transition: background 0.2s ease, transform 0.2s ease;
-}
-.remove-image-btn i {
-	font-size: 14px;
-}
-.remove-image-btn:hover {
-	background: #8c1004;
-	transform: scale(1.05);
-}
-.remove-image-btn:active {
-	transform: scale(0.95);
-}
 
 .status {
 	font-weight: 600;
@@ -366,6 +353,93 @@ form.button_to .icon-btn {
 	align-items: center;
 	margin-bottom: 20px;
 	gap: 12px;
+}
+
+.page-dots {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 4px;
+	padding: 8px 12px;
+	color: #333;
+	font-size: 1rem;
+}
+
+.results-info {
+	align-self: flex-end;
+}
+
+.pagination.bottom {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.sale-info,
+.buyer-info,
+.sale-products {
+	margin-bottom: 28px;
+	background: #fafafa;
+	padding: 16px 18px;
+	border: 1px solid #e0e0e0;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sale-info h2,
+.buyer-info h2,
+.sale-products h2 {
+	margin: 0 0 16px;
+	font-size: 1.05rem;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+	color: #333;
+}
+
+.sale-info p,
+.buyer-info p {
+	margin: 10px 0;
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+.sale-info p strong,
+.buyer-info p strong {
+	color: #555;
+	margin-right: 8px;
+}
+
+.products-summary {
+	margin-top: 16px;
+	padding-top: 16px;
+	border-top: 1px solid #e0e0e0;
+}
+
+.products-summary p {
+	margin: 8px 0;
+	font-size: 13px;
+}
+
+.btn-pdf {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 24px;
+	background: #c0392b;
+	color: #ffffff !important;
+	border-radius: 6px;
+	text-decoration: none;
+	font-weight: 600;
+	transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-pdf:hover {
+	background: #a93226;
+	transform: translateY(-1px);
+}
+
+.btn-pdf i {
+	font-size: 18px;
 }
 
 @media (max-width: 640px) {

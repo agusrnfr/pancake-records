@@ -1,50 +1,50 @@
 <div class="form-grid">
   <div class="form-field">
   <%= f.label :name, "Nombre", class: "required" %>
-    <%= f.text_field :name, class: "input", required: true %>
+    <%= f.text_field :name, class: "input", required: true, title: "Nombre", data: { msg: "Ingrese el nombre del producto" } %>
   </div>
   <div class="form-field">
   <%= f.label :author, "Autor", class: "required" %>
-    <%= f.text_field :author, class: "input", required: true %>
+    <%= f.text_field :author, class: "input", required: true, title: "Autor" %>
   </div>
   <div class="form-field">
   <%= f.label :price, "Precio", class: "required" %>
-    <%= f.number_field :price, step: 0.01, class: "input", required: true, min: 0, type: :number %>
+    <%= f.number_field :price, step: 0.01, class: "input", required: true, min: 0, type: :number, title: "Precio" %>
   </div>
   <div class="form-field">
   <%= f.label :stock, "Stock", class: "required" %>
-    <%= f.number_field :stock, class: "input", min: 0, required: true, type: :number %>
+    <%= f.number_field :stock, class: "input", min: 0, required: true, type: :number, title: "Stock" %>
   </div>
   <div class="form-field">
   <%= f.label :format, "Formato", class: "required" %>
-    <%= f.select :format, Product.formats.keys.map { |k| [I18n.t("activerecord.enums.product.format.#{k}"), k] }, {}, class: "input", required: true%>
+    <%= f.select :format, Product.formats.keys.map { |k| [I18n.t("activerecord.enums.product.format.#{k}"), k] }, {}, class: "input", required: true, title: "Formato" %>
   </div>
   <div class="form-field">
   <%= f.label :condition, "Condición", class: "required" %>
-    <%= f.select :condition, Product.conditions.keys.map { |k| [I18n.t("activerecord.enums.product.condition.#{k}"), k] }, {}, class: "input", required: true%>
+    <%= f.select :condition, Product.conditions.keys.map { |k| [I18n.t("activerecord.enums.product.condition.#{k}"), k] }, {}, class: "input", required: true, title: "Condición" %>
   </div>
   <div class="form-field full">
     <%= f.label :description, "Descripción" %>
-    <%= f.text_area :description, class: "textarea" %>
+    <%= f.text_area :description, class: "textarea", title: "Descripción" %>
   </div>
   <div class="form-field">
   <%= f.label :inventory_entry_date, "Fecha de ingreso", class: "required" %>
-    <%= f.date_field :inventory_entry_date, class: "input", required: true %>
+    <%= f.date_field :inventory_entry_date, class: "input", required: true, title: "Fecha de ingreso" %>
   </div>
   <div class="form-field full">
   <%= f.label :genre_names, "Géneros (separados por comas)" %>
-    <%= f.text_field :genre_names, value: f.object.genre_names, class: "input", placeholder: "Rock, Pop, Jazz" %>
+    <%= f.text_field :genre_names, value: f.object.genre_names, class: "input", placeholder: "Rock, Pop, Jazz", title: "Géneros" %>
   </div>
   <div class="form-field full">
   <%= f.label :images, "Imágenes del producto", class: "required" %>
-    <%= f.file_field :images, multiple: true, accept: "image/*", class: "input-file", required: !f.object.images.attached? %>
+    <%= f.file_field :images, multiple: true, accept: "image/*", class: "input-file", required: !f.object.images.attached?, title: "Imágenes" %>
   </div>
   <%= turbo_frame_tag dom_id(f.object, :images) do %>
     <%= render "backoffice/products/images_gallery", product: f.object %>
   <% end %>
   <div class="form-field full">
     <%= f.label :audio_sample, "Muestra de audio" %>
-    <%= f.file_field :audio_sample, accept: "audio/*", class: "input-file" %>
+    <%= f.file_field :audio_sample, accept: "audio/*", class: "input-file", title: "Muestra de audio" %>
     <% if f.object.audio_sample.attached? %>
       <div class="audio-preview">
         <p>Audio existente:</p>

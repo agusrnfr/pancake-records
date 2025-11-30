@@ -14,52 +14,26 @@ class Product < ApplicationRecord
   validates :name, :author, :price, :stock, :format, :condition, :inventory_entry_date, presence: true
 	validates :price, numericality: { greater_than_or_equal_to: 0 }
 	validates :stock, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validate  :must_have_at_least_one_image
 
-  scope :search, ->(term) {
-    return all if term.blank?
-    where("LOWER(name) LIKE :t OR LOWER(author) LIKE :t", t: "%#{term.downcase.strip}%")
-  }
+	validates :images, attached: true, content_type: ['image/png','image/jpeg'], size: { less_than: 6.megabytes , message: 'es demasiado grande (máx 6MB)' }
+	validates :audio_sample, content_type: ['audio/mpeg'], size: { less_than: 10.megabytes }, allow_blank: true
+	
+	ransacker :status, type: :string do |parent|
+		Arel.sql <<~SQL
+			CASE
+				WHEN #{parent.table[:removed_at].not_eq(nil).to_sql} THEN 'eliminado'
+				WHEN #{parent.table[:removed_at].eq(nil).and(parent.table[:stock].eq(0)).to_sql} THEN 'sin_stock'
+				ELSE 'disponible'
+			END
+		SQL
+	end
 
-  scope :with_status, ->(status) {
-    case status
-    when "eliminado" then where.not(removed_at: nil)
-    when "sin_stock" then where(removed_at: nil, stock: 0)
-    when "activo" then where(removed_at: nil).where.not(stock: 0)
-    else
-      all
-    end
-  }
+  def self.ransackable_attributes(auth_object = nil)
+    ["author", "condition", "created_at", "description", "format", "id", "inventory_entry_date", "name", "price", "removed_at", "status", "stock", "updated_at"]
+  end
 
-  scope :with_format, ->(fmt) {
-    return all if fmt.blank? || !formats.keys.include?(fmt)
-    where(format: formats[fmt])
-  }
-
-  scope :with_condition, ->(cond) {
-    return all if cond.blank? || !conditions.keys.include?(cond)
-    where(condition: conditions[cond])
-  }
-
-  scope :from_date, ->(date_str) {
-    return all if date_str.blank?
-    date = Date.parse(date_str) rescue nil
-    date ? where("inventory_entry_date >= ?", date) : all
-  }
-
-  scope :to_date, ->(date_str) {
-    return all if date_str.blank?
-    date = Date.parse(date_str) rescue nil
-    date ? where("inventory_entry_date <= ?", date) : all
-  }
-
-  def self.filtered(params)
-    search(params[:q])
-      .with_status(params[:status])
-      .with_format(params[:format])
-      .with_condition(params[:condition])
-      .from_date(params[:from_date])
-      .to_date(params[:to_date])
+	def self.ransackable_associations(auth_object = nil)
+    ["audio_sample_attachment", "audio_sample_blob", "genres", "images_attachments", "images_blobs", "sale_products", "sales"]
   end
 
 	def condition_name
@@ -72,12 +46,6 @@ class Product < ApplicationRecord
 
   def genre_names
     @genre_names.present? ? @genre_names : genres.pluck(:name).join(", ")
-  end
-
-  private
-
-  def must_have_at_least_one_image
-    errors.add(:images, "debe incluir al menos una imagen") unless images.attached?
   end
 
 end
