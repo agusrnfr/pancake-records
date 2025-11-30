@@ -1,4 +1,108 @@
-<h1>Gestión de Ventas</h1>
-<p>Pronto podrás administrar ventas desde acá.</p>
-
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "backoffice/products" %>
+<% end %>
+<section class="header-section">
+  <h1>Administración de Ventas</h1>
+</section>
 <%= render partial: "backoffice/back_button" %>
+<section class="filters">
+  <%= search_form_for @q,
+        url: backoffice_sales_path,
+        method: :get,
+        class: "filters-form",
+        data: { controller: "live-search" },
+        html: { 'data-live-search-target': 'form' } do |f| %>
+    <div class="filters-grid">
+      <div class="filter-block">
+        <label>Estado</label>
+        <%= f.select :is_cancelled_eq,
+              [["Todas", ""],
+               ["Activas", "false"],
+               ["Canceladas", "true"]],
+              {}, class: "filter-select",
+                 data: { action: "change->live-search#changed" } %>
+      </div>
+      <div class="buttons-block">
+        <button type="submit" class="icon-btn search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <%= link_to backoffice_sales_path,
+            class: "icon-btn clear" do %>
+          <i class="fa-solid fa-broom"></i>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</section>
+<% if @sales.any? %>
+  <%= turbo_frame_tag :sales_list do %>
+    <table class="records-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Total</th>
+          <th>Comprador</th>
+          <th>Empleado</th>
+          <th>Productos</th>
+          <th>Estado</th>
+          <th class="actions-col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="records-body">
+        <% @sales.each do |sale| %>
+          <tr class="<%= sale.is_cancelled? ? "removed-row" : "" %>">
+            <td><%= sale.date.strftime("%d/%m/%Y") %></td>
+            <td><%= number_to_currency(sale.total, unit: "$", separator: ".", delimiter: ",") %></td>
+            <td>
+              <%= sale.buyer_name %> <%= sale.buyer_surname %>
+              <% if sale.buyer_email.present? %>
+                <br><small class="text-muted"><%= sale.buyer_email %></small>
+              <% end %>
+            </td>
+            <td><%= sale.employee.name %> <%= sale.employee.surname %></td>
+            <td>
+              <span class="stock-value"><%= sale.sale_products.count %></span>
+            </td>
+            <td>
+              <% if sale.is_cancelled? %>
+                <span class="status removed">Cancelada</span>
+              <% else %>
+                <span class="status ok">Activa</span>
+              <% end %>
+            </td>
+            <td class="actions">
+              <%= link_to backoffice_sale_path(sale), class: "icon-btn view", aria: { label: "Ver venta del #{sale.date}" }, data: { turbo_frame: "_top" } do %>
+                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                <span class="sr-only">Ver</span>
+              <% end %>
+              <% unless sale.is_cancelled? %>
+                <%= button_to cancel_backoffice_sale_path(sale), method: :patch,
+                    class: "icon-btn danger separator-left",
+                    aria: { label: "Cancelar venta del #{sale.date}" },
+                    data: { turbo_confirm: "¿Seguro que querés cancelar esta venta? Se restaurará el stock de los productos." } do %>
+                  <i class="fa-solid fa-ban" aria-hidden="true"></i>
+                  <span class="sr-only">Cancelar</span>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% else %>
+  <div class="empty-state">
+    <p>No hay ventas para mostrar</p>
+  </div>
+<% end %>
+<div class="pagination wrapper">
+  <div class="results-info">
+    <%= page_entries_info @sales, entry_name: 'ventas' %>
+  </div>
+  <div class="pagination bottom" aria-label="Paginación">
+    <%= paginate @sales, window: 2, params: request.query_parameters %>
+  </div>
+</div>
+<%= link_to new_backoffice_sale_path, class: "floating-btn", data: { turbo_frame: "_top" } do %>
+  +
+<% end %>

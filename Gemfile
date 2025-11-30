@@ -82,3 +82,6 @@ gem 'active_storage_validations', "~> 3.0"
 
 gem 'ransack', "~> 4.4"
 
+gem 'prawn', '~> 2.4'
+gem 'prawn-table', '~> 0.2.2'
+

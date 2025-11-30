@@ -27,6 +27,10 @@ Rails.application.routes.draw do
         patch :restore
 			end
 		end
-  	resources :sales, only: [:index]
+  	resources :sales, only: [:index, :show, :new, :create] do
+  		member do
+  			patch :cancel
+  		end
+  	end
   end
 end

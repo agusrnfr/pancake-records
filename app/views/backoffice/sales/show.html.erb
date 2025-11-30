@@ -1,0 +1,109 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "backoffice/products" %>
+<% end %>
+
+<div class="show-header">
+  <h1>Venta #<%= @sale.id %> - <%= @sale.date.strftime("%d/%m/%Y") %></h1>
+  <% unless @sale.is_cancelled? %>
+    <%= button_to cancel_backoffice_sale_path(@sale), method: :patch,
+        class: "icon-btn danger separator-left",
+        aria: { label: "Cancelar venta" },
+        data: { turbo_confirm: "¿Seguro que querés cancelar esta venta? Se restaurará el stock de los productos." } do %>
+      <i class="fa-solid fa-ban" aria-hidden="true"></i>
+      <span class="sr-only">Cancelar</span>
+    <% end %>
+  <% end %>
+</div>
+
+<section class="sale-info">
+  <h2>Información de la Venta</h2>
+  <p><strong>Fecha:</strong> <%= @sale.date.strftime("%d/%m/%Y") %></p>
+  <p><strong>Total:</strong> <%= number_to_currency(@sale.total, unit: "$", separator: ".", delimiter: ",") %></p>
+  <p><strong>Estado:</strong>
+    <% if @sale.is_cancelled? %>
+      <span class="status removed">Cancelada</span>
+    <% else %>
+      <span class="status ok">Activa</span>
+    <% end %>
+  </p>
+  <p><strong>Empleado:</strong> <%= @sale.employee.name %> <%= @sale.employee.surname %></p>
+  <p><strong>Email del empleado:</strong> <%= @sale.employee.email %></p>
+  <p><strong>Fecha de creación:</strong> <%= @sale.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+  <p><strong>Última actualización:</strong> <%= @sale.updated_at.strftime("%d/%m/%Y %H:%M") %></p>
+  <% if @sale.is_cancelled? %>
+    <p><strong>Fecha de cancelación:</strong> <%= @sale.updated_at.strftime("%d/%m/%Y %H:%M") %></p>
+  <% end %>
+</section>
+
+<section class="buyer-info">
+  <h2>Datos del Comprador</h2>
+  <p><strong>Nombre:</strong> <%= @sale.buyer_name %></p>
+  <p><strong>Apellido:</strong> <%= @sale.buyer_surname %></p>
+  <% if @sale.buyer_phone.present? %>
+    <p><strong>Teléfono:</strong> <%= @sale.buyer_phone %></p>
+  <% end %>
+  <% if @sale.buyer_email.present? %>
+    <p><strong>Email:</strong> <%= @sale.buyer_email %></p>
+  <% end %>
+  <% if @sale.buyer_address.present? %>
+    <p><strong>Dirección:</strong> <%= @sale.buyer_address %></p>
+  <% end %>
+</section>
+
+<section class="sale-products">
+  <h2>Productos Vendidos</h2>
+  <% if @sale.sale_products.any? %>
+    <table class="records-table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Autor</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% 
+          # Agrupar productos por product_id para mostrar cantidad
+          products_grouped = @sale.sale_products.group_by(&:product_id)
+          products_grouped.each do |product_id, sale_products_list|
+            product = sale_products_list.first.product
+            quantity = sale_products_list.count
+            unit_price = sale_products_list.first.unit_price
+            subtotal = unit_price * quantity
+        %>
+          <tr>
+            <td><%= product.name %></td>
+            <td><%= product.author %></td>
+            <td><%= quantity %></td>
+            <td><%= number_to_currency(unit_price, unit: "$", separator: ".", delimiter: ",") %></td>
+            <td><%= number_to_currency(subtotal, unit: "$", separator: ".", delimiter: ",") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr class="total-row">
+          <td colspan="4" class="text-right"><strong>Total:</strong></td>
+          <td><strong><%= number_to_currency(@sale.total, unit: "$", separator: ".", delimiter: ",") %></strong></td>
+        </tr>
+      </tfoot>
+    </table>
+    
+    <div class="products-summary">
+      <p><strong>Total de productos:</strong> <%= @sale.sale_products.count %></p>
+      <p><strong>Productos únicos:</strong> <%= products_grouped.count %></p>
+    </div>
+  <% else %>
+    <p class="empty-info">No hay productos en esta venta</p>
+  <% end %>
+  <div class="pdf-button" style="margin-top: 20px; text-align: center;">
+    <%= link_to backoffice_sale_path(@sale, format: :pdf), class: "btn-pdf", target: "_blank" do %>
+      <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+      Exportar a PDF
+    <% end %>
+  </div>
+</section>
+
+<%= render partial: "backoffice/back_button" %>
+
