@@ -54,13 +54,15 @@
 	color: #333;
 }
 .page-link:hover {
-	background: #e6e6e6;
+	background: #efbf85 !important;
+	color:#f2f2f2 !important;
+		border-color: #fbbd72 !important;
 	transform: translateY(-1px);
 }
 .page-link.active {
-	background: #3498db;
+	background: #efbf85;
 	color: #f2f2f2 !important;
-	border-color: #3498db;
+	border-color: #fbbd72;
 	font-weight: 600;
 }
 .page-link.disabled {
