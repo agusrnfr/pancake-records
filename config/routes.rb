@@ -18,8 +18,12 @@ Rails.application.routes.draw do
         as: :user_registration
     end
 
-		resources :users 
-		resources :products do
+	resources :users do
+		member do
+			patch :restore
+		end
+	end
+	resources :products do
 			member do
 				patch :increment_stock
 				patch :decrement_stock

@@ -87,6 +87,105 @@
   cursor: not-allowed;
 }
 
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-success {
+  background-color: #10b981;
+  color: white;
+}
+
+.badge-danger {
+  background-color: #ef4444;
+  color: white;
+}
+
+.icon-btn.success {
+  background: #27ae60;
+  width: 29px;
+  height: 29px;
+  border: 2px solid #1e8449;
+  box-shadow: 0 2px 4px rgba(39, 174, 96, 0.25);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.icon-btn.success i {
+  font-size: 16px;
+}
+
+form.button_to .icon-btn.success {
+  width: 29px;
+  height: 29px;
+  border: 2px solid #1e8449;
+  box-shadow: 0 2px 4px rgba(39, 174, 96, 0.25);
+}
+
+form.button_to .icon-btn.success i {
+  font-size: 16px;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.alert-warning strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.alert-warning p {
+  margin: 8px 0;
+}
+
+.alert-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-restore {
+  background-color: #27ae60;
+  padding: 12px 22px;
+  height: auto;
+}
+
+.btn-cancel {
+  background-color: #ef4444;
+  text-decoration: none;
+  display: inline-block;
+  padding: 12px 22px;
+  color: black;
+  border-radius: 8px;
+  height: auto;
+  text-color: black;
+}
+
+.btn-cancel:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-restore,
+.btn-cancel {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (min-width: 760px) {
   .permisos-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));

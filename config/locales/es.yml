@@ -1,4 +1,7 @@
 es:
+  devise:
+    failure:
+      removed: "Tu cuenta ha sido eliminada. Contacta al administrador para más información."
   activerecord:
     models:
       user: Usuario
