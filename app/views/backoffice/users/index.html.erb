@@ -6,11 +6,13 @@
 </section>
 <%= render partial: "backoffice/back_button" %>
 <section class="filters">
-  <%= form_with url: backoffice_users_path, method: :get,
-                class: "filters-form",
-                data: { controller: "live-search" },
-                html: { 'data-live-search-target': 'form' } do %>
-    <%= hidden_field_tag :page, params[:page] || 1 %>
+  <%= search_form_for @q, 
+            url: backoffice_users_path, 
+            method: :get,
+            class: "filters-form",
+            data: { controller: "live-search" },
+            html: { 'data-live-search-target': 'form' } do %>
+  <%= hidden_field_tag :page, params[:page] || 1 %>
     <div class="filters-grid">
       <div class="filter-block">
         <label for="q">Nombre</label>
@@ -93,7 +95,10 @@
                 <%= button_to backoffice_user_path(u), method: :delete,
                     class: "icon-btn danger separator-left #{'disabled' unless can?(:destroy, u)}",
                     aria: { label: "Eliminar #{u.name}" },
-                    data: { turbo_confirm: "¿Seguro que querés eliminar #{u.name}?" },
+                    data: { 
+                      turbo_confirm: "¿Seguro que querés eliminar #{u.name}?",
+                      turbo_frame: "_top"
+                    },
                     disabled: !can?(:destroy, u) do %>
                   <i class="fa-solid fa-trash" aria-hidden="true"></i>
                   <span class="sr-only">Eliminar</span>
@@ -104,22 +109,16 @@
         <% end %>
       </tbody>
     </table>
-    <div class="pagination bottom" aria-label="Paginación">
-      <% if @total_pages > 1 %>
-       <div class="results-info">Mostrando <%= @users.size %> de <%= @total_count %> registros</div>
-        <div class="pages">
-          <% prev_page = @current_page - 1 %>
-          <% next_page = @current_page + 1 %>
-          <%= link_to "«", backoffice_users_path(request.query_parameters.merge(page: prev_page)), class: "page-link#{' disabled' if prev_page < 1}", aria: { label: 'Página anterior' } unless @current_page == 1 %>
-          <% 1.upto(@total_pages) do |pg| %>
-            <%= link_to pg, backoffice_users_path(request.query_parameters.merge(page: pg)), class: "page-link#{' active' if pg == @current_page}" %>
-          <% end %>
-          <%= link_to "»", backoffice_users_path(request.query_parameters.merge(page: next_page)), class: "page-link#{' disabled' if next_page > @total_pages}", aria: { label: 'Página siguiente' } unless @current_page == @total_pages %>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
-<% end%>
+  <% end%>
+<% end %>
+<div class="pagination wrapper">
+  <div class="results-info">
+    <%= page_entries_info @users, entry_name: 'usuarios' %>
+  </div>
+  <div class="pagination bottom" aria-label="Paginación">
+    <%= paginate @users, window: 2, params: request.query_parameters %>
+  </div>
+</div>
 <%= link_to new_backoffice_user_path, class: "floating-btn" do %>
   +
 <% end %>
