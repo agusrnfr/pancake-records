@@ -1,4 +1,6 @@
-/* Storefront Styles */
+#category-nav, #catalogo {
+  scroll-margin-top: 80px;
+}
 
 html {
 	scroll-behavior: smooth;
@@ -1162,6 +1164,10 @@ body > .container {
 .related-products h2 {
 	font-size: 1.5rem;
 	margin-bottom: 1.5rem;
+}
+
+#category-nav {
+  scroll-margin-top: 80px; /* Ajusta el valor según la altura de tu nav fijo */
 }
 
 /* Responsive */

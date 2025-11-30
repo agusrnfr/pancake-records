@@ -442,11 +442,13 @@ form.button_to .icon-btn {
 	font-size: 18px;
 }
 
-.avatar {
+
+/*.avatar {
 	width: 200px;
 	height: 200px;
 	overflow: hidden;
-}
+}*/
+
 
 @media (max-width: 640px) {
 	.product-meta {
