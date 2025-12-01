@@ -193,7 +193,7 @@
 }
 
 .sidebar-toggle {
-	position: absolute;
+	position: fixed;
 	top: 20px;
 	left: 20px;
 	transform: translateX(180px);
@@ -416,6 +416,12 @@ label {
 	}
 
 	.sidebar .navigation-links .nav-link i {
+		font-size: 20px;
+	}
+
+	.back-floating-btn {
+		width: 42px;
+  		height: 42px;
 		font-size: 20px;
 	}
 }
