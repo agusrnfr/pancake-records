@@ -5,22 +5,6 @@
 	border-radius: 14px;
 	text-align: center;
 }
-.backoffice-center {
-	max-width: 880px;
-	margin: 0 auto;
-	padding: 20px 26px 60px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 26px;
-	text-align: center;
-}
-
-.backoffice-center h1 {
-	margin: 0 0 4px;
-	font-size: 2rem;
-	letter-spacing: 0.5px;
-}
 
 .permisos-wrapper {
 	width: 100%;

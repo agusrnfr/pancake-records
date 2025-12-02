@@ -337,6 +337,7 @@ label {
 	font-size: 22px;
 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 	text-decoration: none;
+	z-index: 1100;
 }
 
 .back-floating-btn:hover {
