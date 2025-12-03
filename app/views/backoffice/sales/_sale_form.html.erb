@@ -1,0 +1,106 @@
+<%= form_with model: [:backoffice, @sale], local: true, id: "sale-form" do |f| %>
+  <% if @sale.errors.any? %>
+    <div class="form-errors" role="alert">
+      <h3>Errores al crear la venta:</h3>
+      <ul>
+        <% @sale.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-section">
+    <h2>Datos del Cliente</h2>
+    <div class="form-grid">
+      <div class="form-field">
+        <%= f.label :buyer_name, "Nombre", class: "required" %>
+        <%= f.text_field :buyer_name, class: "input", required: true, title: "Nombre del comprador" %>
+      </div>
+      <div class="form-field">
+        <%= f.label :buyer_surname, "Apellido", class: "required" %>
+        <%= f.text_field :buyer_surname, class: "input", required: true, title: "Apellido del comprador" %>
+      </div>
+      <div class="form-field">
+        <%= f.label :buyer_phone, "Teléfono" %>
+        <%= f.text_field :buyer_phone, class: "input", title: "Teléfono del comprador" %>
+      </div>
+      <div class="form-field">
+        <%= f.label :buyer_email, "Email" %>
+        <%= f.email_field :buyer_email, class: "input", title: "Email del comprador" %>
+      </div>
+      <div class="form-field full">
+        <%= f.label :buyer_address, "Dirección" %>
+        <%= f.text_field :buyer_address, class: "input", title: "Dirección del comprador" %>
+      </div>
+      <div class="form-field">
+        <%= f.label :date, "Fecha", class: "required" %>
+        <%= f.date_field :date, class: "input", required: true, title: "Fecha de la venta" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h2>Productos</h2>
+    <div id="products-container">
+      <div class="product-row" data-product-index="0">
+        <div class="form-field">
+          <label>Producto <span class="required">*</span></label>
+          <select name="sale_products[0][product_id]" class="input product-select" required data-index="0">
+            <option value="">Seleccione un producto</option>
+            <% @available_products.each do |product| %>
+              <option value="<%= product.id %>" 
+                      data-price="<%= product.price %>" 
+                      data-stock="<%= product.stock %>"
+                      data-name="<%= product.name %> - <%= product.author %>"
+                      data-author="<%= product.author %>">
+                <%= product.name %> - <%= product.author %> (Stock disponible: <%= product.stock %>) - <%= number_to_currency(product.price, unit: "$", separator: ".", delimiter: ",") %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Cantidad <span class="required">*</span></label>
+          <input type="number" 
+                 name="sale_products[0][quantity]" 
+                 class="input quantity-input" 
+                 min="1" 
+                 value="1" 
+                 required 
+                 data-index="0">
+        </div>
+        <div class="form-field">
+          <label>Precio Unitario</label>
+          <input type="text" 
+                 class="input unit-price" 
+                 readonly 
+                 data-index="0" 
+                 value="$0.00">
+        </div>
+        <div class="form-field">
+          <button type="button" class="btn-remove-product" data-index="0" style="display: none;">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <button type="button" id="add-product-btn" class="btn-add-product">
+      <i class="fa-solid fa-plus"></i> Agregar Producto
+    </button>
+  </div>
+
+  <div class="form-section">
+    <div class="total-section">
+      <h2>Total de la Venta: <span id="total-amount">$0.00</span></h2>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit "Crear Venta", class: "btn-submit", id: "submit-sale" %>
+  </div>
+<% end %>
+
+<script type="application/json" id="products-data">
+<%= @available_products.each_with_object({}) { |product, hash| hash[product.id] = { price: product.price, stock: product.stock, name: product.name } }.to_json.html_safe %>
+</script>
+

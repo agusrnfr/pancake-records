@@ -16,7 +16,7 @@
   </head>
   <body>
     <div class="backoffice-wrapper">
-      <aside class="sidebar">
+      <aside class="sidebar <%= 'collapsed' if @browser.device.mobile? %>">
         <div class="avatar">
           <% if current_user.avatar.attached? %>
             <%= image_tag current_user.avatar, alt: "avatar" %>

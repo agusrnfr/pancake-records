@@ -1,0 +1,19 @@
+<h1>¡Hola <%= @user.name %>!</h1>
+
+<p>Tu cuenta ha sido restaurada con éxito.</p>
+
+<p><strong>Credenciales de acceso:</strong></p>
+<ul>
+  <li><strong>Email:</strong> <%= @user.email %></li>
+  <li><strong>Nueva contraseña temporal:</strong> <code><%= @temporary_password %></code></li>
+</ul>
+
+<p>
+  <a href="<%= @login_url %>" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+    Iniciar sesión
+  </a>
+</p>
+
+<p><strong>Importante:</strong> Por razones de seguridad, te recomendamos cambiar tu contraseña después de iniciar sesión.</p>
+
+<p>Puedes cambiar tu contraseña <a href="<%= @edit_password_url %>">aquí</a> una vez que hayas iniciado sesión.</p>

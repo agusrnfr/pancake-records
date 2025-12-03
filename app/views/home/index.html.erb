@@ -2,7 +2,6 @@
 <% content_for :styles do %>
   <%= stylesheet_link_tag "storefront" %>
 <% end %>
-
 <!-- Hero Landing Section -->
 <section class="hero-landing">
   <div class="hero-content">
@@ -33,17 +32,20 @@
 
 <div class="storefront" id="catalogo">
   <div class="storefront-header">
-    <h1>Nuestro Catálogo</h1>
+    <h1 id="catalogo">Nuestro Catálogo</h1>
     <p class="subtitle">Descubrí los mejores discos en vinilo y CD</p>
   </div>
 
   <!-- Filtros y Búsqueda -->
   <section class="filters-section">
     <%= search_form_for @q,
-          url: root_path,
+      url: root_path,
           method: :get,
           class: "filters-form",
           html: { 'data-turbo-frame': '_top' } do |f| %>
+
+          <input type="hidden" name="anchor" value="category-nav">
+
       
       <div class="search-bar">
         <%= f.search_field :name_or_author_cont,
@@ -94,7 +96,7 @@
 
         <div class="filter-actions">
           <button type="submit" class="btn btn-primary">Filtrar</button>
-          <%= link_to root_path, class: "btn btn-secondary" do %>
+          <%= link_to root_path + '#catalogo', class: "btn btn-secondary" do %>
             Limpiar
           <% end %>
         </div>
@@ -104,25 +106,25 @@
 
   <!-- Navegación por categorías -->
   <section class="category-nav">
-    <h2>Navegar por categorías</h2>
+    <h2 id="category-nav">Navegar por categorías</h2>
     <div class="category-buttons">
-      <%= link_to root_path, class: "category-btn #{'active' if params[:q].blank?}" do %>
+  <%= link_to root_path + '#category-nav', class: "category-btn #{'active' if params[:q].blank?}" do %>
         Todos
       <% end %>
-      <%= link_to root_path(q: { format_eq: "0" }), class: "category-btn #{'active' if params.dig(:q, :format_eq) == '0'}" do %>
+  <%= link_to root_path(q: { format_eq: "0" }) + '#category-nav', class: "category-btn #{'active' if params.dig(:q, :format_eq) == '0'}" do %>
         Vinilos
       <% end %>
-      <%= link_to root_path(q: { format_eq: "1" }), class: "category-btn #{'active' if params.dig(:q, :format_eq) == '1'}" do %>
+  <%= link_to root_path(q: { format_eq: "1" }) + '#category-nav', class: "category-btn #{'active' if params.dig(:q, :format_eq) == '1'}" do %>
         CDs
       <% end %>
-      <%= link_to root_path(q: { condition_eq: "1" }), class: "category-btn #{'active' if params.dig(:q, :condition_eq) == '1'}" do %>
+  <%= link_to root_path(q: { condition_eq: "1" }) + '#category-nav', class: "category-btn #{'active' if params.dig(:q, :condition_eq) == '1'}" do %>
         Nuevos
       <% end %>
-      <%= link_to root_path(q: { condition_eq: "0" }), class: "category-btn #{'active' if params.dig(:q, :condition_eq) == '0'}" do %>
+  <%= link_to root_path(q: { condition_eq: "0" }) + '#category-nav', class: "category-btn #{'active' if params.dig(:q, :condition_eq) == '0'}" do %>
         Usados
       <% end %>
       <% @genres.first(6).each do |genre| %>
-        <%= link_to root_path(q: { genres_id_eq: genre.id }), class: "category-btn #{'active' if params.dig(:q, :genres_id_eq).to_s == genre.id.to_s}" do %>
+        <%= link_to root_path(q: { genres_id_eq: genre.id }) + '#category-nav', class: "category-btn #{'active' if params.dig(:q, :genres_id_eq).to_s == genre.id.to_s}" do %>
           <%= genre.name %>
         <% end %>
       <% end %>
@@ -176,7 +178,7 @@
 
       <!-- Paginación -->
       <div class="pagination-wrapper">
-        <%= paginate @products, window: 2, params: request.query_parameters %>
+        <%= paginate @products, window: 2, params: request.query_parameters.merge(anchor: 'category-nav') %>
       </div>
     <% else %>
       <div class="empty-state">
@@ -190,3 +192,6 @@
     <% end %>
   </section>
 </div>
+<% content_for :scripts do %>
+  <%= javascript_include_tag "storefront_anchor" %>
+<% end %>

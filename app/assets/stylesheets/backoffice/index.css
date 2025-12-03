@@ -5,6 +5,7 @@
 	border-radius: 14px;
 	text-align: center;
 }
+
 .backoffice-center {
 	max-width: 880px;
 	margin: 0 auto;
@@ -34,9 +35,9 @@
 }
 
 .permisos-grid {
-  display: grid;
-  gap: 22px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	display: grid;
+	gap: 22px;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .permiso-card {
@@ -72,8 +73,8 @@
 	padding-left: 18px;
 	display: grid;
 	gap: 6px;
-	font-size: 0.80rem;
-    color: #f2f2f2;
+	font-size: 0.8rem;
+	color: #f2f2f2;
 	line-height: 1.15rem;
 }
 
@@ -81,23 +82,17 @@
 	color: #ffcf4d;
 }
 
-.avatar {
-	width: 200px;
-	height: 200px;
-	overflow: hidden;
-}
-
 .icon-btn.disabled {
-  opacity: 0.5;
-  pointer-events: none;
-  cursor: not-allowed;
+	opacity: 0.5;
+	pointer-events: none;
+	cursor: not-allowed;
 }
 
 @media (min-width: 760px) {
-  .permisos-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .permisos-grid .permiso-card:last-child {
-    grid-column: 2;
-  }
+	.permisos-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.permisos-grid .permiso-card:last-child {
+		grid-column: 2;
+	}
 }

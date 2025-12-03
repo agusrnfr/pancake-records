@@ -1,25 +1,29 @@
 class Backoffice::UsersController < Backoffice::BaseController
   load_and_authorize_resource
+  
+  # Helper method to get available roles based on current user's role
+  helper_method :available_roles
 
-  def index
-    per_page = 10
-    page = params[:page].to_i
-    page = 1 if page < 1
-
-    scope = User.filtered(params).order(created_at: :desc)
-    @total_count = scope.count
-    @total_pages = (@total_count.to_f / per_page).ceil
-    page = @total_pages if @total_pages > 0 && page > @total_pages
-
-    @users = scope.offset((page - 1) * per_page).limit(per_page)
-    @current_page = page
-  end
+  
+	def index
+		@q = User.not_removed.ransack(params[:q])
+		@users = @q.result(distinct: true)
+									.order(created_at: :desc)
+									.page(params[:page])
+									.per(8)
+	end
 
   def new
   end
 
   def create
-    temporary_password = Devise.friendly_token[0, 20]
+    existing_removed_user = User.removed.find_by(email: user_params[:email])
+    
+    return handle_restore_confirmation(existing_removed_user) if existing_removed_user && params[:confirm_restore] != 'true'
+    return restore_existing_user(existing_removed_user) if existing_removed_user && params[:confirm_restore] == 'true'
+    
+    @user.assigned_by = current_user
+    temporary_password = Devise.friendly_token.first(20)
     @user.password = temporary_password
     
     if @user.save
@@ -30,16 +34,19 @@ class Backoffice::UsersController < Backoffice::BaseController
     end
   end
   
-   def show
+  def show
   end
 
   def edit
+    @user = User.find(params[:id])
+    return redirect_to backoffice_users_path, alert: "Usá tu perfil para editar tu propia cuenta." if @user == current_user
+    return redirect_to backoffice_users_path, alert: "El usuario está eliminado" if @user.removed?
   end
 
   def update
-    @user.assign_attributes(user_params)
-
-    if @user.save
+    @user.assigned_by = current_user
+    
+    if @user.update(user_params)
       redirect_to backoffice_users_path, notice: "Usuario actualizado"
     else
       render :edit, status: :unprocessable_entity
@@ -47,14 +54,42 @@ class Backoffice::UsersController < Backoffice::BaseController
   end
 
   def destroy
-    @user.destroy
-    redirect_to backoffice_users_path, notice: "Usuario eliminado"
+    return redirect_to backoffice_users_path, alert: "El usuario ya está eliminado" if @user.removed?
+    
+    @user.remove!
+    redirect_to backoffice_users_path, notice: "Usuario eliminado correctamente"
 	end
+
+  def restore
+    return redirect_to backoffice_users_path, alert: "El usuario no está eliminado" unless @user.removed?
+    
+    restore_existing_user(@user)
+  end
 
   private
 
   def user_params
     params.require(:user).permit(:name, :surname, :email, :address, :role)
+  end
+  
+  def available_roles
+    User.assignable_roles_for(current_user)
+  end
+  
+  def handle_restore_confirmation(existing_user)
+    @user = User.new(user_params)
+    @existing_user = existing_user
+    @show_restore_confirmation = true
+    render :new, status: :unprocessable_entity
+  end
+  
+  def restore_existing_user(user)
+    temporary_password = Devise.friendly_token.first(20)
+    user.restore!
+    user.password = temporary_password
+    user.save!
+    UserMailer.welcome_back_email(user, temporary_password).deliver_now
+    redirect_to backoffice_users_path, notice: "Usuario restaurado correctamente"
   end
 
 end

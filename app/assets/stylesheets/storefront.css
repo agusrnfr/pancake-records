@@ -1,4 +1,7 @@
-/* Storefront Styles */
+#category-nav,
+#catalogo {
+	scroll-margin-top: 80px;
+}
 
 html {
 	scroll-behavior: smooth;
@@ -48,39 +51,28 @@ body > .container {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 20rem;
+	gap: 40rem;
 }
 
 .branding {
-	font-family: Georgia, serif;
+	font-family: "Montserrat", sans-serif;
 	font-size: 1.8rem;
 	font-weight: 700;
+	margin: 0;
 }
 
 .brand-link {
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
-	color: var(--color-text);
+	color: #bf8a26 !important;
 	text-decoration: none;
 	transition: all 0.3s ease;
+	font-family: "Montserrat", sans-serif;
 }
 
 .brand-link:hover {
-	color: #667eea;
 	transform: scale(1.05);
-}
-
-.brand-link i {
-	font-size: 1.5rem;
-	color: #667eea;
-}
-
-.brand-link span {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
 }
 
 .header-right {
@@ -102,12 +94,12 @@ body > .container {
 	width: 45px;
 	height: 45px;
 	border-radius: 50%;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	color: white;
 	font-size: 1.8rem;
 	cursor: pointer;
 	transition: all 0.3s ease;
-	box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+	box-shadow: 0 2px 8px rgba(191, 138, 38, 0.3);
 	position: relative;
 	line-height: 1;
 }
@@ -123,7 +115,7 @@ body > .container {
 
 .user-avatar:hover {
 	transform: scale(1.1);
-	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+	box-shadow: 0 4px 12px rgba(191, 138, 38, 0.4);
 }
 
 .user-avatar::after {
@@ -230,9 +222,9 @@ body > .container {
 }
 
 .btn-login {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	color: white;
-	box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+	box-shadow: 0 2px 8px rgba(191, 138, 38, 0.3);
 }
 
 .btn-login:hover {
@@ -309,11 +301,11 @@ body > .container {
 	align-items: center;
 	background: linear-gradient(
 		135deg,
-		#667eea 0%,
-		#764ba2 25%,
-		#f093fb 50%,
-		#4facfe 75%,
-		#00f2fe 100%
+		#bf8a26 0%,
+		#bf7c2a 25%,
+		#cf8d3c 50%,
+		#fbbd72 75%,
+		#efbf85 100%
 	);
 	background-size: 400% 400%;
 	animation: gradientShift 15s ease infinite;
@@ -346,7 +338,7 @@ body > .container {
 }
 
 .hero-text {
-	color: white;
+	color: #f2f2f2;
 }
 
 .hero-title {
@@ -354,9 +346,7 @@ body > .container {
 	font-weight: 800;
 	margin: 0 0 1rem 0;
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-	background: linear-gradient(45deg, #fff, #f0f0f0);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
+	color: #f2f2f2;
 	background-clip: text;
 }
 
@@ -382,7 +372,7 @@ body > .container {
 	gap: 0.75rem;
 	padding: 1rem 2rem;
 	background: rgba(255, 255, 255, 0.95);
-	color: #667eea;
+	color: #bf8a26;
 	text-decoration: none;
 	border-radius: 50px;
 	font-weight: 700;
@@ -465,7 +455,7 @@ body > .container {
 	top: 20px;
 	left: 20px;
 	z-index: 3;
-	background: radial-gradient(circle at 30% 30%, #2d1b4e, #1a0d2e);
+	background: radial-gradient(circle at 30% 30%, #bf8a26, #bf7c2a);
 	animation-duration: 18s;
 	animation-direction: reverse;
 }
@@ -474,7 +464,7 @@ body > .container {
 	top: 40px;
 	left: 40px;
 	z-index: 2;
-	background: radial-gradient(circle at 30% 30%, #4a2c5a, #2d1b4e);
+	background: radial-gradient(circle at 30% 30%, #bf7c2a, #cf8d3c);
 	animation-duration: 22s;
 }
 
@@ -482,7 +472,7 @@ body > .container {
 	top: 60px;
 	left: 60px;
 	z-index: 1;
-	background: radial-gradient(circle at 30% 30%, #6b3d7a, #4a2c5a);
+	background: radial-gradient(circle at 30% 30%, #cf8d3c, #fbbd72);
 	animation-duration: 25s;
 	animation-direction: reverse;
 }
@@ -527,7 +517,7 @@ body > .container {
 	left: 0;
 	right: 0;
 	height: 1px;
-	background: linear-gradient(90deg, transparent, #667eea, transparent);
+	background: linear-gradient(90deg, transparent, #bf8a26, transparent);
 }
 
 .storefront-header {
@@ -538,7 +528,7 @@ body > .container {
 .storefront-header h1 {
 	font-size: 2.8rem;
 	margin-bottom: 0.5rem;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
@@ -577,7 +567,7 @@ body > .container {
 
 .search-btn {
 	padding: 0.75rem 1.5rem;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	color: white;
 	border: none;
 	border-radius: 8px;
@@ -588,7 +578,7 @@ body > .container {
 }
 
 .search-btn:hover {
-	background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+	background: linear-gradient(135deg, #efbf85 0%, #bf8a26 100%);
 	transform: translateY(-2px);
 	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
@@ -628,8 +618,8 @@ body > .container {
 .filter-select:focus,
 .filter-input:focus {
 	outline: none;
-	border-color: #667eea;
-	box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+	border-color: #bf8a26;
+	box-shadow: 0 0 0 3px rgba(191, 138, 38, 0.1);
 }
 
 .filter-actions {
@@ -652,13 +642,13 @@ body > .container {
 }
 
 .btn-primary {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	color: white;
 	box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .btn-primary:hover {
-	background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+	background: linear-gradient(135deg, #efbf85 0%, #bf8a26 100%);
 	transform: translateY(-2px);
 	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
@@ -684,7 +674,7 @@ body > .container {
 	font-size: 1.5rem;
 	margin-bottom: 1.5rem;
 	font-weight: 700;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
@@ -711,16 +701,16 @@ body > .container {
 
 .category-btn:hover {
 	background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-	border-color: #667eea;
+	border-color: #bf8a26;
 	transform: translateY(-2px);
-	box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2);
+	box-shadow: 0 4px 8px rgba(191, 138, 38, 0.2);
 }
 
 .category-btn.active {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	color: white;
-	border-color: #667eea;
-	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+	border-color: #bf8a26;
+	box-shadow: 0 4px 12px rgba(191, 138, 38, 0.3);
 }
 
 /* Grid de productos */
@@ -746,8 +736,8 @@ body > .container {
 
 .product-card:hover {
 	transform: translateY(-8px) scale(1.02);
-	box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
-	border-color: #667eea;
+	box-shadow: 0 8px 24px rgba(191, 138, 38, 0.2);
+	border-color: #bf8a26;
 }
 
 .product-link {
@@ -867,7 +857,7 @@ body > .container {
 .product-price {
 	font-size: 1.3rem;
 	font-weight: 700;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
@@ -1162,6 +1152,10 @@ body > .container {
 .related-products h2 {
 	font-size: 1.5rem;
 	margin-bottom: 1.5rem;
+}
+
+#category-nav {
+	scroll-margin-top: 80px; /* Ajusta el valor según la altura de tu nav fijo */
 }
 
 /* Responsive */
