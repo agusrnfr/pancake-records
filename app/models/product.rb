@@ -15,7 +15,7 @@ class Product < ApplicationRecord
 	validates :price, numericality: { greater_than_or_equal_to: 0 }
 	validates :stock, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-	validates :images, attached: true, content_type: ['image/png','image/jpeg'], size: { less_than: 6.megabytes , message: 'es demasiado grande (máx 6MB)' }
+	validates :images, attached: true, content_type: ['image/png', 'image/jpeg', 'image/webp'], size: { less_than: 6.megabytes, message: 'es demasiado grande (máx 6MB)' }
 	validates :audio_sample, content_type: /^audio\/(mpeg|mp3)$/i, size: { less_than: 10.megabytes }, allow_blank: true
 	
 	ransacker :status, type: :string do |parent|
