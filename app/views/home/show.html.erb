@@ -54,10 +54,17 @@
       </div>
 
       <div class="product-stock-section">
-        <span class="stock-label">Stock disponible</span>
-        <span class="stock-value <%= 'low-stock' if @product.stock < 5 %>">
-          <%= @product.stock %> unidades
-        </span>
+        <% if @product.stock.to_i > 0 %>
+          <span class="stock-label">Stock disponible</span>
+          <span class="stock-value <%= 'low-stock' if @product.stock.to_i < 5 %>">
+            <%= @product.stock %> unidades
+          </span>
+        <% else %>
+          <span class="stock-label">Sin stock</span>
+          <span class="stock-value no-stock">
+            No hay unidades disponibles en este momento
+          </span>
+        <% end %>
       </div>
 
       <% if @product.description.present? %>
