@@ -9,7 +9,7 @@ class Product < ApplicationRecord
   enum :format, { vinyl: 0, cd: 1 }
   enum :condition, { used: 0, brand_new: 1 }
 
-  attr_accessor :genre_names
+  attr_accessor :genre_names, :image_order, :image_remove_ids
 
   validates :name, :author, :price, :stock, :format, :condition, :inventory_entry_date, presence: true
 	validates :price, numericality: { greater_than_or_equal_to: 0 }
@@ -52,12 +52,14 @@ class Product < ApplicationRecord
     @genre_names.present? ? @genre_names : genres.pluck(:name).join(", ")
   end
 
-  # Método para obtener la imagen de portada (primera imagen)
   def cover_image
-    images.first
+    ordered_images_attachments.first
   end
 
-  # Método para verificar si el producto está disponible
+  def ordered_images_attachments
+    images_attachments.includes(:blob).order(:position, :created_at)
+  end
+
   def available?
     removed_at.nil? && stock > 0
   end

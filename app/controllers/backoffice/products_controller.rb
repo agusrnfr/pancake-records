@@ -24,7 +24,7 @@ class Backoffice::ProductsController < ApplicationController
     @product = Product.new(product_params.except(:genre_names))
     assign_genres(@product, product_params[:genre_names])
 
-    if @product.save
+    if @product.save && apply_image_changes(@product)
       redirect_to backoffice_products_path, notice: "Producto creado correctamente"
     else
       flash.now[:alert] = @product.errors.full_messages.join(". ")
@@ -39,7 +39,7 @@ class Backoffice::ProductsController < ApplicationController
     @product.assign_attributes(product_params.except(:genre_names))
     assign_genres(@product, product_params[:genre_names])
 
-    if @product.save
+    if @product.save && apply_image_changes(@product)
       redirect_to backoffice_products_path, notice: "Producto actualizado"
     else
       flash.now[:alert] = @product.errors.full_messages.join(". ")
@@ -73,7 +73,7 @@ class Backoffice::ProductsController < ApplicationController
 
   def product_params
     permitted = params.require(:product)
-                      .permit(:name, :description, :author, :price, :stock, :format, :condition, :inventory_entry_date, :genre_names, :audio_sample, images: [])
+                      .permit(:name, :description, :author, :price, :stock, :format, :condition, :inventory_entry_date, :genre_names, :audio_sample, :image_order, :image_remove_ids, images: [])
 
     if permitted.key?(:images)
       images_param = permitted[:images]
@@ -91,7 +91,32 @@ class Backoffice::ProductsController < ApplicationController
     product.genres = names.map { |n| Genre.find_or_create_by(name: n) }
   end
 
-  def set_product_with_images
-    @product = Product.includes(images_attachments: :blob).find(params[:id])
+  def apply_image_changes(product)
+    order = product.image_order.to_s
+    remove = product.image_remove_ids.to_s
+
+    attachments = product.images.attachments.index_by { |att| att.id.to_s }
+
+    ids_for_order = order.split(",").map(&:strip).reject(&:blank?)
+    ids_for_remove = remove.split(",").map(&:strip).reject(&:blank?)
+
+    attachments_to_remove = ids_for_remove.map { |id| attachments[id] }.compact
+    remaining_count = attachments.size - attachments_to_remove.size
+
+    if attachments.any? && remaining_count <= 0
+      product.errors.add(:base, "Debe mantenerse al menos una imagen para el producto")
+      return false
+    end
+
+    ids_for_order.each_with_index do |id, index|
+      attachment = attachments[id]
+      next unless attachment && attachment.respond_to?(:position)
+
+      attachment.update_column(:position, index)
+    end
+
+    attachments_to_remove.each(&:purge)
+
+    true
   end
 end

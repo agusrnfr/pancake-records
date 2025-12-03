@@ -37,7 +37,7 @@
           </div>
           <% if @product.images.count > 1 %>
             <div class="image-thumbnails">
-              <% @product.images.each do |img| %>
+              <% @product.ordered_images_attachments.each do |img| %>
                 <div class="thumbnail <%= 'active' if img == @product.cover_image %>"
                      data-gallery-target="thumbnail"
                      data-action="click->gallery#change"

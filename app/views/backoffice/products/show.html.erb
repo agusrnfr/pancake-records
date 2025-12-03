@@ -70,9 +70,9 @@
   <h2>Imágenes</h2>
   <% if @product.images.attached? %>
     <div class="image-preview-list">
-      <% @product.images.each do |img| %>
+      <% @product.ordered_images_attachments.each do |att| %>
         <div class="image-preview">
-          <%= image_tag img, class: "preview-img", alt: @product.name %>
+          <%= image_tag att, class: "preview-img", alt: @product.name %>
         </div>
       <% end %>
     </div>
