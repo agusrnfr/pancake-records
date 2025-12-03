@@ -107,9 +107,11 @@
                     <i class="fa-solid fa-eye" aria-hidden="true"></i>
                     <span class="sr-only">Ver</span>
                   <% end %>
-                  <%= link_to edit_backoffice_product_path(p), class: "icon-btn warning", aria: { label: "Editar #{p.name}" }, data: { turbo_frame: "_top" } do %>
-                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                    <span class="sr-only">Editar</span>
+                  <% unless p.removed_at %>
+                    <%= link_to edit_backoffice_product_path(p), class: "icon-btn warning", aria: { label: "Editar #{p.name}" }, data: { turbo_frame: "_top" } do %>
+                      <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+                      <span class="sr-only">Editar</span>
+                    <% end %>
                   <% end %>
                   <% if p.removed_at %>
                     <%= button_to restore_backoffice_product_path(p), method: :patch,

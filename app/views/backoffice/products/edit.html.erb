@@ -1,3 +1,7 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "backoffice/products" %>
+<% end %>
+
 <h1>Editar Producto</h1>
 <%= form_with model: [:backoffice, @product], html: { multipart: true }, local: true do |f| %>
   <%= render partial: "form", locals: { f: f } %>

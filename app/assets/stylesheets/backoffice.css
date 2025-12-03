@@ -8,9 +8,18 @@
 
 .sidebar {
 	width: 260px;
-	background: var(--color-side-bar);
+	background: linear-gradient(
+		135deg,
+		#bf8a26 0%,
+		#bf7c2a 25%,
+		#cf8d3c 50%,
+		#fbbd72 75%,
+		#efbf85 100%
+	);
 	color: #f2f2f2;
 	padding: 20px;
+	background-size: 400% 400%;
+	animation: sidebarGradientShift 10s ease-in-out infinite;
 	transition: width 0.3s ease, padding 0.3s ease;
 	position: fixed;
 	box-shadow: 4px 0 10px rgba(0, 0, 0, 0.15);
@@ -197,7 +206,7 @@
 	top: 20px;
 	left: 20px;
 	transform: translateX(180px);
-	background: var(--color-side-bar);
+	background: transparent;
 	border: none !important;
 	color: #f2f2f2;
 	cursor: pointer;
@@ -210,7 +219,7 @@
 }
 
 .sidebar-toggle:hover {
-	background: var(--color-side-bar-hover);
+	filter: brightness(0.9);
 }
 
 .sidebar.collapsed ~ .sidebar-toggle {
@@ -288,12 +297,54 @@ label {
 	border-radius: 8px;
 	overflow: hidden;
 	border: 1px solid #ddd;
+	position: relative;
 }
 
 .preview-img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+}
+
+.image-remove-btn {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	border: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	cursor: pointer;
+	font-size: 13px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+	z-index: 2;
+}
+
+.image-remove-btn i {
+	pointer-events: none;
+}
+
+.image-preview.is-marked-for-removal::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+}
+
+.image-preview.is-marked-for-removal .preview-img {
+	filter: grayscale(100%);
+}
+
+.images-help-text {
+	margin-top: 6px;
+	font-style: normal;
+	font-size: 12px;
+	color: #777;
 }
 
 .audio-preview {
@@ -326,7 +377,14 @@ label {
 	position: fixed;
 	top: 25px;
 	right: 25px;
-	background: var(--color-side-bar);
+	background: linear-gradient(
+		135deg,
+		#bf8a26 0%,
+		#bf7c2a 25%,
+		#cf8d3c 50%,
+		#fbbd72 75%,
+		#efbf85 100%
+	);
 	color: #f2f2f2 !important;
 	width: 52px;
 	height: 52px;
@@ -341,7 +399,27 @@ label {
 }
 
 .back-floating-btn:hover {
-	background: var(--color-side-bar-hover);
+	background: linear-gradient(
+		135deg,
+		#efbf85 0%,
+		#fbbd72 25%,
+		#cf8d3c 50%,
+		#bf7c2a 75%,
+		#bf8a26 100%
+	);
+	filter: brightness(0.9);
+}
+
+@keyframes sidebarGradientShift {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
 .flash {
 	padding: 12px 16px;

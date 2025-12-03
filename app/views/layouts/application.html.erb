@@ -33,7 +33,6 @@
     <div class="header-container">
       <div class="branding">
         <%= link_to root_path, class: "brand-link" do %>
-          <i class="fa-solid fa-music"></i>
           <span>Pancake Records</span>
         <% end %>
       </div>
@@ -45,7 +44,10 @@
             </div>
           </div>
           <div class="header-actions">
-            <%= link_to backoffice_root_path, class: "header-btn btn-backoffice", title: "Backoffice" do %>
+            <%= link_to backoffice_root_path,
+                        class: "header-btn btn-backoffice",
+                        title: "Backoffice",
+                        data: { turbo: false } do %>
               <i class="fa-solid fa-gear"></i>
               <span>Admin</span>
             <% end %>

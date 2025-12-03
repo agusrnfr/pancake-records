@@ -10,25 +10,80 @@
 
   <div class="product-detail-content">
     <!-- Imágenes del producto -->
-    <div class="product-images-section">
+    <div class="product-images-section" data-controller="gallery">
       <% if @product.images.attached? %>
-        <div class="main-image">
-          <% if @product.cover_image.present? %>
-            <%= image_tag @product.cover_image, class: "product-main-image", alt: @product.name %>
-          <% end %>
-        </div>
-        <% if @product.images.count > 1 %>
-          <div class="image-thumbnails">
-            <% @product.images.each do |img| %>
-              <div class="thumbnail <%= 'active' if img == @product.cover_image %>">
-                <%= image_tag img, alt: @product.name %>
-              </div>
+        <div class="product-images-carousel">
+          <div class="main-image">
+            <% if @product.cover_image.present? %>
+              <%= image_tag @product.cover_image,
+                            class: "product-main-image",
+                            alt: @product.name,
+                            data: { gallery_target: "mainImage" } %>
+            <% end %>
+            <% if @product.images.count > 1 %>
+              <button type="button"
+                      class="gallery-arrow gallery-arrow-left"
+                      aria-label="Imagen anterior"
+                      data-action="click->gallery#previous">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <button type="button"
+                      class="gallery-arrow gallery-arrow-right"
+                      aria-label="Imagen siguiente"
+                      data-action="click->gallery#next">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
             <% end %>
           </div>
-        <% end %>
+          <% if @product.images.count > 1 %>
+            <div class="image-thumbnails">
+              <% @product.ordered_images_attachments.each do |img| %>
+                <div class="thumbnail <%= 'active' if img == @product.cover_image %>"
+                     data-gallery-target="thumbnail"
+                     data-action="click->gallery#change"
+                     data-gallery-image-url-value="<%= url_for(img) %>">
+                  <%= image_tag img, alt: @product.name %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
       <% else %>
         <div class="product-image-placeholder large">
           <i class="fa-solid fa-music"></i>
+        </div>
+      <% end %>
+
+      <% if @product.audio_sample.attached? %>
+        <div class="audio-sample-section audio-sample-below-carousel"
+             data-controller="audio-player"
+             data-audio-player-src-value="<%= url_for(@product.audio_sample) %>">
+          <div class="audio-player-shell">
+            <button type="button"
+                    class="audio-play-button"
+                    data-audio-player-target="button"
+                    data-action="click->audio-player#toggle">
+              <i class="fa-solid fa-play"></i>
+            </button>
+
+            <div class="audio-player-main">
+              <div class="audio-player-title">Muestra de audio</div>
+
+              <div class="audio-progress"
+                   data-audio-player-target="progressContainer"
+                   data-action="click->audio-player#seek">
+                <div class="audio-progress-bar"
+                     data-audio-player-target="progressBar"></div>
+              </div>
+
+              <div class="audio-time">
+                <span data-audio-player-target="currentTime">0:00</span>
+                <span data-audio-player-target="duration">0:00</span>
+              </div>
+            </div>
+
+            <audio data-audio-player-target="audio" hidden></audio>
+          </div>
         </div>
       <% end %>
     </div>
@@ -54,10 +109,17 @@
       </div>
 
       <div class="product-stock-section">
-        <span class="stock-label">Stock disponible</span>
-        <span class="stock-value <%= 'low-stock' if @product.stock < 5 %>">
-          <%= @product.stock %> unidades
-        </span>
+        <% if @product.stock.to_i > 0 %>
+          <span class="stock-label">Stock disponible</span>
+          <span class="stock-value <%= 'low-stock' if @product.stock.to_i < 5 %>">
+            <%= @product.stock %> unidades
+          </span>
+        <% else %>
+          <span class="stock-label">Sin stock</span>
+          <span class="stock-value no-stock">
+            No hay unidades disponibles en este momento
+          </span>
+        <% end %>
       </div>
 
       <% if @product.description.present? %>
@@ -69,36 +131,20 @@
 
       <div class="product-details">
         <div class="detail-item">
-          <strong>Géneros:</strong>
+          <strong>Géneros</strong>
           <div class="genres-list">
             <% @product.genres.each do |genre| %>
               <span class="genre-tag"><%= genre.name %></span>
             <% end %>
           </div>
         </div>
-        <div class="detail-item">
-          <strong>Formato:</strong> <%= @product.format_name %>
-        </div>
-        <div class="detail-item">
-          <strong>Condición:</strong> <%= @product.condition_name %>
-        </div>
         <% if @product.inventory_entry_date.present? %>
           <div class="detail-item">
-            <strong>Fecha de ingreso:</strong> <%= l(@product.inventory_entry_date, format: :long) %>
+            <strong>Fecha de ingreso</strong> <%= l(@product.inventory_entry_date, format: :long) %>
           </div>
         <% end %>
       </div>
 
-      <!-- Audio sample para discos usados -->
-      <% if @product.condition == 'used' && @product.audio_sample.attached? %>
-        <div class="audio-sample-section">
-          <h2>Muestra de audio</h2>
-          <audio controls class="audio-player">
-            <source src="<%= url_for(@product.audio_sample) %>" type="audio/mpeg">
-            Tu navegador no soporta el elemento de audio.
-          </audio>
-        </div>
-      <% end %>
     </div>
   </div>
 

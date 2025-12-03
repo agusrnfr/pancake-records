@@ -221,7 +221,14 @@ form.button_to .icon-btn {
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
-	background: #d89a3b;
+	background: linear-gradient(
+		135deg,
+		#bf8a26 0%,
+		#bf7c2a 25%,
+		#cf8d3c 50%,
+		#fbbd72 75%,
+		#efbf85 100%
+	);
 	color: #f2f2f2 !important;
 	font-size: 30px;
 	display: flex;
@@ -232,7 +239,15 @@ form.button_to .icon-btn {
 }
 
 .floating-btn:hover {
-	filter: brightness(1.1);
+	background: linear-gradient(
+		135deg,
+		#efbf85 0%,
+		#fbbd72 25%,
+		#cf8d3c 50%,
+		#bf7c2a 75%,
+		#bf8a26 100%
+	);
+	filter: brightness(0.9);
 }
 
 .filters-form {
@@ -565,6 +580,54 @@ form.button_to .icon-btn.success i {
 }
 
 @media (max-width: 640px) {
+	.filters-form {
+		position: static;
+	}
+
+	.filters-grid {
+		grid-template-columns: 1fr;
+		gap: 12px;
+		padding-bottom: 0;
+	}
+
+	.filter-block {
+		width: 100%;
+		min-width: 0;
+	}
+
+	.buttons-block {
+		position: static;
+		width: 100%;
+		margin-top: 8px;
+		justify-content: flex-start;
+	}
+
+	.buttons-block .icon-btn {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
+	.pagination.wrapper {
+		align-items: stretch;
+	}
+
+	.pagination.wrapper .results-info {
+		align-self: auto;
+		text-align: left;
+		font-size: 11px;
+	}
+
+	.pagination.wrapper .pagination.bottom {
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+
+	.pagination.bottom .page-link,
+	.pagination.bottom .page-dots {
+		flex: 0 0 auto;
+	}
+
 	.product-meta {
 		grid-template-columns: 1fr;
 	}
@@ -575,6 +638,10 @@ form.button_to .icon-btn.success i {
 	.table-responsive,
 	.records-table {
 		width: 100%;
+	}
+
+	.table-responsive .records-table {
+		min-width: 100%;
 	}
 
 	.records-table thead {
@@ -615,8 +682,8 @@ form.button_to .icon-btn.success i {
 		justify-content: flex-start;
 		align-items: center;
 		gap: 10px;
-		flex-wrap: nowrap;
-		white-space: nowrap;
+		flex-wrap: wrap;
+		white-space: normal;
 	}
 }
 
