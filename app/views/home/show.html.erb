@@ -10,17 +10,37 @@
 
   <div class="product-detail-content">
     <!-- Imágenes del producto -->
-    <div class="product-images-section">
+    <div class="product-images-section" data-controller="gallery">
       <% if @product.images.attached? %>
         <div class="main-image">
           <% if @product.cover_image.present? %>
-            <%= image_tag @product.cover_image, class: "product-main-image", alt: @product.name %>
+            <%= image_tag @product.cover_image,
+                          class: "product-main-image",
+                          alt: @product.name,
+                          data: { gallery_target: "mainImage" } %>
+          <% end %>
+          <% if @product.images.count > 1 %>
+            <button type="button"
+                    class="gallery-arrow gallery-arrow-left"
+                    aria-label="Imagen anterior"
+                    data-action="click->gallery#previous">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button type="button"
+                    class="gallery-arrow gallery-arrow-right"
+                    aria-label="Imagen siguiente"
+                    data-action="click->gallery#next">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
           <% end %>
         </div>
         <% if @product.images.count > 1 %>
           <div class="image-thumbnails">
             <% @product.images.each do |img| %>
-              <div class="thumbnail <%= 'active' if img == @product.cover_image %>">
+              <div class="thumbnail <%= 'active' if img == @product.cover_image %>"
+                   data-gallery-target="thumbnail"
+                   data-action="click->gallery#change"
+                   data-gallery-image-url-value="<%= url_for(img) %>">
                 <%= image_tag img, alt: @product.name %>
               </div>
             <% end %>
@@ -76,22 +96,16 @@
 
       <div class="product-details">
         <div class="detail-item">
-          <strong>Géneros:</strong>
+          <strong>Géneros</strong>
           <div class="genres-list">
             <% @product.genres.each do |genre| %>
               <span class="genre-tag"><%= genre.name %></span>
             <% end %>
           </div>
         </div>
-        <div class="detail-item">
-          <strong>Formato:</strong> <%= @product.format_name %>
-        </div>
-        <div class="detail-item">
-          <strong>Condición:</strong> <%= @product.condition_name %>
-        </div>
         <% if @product.inventory_entry_date.present? %>
           <div class="detail-item">
-            <strong>Fecha de ingreso:</strong> <%= l(@product.inventory_entry_date, format: :long) %>
+            <strong>Fecha de ingreso</strong> <%= l(@product.inventory_entry_date, format: :long) %>
           </div>
         <% end %>
       </div>
