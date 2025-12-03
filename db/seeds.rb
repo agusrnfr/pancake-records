@@ -280,7 +280,7 @@ products = [
     image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Rage_Against_the_Machine_cover.jpg/1200px-Rage_Against_the_Machine_cover.jpg"
   },
   {
-    name: "Taylor Swift)",
+    name: "Taylor Swift",
     author: "Taylor Swift",
     description: "Álbum debut de Taylor Swift.",
     price: 8200, stock: 10,
@@ -476,14 +476,51 @@ products = [
     format: :cd, condition: :brand_new,
     genre: [genres[:metal], genres[:numetal]],
     image_url: "https://upload.wikimedia.org/wikipedia/en/8/86/Evanescence_-_Synthesis.png"
+  },
+  {
+    name: "Thank U, Next",
+    author: "Ariana Grande",
+    description: "Uno de los discos más exitosos de Ariana Grande.",
+    price: 9800, stock: 8,
+    format: :cd, condition: :brand_new,
+    genre: [genres[:pop], genres[:pop_rock]],
+    image_urls: ["https://www.udiscovermusic.com/wp-content/uploads/2019/01/ariana-grande-album-cover-copy.jpg", "https://www.pepevinyl.com/wp-content/uploads/2024/07/ArianaThank1.jpg"],
+    audio_file: "thank_u_next"
+  },
+  {
+    name: "Positions",
+    author: "Ariana Grande",
+    description: "Álbum de estudio con un sonido más R&B y pop.",
+    price: 9900, stock: 0,
+    format: :cd, condition: :brand_new,
+    genre: [genres[:pop], genres[:pop_rock]],
+    image_urls: ["https://upload.wikimedia.org/wikipedia/en/a/a0/Ariana_Grande_-_Positions.png", "https://i.pinimg.com/736x/e9/aa/92/e9aa92a5b62eb190de0a0b9ed357f4be.jpg"],
+    audio_file: "positions"
+  },
+  {
+    name: "Eternal Sunshine (Deluxe Edition)",
+    author: "Ariana Grande",
+    description: "Edición deluxe de Eternal Sunshine.",
+    price: 11500, stock: 5,
+    format: :vinyl, condition: :brand_new,
+    genre: [genres[:pop], genres[:electropop]],
+    image_urls: ["https://upload.wikimedia.org/wikipedia/en/1/12/Ariana_Grande_%E2%80%93_Eternal_Sunshine_Deluxe_%28album_cover%29.png", "https://suffragetterecords.com.au/cdn/shop/files/ariana2.jpg?v=1744017588&width=1445"],
+    audio_file: "eternal_sunshine_deluxe"
+  },
+  {
+    name: "Preacher's Daughter",
+    author: "Ethel Cain",
+    description: "Álbum conceptual con influencias de dream pop, gospel y rock alternativo.",
+    price: 9200, stock: 5,
+    format: :vinyl, condition: :brand_new,
+    genre: [genres[:alternative], genres[:indie_folk]],
+    image_urls: ["https://upload.wikimedia.org/wikipedia/en/7/74/Preachers_daughter_ethel_cain.png", "https://static.wikia.nocookie.net/ethel-cain/images/7/72/PD_%28Back_Cover%29.jpg/revision/latest/scale-to-width-down/250?cb=20251031195239"]
   }
 
 ]
 
 products.each do |data|
   begin
-    file = URI.open(data[:image_url])
-
     product = Product.new(
       name: data[:name],
       author: data[:author],
@@ -496,16 +533,39 @@ products.each do |data|
       inventory_entry_date: Date.today - rand(10..40).days
     )
 
-    product.images.attach(
-      io: file,
-      filename: "#{data[:name].parameterize}.jpg",
-      content_type: "image/jpeg"
-    )
+    image_urls = Array(data[:image_urls] || data[:image_url])
+
+    image_urls.each_with_index do |image_url, index|
+      file = URI.open(image_url)
+
+      product.images.attach(
+        io: file,
+        filename: index.zero? ? "#{data[:name].parameterize}.jpg" : "#{data[:name].parameterize}-#{index + 1}.jpg",
+        content_type: "image/jpeg"
+      )
+    end
+
+    if data[:audio_file].present?
+      audio_path = Rails.root.join("db", "seeds", "audio", "#{data[:audio_file]}.mp3")
+
+      if File.exist?(audio_path)
+        audio_file = File.open(audio_path)
+
+        product.audio_sample.attach(
+          io: audio_file,
+          filename: File.basename(audio_path),
+          content_type: "audio/mpeg"
+        )
+
+        puts "🎧 Audio adjuntado para #{product.name}"
+      else
+        puts "⚠️  Archivo de audio no encontrado para #{product.name}: #{audio_path}"
+      end
+    end
 
     product.save!
-    file.close
 
-    puts "📀 Creado #{product.name} con imagen"
+    puts "📀 Creado #{product.name} con #{image_urls.size} imagen(es)"
   rescue => e
     puts "⚠️  Error al crear #{data[:name]}: #{e.message}"
   end
