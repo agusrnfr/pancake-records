@@ -206,14 +206,7 @@
 	top: 20px;
 	left: 20px;
 	transform: translateX(180px);
-	background: linear-gradient(
-		135deg,
-		#bf8a26 0%,
-		#bf7c2a 25%,
-		#cf8d3c 50%,
-		#fbbd72 75%,
-		#efbf85 100%
-	);
+	background: transparent;
 	border: none !important;
 	color: #f2f2f2;
 	cursor: pointer;
@@ -226,14 +219,6 @@
 }
 
 .sidebar-toggle:hover {
-	background: linear-gradient(
-		135deg,
-		#efbf85 0%,
-		#fbbd72 25%,
-		#cf8d3c 50%,
-		#bf7c2a 75%,
-		#bf8a26 100%
-	);
 	filter: brightness(0.9);
 }
 
