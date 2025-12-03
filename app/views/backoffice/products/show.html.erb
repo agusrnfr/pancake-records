@@ -1,3 +1,7 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "backoffice/products" %>
+<% end %>
+
 <div class="show-header">
   <h1><%= @product.name %></h1>
   <% unless @product.removed_at %>

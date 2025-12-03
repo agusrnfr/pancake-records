@@ -54,7 +54,7 @@
               <i class="fa-solid fa-cash-register"></i>
               <span class="link-text">Ventas</span>
             <% end %>
-            <%= link_to "/", class: "nav-link", title: "Catálogo", aria: { label: "Catálogo" } do %>
+            <%= link_to "/", class: "nav-link", title: "Catálogo", aria: { label: "Catálogo" }, data: { turbo: false } do %>
               <i class="fa-solid fa-store"></i>
               <span class="link-text">Catálogo</span>
             <% end %>

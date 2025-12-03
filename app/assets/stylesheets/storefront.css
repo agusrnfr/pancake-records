@@ -559,7 +559,7 @@ body > .container {
 	margin-bottom: 1.5rem;
 }
 
-.search-input {
+.storefront .search-input {
 	flex: 1;
 	padding: 0.75rem 1rem;
 	border: 1px solid var(--color-input-border);
@@ -585,7 +585,7 @@ body > .container {
 	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
-.filters-grid {
+.storefront .filters-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 	gap: 1rem;
@@ -607,8 +607,8 @@ body > .container {
 	font-size: 0.85rem;
 }
 
-.filter-select,
-.filter-input {
+.storefront .filter-select,
+.storefront .filter-input {
 	margin-bottom: 0;
 	border: 2px solid #e9ecef;
 	border-radius: 8px;
@@ -617,14 +617,14 @@ body > .container {
 	background: white;
 }
 
-.filter-select:focus,
-.filter-input:focus {
+.storefront .filter-select:focus,
+.storefront .filter-input:focus {
 	outline: none;
 	border-color: #bf8a26;
 	box-shadow: 0 0 0 3px rgba(191, 138, 38, 0.1);
 }
 
-.filter-actions {
+.storefront .filter-actions {
 	display: flex;
 	gap: 0.5rem;
 	align-items: end;
@@ -1031,24 +1031,24 @@ body > .container {
 	flex-wrap: wrap;
 }
 
-.badge {
+.product-badges .badge {
 	padding: 0.5rem 1rem;
 	border-radius: 4px;
 	font-size: 0.85rem;
 	font-weight: 600;
 }
 
-.badge.used {
+.product-badges .badge.used {
 	background: #ffc107;
 	color: #333;
 }
 
-.badge.new {
+.product-badges .badge.new {
 	background: #28a745;
 	color: white;
 }
 
-.badge.format {
+.product-badges .badge.format {
 	background: var(--color-surface);
 	color: var(--color-text);
 	border: 1px solid var(--color-border);
