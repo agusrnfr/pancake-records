@@ -221,7 +221,14 @@ form.button_to .icon-btn {
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
-	background: #d89a3b;
+	background: linear-gradient(
+		135deg,
+		#bf8a26 0%,
+		#bf7c2a 25%,
+		#cf8d3c 50%,
+		#fbbd72 75%,
+		#efbf85 100%
+	);
 	color: #f2f2f2 !important;
 	font-size: 30px;
 	display: flex;
@@ -232,7 +239,15 @@ form.button_to .icon-btn {
 }
 
 .floating-btn:hover {
-	filter: brightness(1.1);
+	background: linear-gradient(
+		135deg,
+		#efbf85 0%,
+		#fbbd72 25%,
+		#cf8d3c 50%,
+		#bf7c2a 75%,
+		#bf8a26 100%
+	);
+	filter: brightness(0.9);
 }
 
 .filters-form {
