@@ -55,12 +55,35 @@
       <% end %>
 
       <% if @product.audio_sample.attached? %>
-        <div class="audio-sample-section audio-sample-below-carousel">
-          <h2>Muestra de audio</h2>
-          <audio controls class="audio-player">
-            <source src="<%= url_for(@product.audio_sample) %>" type="audio/mpeg">
-            Tu navegador no soporta el elemento de audio.
-          </audio>
+        <div class="audio-sample-section audio-sample-below-carousel"
+             data-controller="audio-player"
+             data-audio-player-src-value="<%= url_for(@product.audio_sample) %>">
+          <div class="audio-player-shell">
+            <button type="button"
+                    class="audio-play-button"
+                    data-audio-player-target="button"
+                    data-action="click->audio-player#toggle">
+              <i class="fa-solid fa-play"></i>
+            </button>
+
+            <div class="audio-player-main">
+              <div class="audio-player-title">Muestra de audio</div>
+
+              <div class="audio-progress"
+                   data-audio-player-target="progressContainer"
+                   data-action="click->audio-player#seek">
+                <div class="audio-progress-bar"
+                     data-audio-player-target="progressBar"></div>
+              </div>
+
+              <div class="audio-time">
+                <span data-audio-player-target="currentTime">0:00</span>
+                <span data-audio-player-target="duration">0:00</span>
+              </div>
+            </div>
+
+            <audio data-audio-player-target="audio" hidden></audio>
+          </div>
         </div>
       <% end %>
     </div>
