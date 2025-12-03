@@ -8,7 +8,7 @@
 	function ensureToggleButton(sidebar) {
 		if (!sidebar) return null;
 
-		let btn = sidebar.querySelector(".sidebar-toggle");
+		let btn = document.querySelector(".sidebar-toggle");
 		if (btn) return btn;
 
 		btn = document.createElement("button");
@@ -16,8 +16,8 @@
 		btn.className = "sidebar-toggle";
 		btn.setAttribute("aria-label", "Toggle sidebar");
 		btn.innerHTML = `<i class="fa-solid fa-angles-left" aria-hidden="true"></i>`;
+		sidebar.insertAdjacentElement("afterend", btn);
 
-		sidebar.insertBefore(btn, sidebar.firstChild);
 		return btn;
 	}
 
@@ -43,7 +43,7 @@
 			const toggle = target.closest && target.closest(".sidebar-toggle");
 			if (toggle) {
 	
-				const sidebar = toggle.closest(".sidebar");
+				const sidebar = document.querySelector(".sidebar");
 				toggleSidebar(sidebar);
 			}
 		});

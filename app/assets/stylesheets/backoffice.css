@@ -184,7 +184,7 @@
 	margin-left: 250px;
 }
 
-.sidebar.collapsed + .content {
+.sidebar.collapsed ~ .content {
 	margin-left: 80px;
 }
 
@@ -193,9 +193,10 @@
 }
 
 .sidebar-toggle {
-	position: absolute;
-	top: 4px;
-	right: 4px;
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	transform: translateX(180px);
 	background: var(--color-side-bar);
 	border: none !important;
 	color: #f2f2f2;
@@ -203,18 +204,18 @@
 	padding: 8px 10px;
 	border-radius: 50%;
 	font-size: 16px;
-	transition: background 0.3s ease, transform 0.3s ease;
+	transition: transform 0.35s ease, background 0.3s ease;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+	z-index: 1100;
 }
 
 .sidebar-toggle:hover {
 	background: var(--color-side-bar-hover);
 }
 
-.sidebar.collapsed .sidebar-toggle {
-	transform: rotate(180deg);
-	position: relative;
-	right: -10px;
+.sidebar.collapsed ~ .sidebar-toggle {
+	transform: translateX(0);
+	rotate: 180deg;
 }
 
 .sidebar,
@@ -336,6 +337,7 @@ label {
 	font-size: 22px;
 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 	text-decoration: none;
+	z-index: 1100;
 }
 
 .back-floating-btn:hover {
@@ -358,4 +360,69 @@ label {
 	background: #ffe5e5;
 	color: #8a1f1f;
 	border: 1px solid #ffb3b3;
+}
+
+@media (max-width: 768px) {
+	.sidebar-toggle {
+		left: 20px;
+		transform: none !important;
+	}
+	.sidebar {
+		width: 80px !important;
+		padding: 20px 10px !important;
+		backdrop-filter: blur(6px);
+		opacity: 0.90;
+		height: 100vh;
+	}
+
+	.sidebar.collapsed {
+		display: none !important;
+	}
+
+	.sidebar .menu-icons {
+		flex-direction: column;
+		gap: 8px;
+		align-items: center;
+		margin: 6px 0 16px;
+	}
+
+	.sidebar .menu-icon {
+		width: 38px;
+		height: 38px;
+		font-size: 18px;
+	}
+
+	.content {
+		margin-left: 0 !important;
+	}
+
+	.sidebar .avatar img {
+		transform: translateY(110px);
+		width: 50px;
+		height: 50px;
+	}
+
+	.sidebar .user-info {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.sidebar .navigation-links .nav-link {
+		padding: 8px 0;
+		gap: 0;
+	}
+
+	.sidebar .navigation-links .link-text {
+		display: none;
+	}
+
+	.sidebar .navigation-links .nav-link i {
+		font-size: 20px;
+	}
+
+	.back-floating-btn {
+		width: 42px;
+  		height: 42px;
+		font-size: 20px;
+	}
 }

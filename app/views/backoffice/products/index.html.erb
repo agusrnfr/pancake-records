@@ -56,81 +56,85 @@
               data: { action: "change->live-search#changed" } %>
       </div>
     </div>
-          <div class="buttons-block">
-        <button type="submit" class="icon-btn search">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-        <%= link_to backoffice_products_path,
+    <div class="buttons-block">
+      <button type="submit" class="icon-btn search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+      <%= link_to backoffice_products_path,
             class: "icon-btn clear" do %>
-          <i class="fa-solid fa-broom"></i>
-        <% end %>
-      </div>
+        <i class="fa-solid fa-broom"></i>
+      <% end %>
+    </div>
   <% end %>
 </section>
 <% if @products.any? %>
   <%= turbo_frame_tag :products_list do %>
-    <table class="records-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Autor</th>
-          <th>Formato</th>
-          <th>Condición</th>
-          <th>Stock</th>
-          <th>Estado</th>
-          <th class="actions-col">Acciones</th>
-        </tr>
-      </thead>
-      <tbody class="records-body">
-        <% @products.each do |p| %>
-          <tr class="<%= p.removed_at ? "removed-row" : "" %>">
-            <td><%= p.name %></td>
-            <td><%= p.author %></td>
-            <td><%= p.format_name %></td>
-            <td><%= p.condition_name %></td>
-            <td>
-              <span class="stock-value"><%= p.stock %></span>
-            </td>
-            <td>
-              <% if p.removed_at %>
-                <span class="status removed">Eliminado</span>
-              <% elsif p.stock == 0 %>
-                <span class="status nodata">Sin stock</span>
-              <% else %>
-                <span class="status ok">Disponible</span>
-              <% end %>
-            </td>
-            <td class="actions">
-              <%= link_to backoffice_product_path(p), class: "icon-btn view", aria: { label: "Ver #{p.name}" }, data: { turbo_frame: "_top" } do %>
-                <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                <span class="sr-only">Ver</span>
-              <% end %>
-              <%= link_to edit_backoffice_product_path(p), class: "icon-btn warning", aria: { label: "Editar #{p.name}" }, data: { turbo_frame: "_top" } do %>
-                <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                <span class="sr-only">Editar</span>
-              <% end %>
-              <% if p.removed_at %>
-                <%= button_to restore_backoffice_product_path(p), method: :patch,
+    <div class="table-responsive">
+      <table class="records-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Autor</th>
+            <th>Formato</th>
+            <th>Condición</th>
+            <th>Stock</th>
+            <th>Estado</th>
+            <th class="actions-col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="records-body">
+          <% @products.each do |p| %>
+            <tr class="<%= p.removed_at ? "removed-row" : "" %>">
+              <td data-label="Nombre" ><%= p.name %></td>
+              <td data-label="Autor" ><%= p.author %></td>
+              <td data-label="Formato" ><%= p.format_name %></td>
+              <td data-label="Condición" ><%= p.condition_name %></td>
+              <td data-label="Stock" >
+                <span class="stock-value"><%= p.stock %></span>
+              </td>
+              <td data-label="Estado" >
+                <% if p.removed_at %>
+                  <span class="status removed">Eliminado</span>
+                <% elsif p.stock == 0 %>
+                  <span class="status nodata">Sin stock</span>
+                <% else %>
+                  <span class="status ok">Disponible</span>
+                <% end %>
+              </td>
+              <td data-label="Acciones" class="actions">
+                <div class="actions-cell">
+                  <%= link_to backoffice_product_path(p), class: "icon-btn view", aria: { label: "Ver #{p.name}" }, data: { turbo_frame: "_top" } do %>
+                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                    <span class="sr-only">Ver</span>
+                  <% end %>
+                  <%= link_to edit_backoffice_product_path(p), class: "icon-btn warning", aria: { label: "Editar #{p.name}" }, data: { turbo_frame: "_top" } do %>
+                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+                    <span class="sr-only">Editar</span>
+                  <% end %>
+                  <% if p.removed_at %>
+                    <%= button_to restore_backoffice_product_path(p), method: :patch,
                     class: "icon-btn restore separator-left",
                     aria: { label: "Restaurar #{p.name}" },
                     data: { turbo_confirm: "¿Restaurar #{p.name}?" } do %>
-                  <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
-                  <span class="sr-only">Restaurar</span>
-                <% end %>
-              <% else %>
-                <%= button_to soft_delete_backoffice_product_path(p), method: :patch,
+                      <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                      <span class="sr-only">Restaurar</span>
+                    <% end %>
+                  <% else %>
+                    <%= button_to soft_delete_backoffice_product_path(p), method: :patch,
                     class: "icon-btn danger separator-left",
                     aria: { label: "Eliminar #{p.name}" },
                     data: { turbo_confirm: "¿Seguro que querés eliminar #{p.name}?" } do %>
-                  <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                  <span class="sr-only">Eliminar</span>
-                <% end %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+                      <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                      <span class="sr-only">Eliminar</span>
+                    <% end %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   <% end %>
 <% else %>
   <div class="empty-state">

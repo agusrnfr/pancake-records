@@ -1,5 +1,6 @@
-#category-nav, #catalogo {
-  scroll-margin-top: 80px;
+#category-nav,
+#catalogo {
+	scroll-margin-top: 80px;
 }
 
 html {
@@ -54,24 +55,24 @@ body > .container {
 }
 
 .branding {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin: 0;
+	font-family: "Montserrat", sans-serif;
+	font-size: 1.8rem;
+	font-weight: 700;
+	margin: 0;
 }
 
 .brand-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: #BF8A26 !important;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-family: 'Montserrat', sans-serif;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	color: #bf8a26 !important;
+	text-decoration: none;
+	transition: all 0.3s ease;
+	font-family: "Montserrat", sans-serif;
 }
 
 .brand-link:hover {
-  transform: scale(1.05);
+	transform: scale(1.05);
 }
 
 .header-right {
@@ -93,7 +94,7 @@ body > .container {
 	width: 45px;
 	height: 45px;
 	border-radius: 50%;
-	background: linear-gradient(135deg, #BF8A26 0%, #efbf85 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	color: white;
 	font-size: 1.8rem;
 	cursor: pointer;
@@ -221,7 +222,7 @@ body > .container {
 }
 
 .btn-login {
-	background: linear-gradient(135deg, #BF8A26 0%, #efbf85 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	color: white;
 	box-shadow: 0 2px 8px rgba(191, 138, 38, 0.3);
 }
@@ -300,9 +301,9 @@ body > .container {
 	align-items: center;
 	background: linear-gradient(
 		135deg,
-		#BF8A26 0%,
-		#BF7C2A 25%,
-		#CF8D3C 50%,
+		#bf8a26 0%,
+		#bf7c2a 25%,
+		#cf8d3c 50%,
 		#fbbd72 75%,
 		#efbf85 100%
 	);
@@ -371,7 +372,7 @@ body > .container {
 	gap: 0.75rem;
 	padding: 1rem 2rem;
 	background: rgba(255, 255, 255, 0.95);
-	color: #BF8A26;
+	color: #bf8a26;
 	text-decoration: none;
 	border-radius: 50px;
 	font-weight: 700;
@@ -454,7 +455,7 @@ body > .container {
 	top: 20px;
 	left: 20px;
 	z-index: 3;
-	background: radial-gradient(circle at 30% 30%, #BF8A26, #BF7C2A);
+	background: radial-gradient(circle at 30% 30%, #bf8a26, #bf7c2a);
 	animation-duration: 18s;
 	animation-direction: reverse;
 }
@@ -463,7 +464,7 @@ body > .container {
 	top: 40px;
 	left: 40px;
 	z-index: 2;
-	background: radial-gradient(circle at 30% 30%, #BF7C2A, #CF8D3C);
+	background: radial-gradient(circle at 30% 30%, #bf7c2a, #cf8d3c);
 	animation-duration: 22s;
 }
 
@@ -471,7 +472,7 @@ body > .container {
 	top: 60px;
 	left: 60px;
 	z-index: 1;
-	background: radial-gradient(circle at 30% 30%, #CF8D3C, #fbbd72);
+	background: radial-gradient(circle at 30% 30%, #cf8d3c, #fbbd72);
 	animation-duration: 25s;
 	animation-direction: reverse;
 }
@@ -516,7 +517,7 @@ body > .container {
 	left: 0;
 	right: 0;
 	height: 1px;
-	background: linear-gradient(90deg, transparent, #BF8A26, transparent);
+	background: linear-gradient(90deg, transparent, #bf8a26, transparent);
 }
 
 .storefront-header {
@@ -527,7 +528,7 @@ body > .container {
 .storefront-header h1 {
 	font-size: 2.8rem;
 	margin-bottom: 0.5rem;
-	background: linear-gradient(135deg, #BF8A26 0%, #efbf85 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
@@ -566,7 +567,7 @@ body > .container {
 
 .search-btn {
 	padding: 0.75rem 1.5rem;
-	background: linear-gradient(135deg, #BF8A26 0%, #efbf85 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	color: white;
 	border: none;
 	border-radius: 8px;
@@ -577,7 +578,7 @@ body > .container {
 }
 
 .search-btn:hover {
-	background: linear-gradient(135deg, #efbf85 0%, #BF8A26 100%);
+	background: linear-gradient(135deg, #efbf85 0%, #bf8a26 100%);
 	transform: translateY(-2px);
 	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
@@ -617,7 +618,7 @@ body > .container {
 .filter-select:focus,
 .filter-input:focus {
 	outline: none;
-	border-color: #BF8A26;
+	border-color: #bf8a26;
 	box-shadow: 0 0 0 3px rgba(191, 138, 38, 0.1);
 }
 
@@ -641,13 +642,13 @@ body > .container {
 }
 
 .btn-primary {
-	background: linear-gradient(135deg, #BF8A26 0%, #efbf85 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	color: white;
 	box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .btn-primary:hover {
-	background: linear-gradient(135deg, #efbf85 0%, #BF8A26 100%);
+	background: linear-gradient(135deg, #efbf85 0%, #bf8a26 100%);
 	transform: translateY(-2px);
 	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
@@ -673,7 +674,7 @@ body > .container {
 	font-size: 1.5rem;
 	margin-bottom: 1.5rem;
 	font-weight: 700;
-	background: linear-gradient(135deg, #BF8A26 0%, #efbf85 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
@@ -700,15 +701,15 @@ body > .container {
 
 .category-btn:hover {
 	background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-	border-color: #BF8A26;
+	border-color: #bf8a26;
 	transform: translateY(-2px);
 	box-shadow: 0 4px 8px rgba(191, 138, 38, 0.2);
 }
 
 .category-btn.active {
-	background: linear-gradient(135deg, #BF8A26 0%, #efbf85 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	color: white;
-	border-color: #BF8A26;
+	border-color: #bf8a26;
 	box-shadow: 0 4px 12px rgba(191, 138, 38, 0.3);
 }
 
@@ -736,7 +737,7 @@ body > .container {
 .product-card:hover {
 	transform: translateY(-8px) scale(1.02);
 	box-shadow: 0 8px 24px rgba(191, 138, 38, 0.2);
-	border-color: #BF8A26;
+	border-color: #bf8a26;
 }
 
 .product-link {
@@ -856,7 +857,7 @@ body > .container {
 .product-price {
 	font-size: 1.3rem;
 	font-weight: 700;
-	background: linear-gradient(135deg, #BF8A26 0%, #efbf85 100%);
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
@@ -1154,7 +1155,7 @@ body > .container {
 }
 
 #category-nav {
-  scroll-margin-top: 80px; /* Ajusta el valor según la altura de tu nav fijo */
+	scroll-margin-top: 80px; /* Ajusta el valor según la altura de tu nav fijo */
 }
 
 /* Responsive */
@@ -1218,4 +1219,215 @@ body > .container {
 	.storefront-header h1 {
 		font-size: 2rem;
 	}
+
+	.auth-page {
+		min-height: calc(100vh - 70px);
+		padding: 3rem 1rem;
+	}
+
+	.auth-card {
+		padding: 2rem 1.5rem;
+	}
+
+	.auth-title {
+		font-size: 1.6rem;
+	}
+}
+
+/* Auth / Login Page */
+.auth-page {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(
+		135deg,
+		#bf8a26 0%,
+		#bf7c2a 25%,
+		#cf8d3c 50%,
+		#fbbd72 75%,
+		#efbf85 100%
+	);
+	background-size: 200% 200%;
+	animation: gradientShift 18s ease infinite;
+}
+
+.auth-card {
+	width: 100%;
+	max-width: 460px;
+	background: rgba(255, 255, 255, 0.96);
+	border-radius: 24px;
+	padding: 2.5rem 2.25rem;
+	box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+	border: 1px solid rgba(255, 255, 255, 0.7);
+	backdrop-filter: blur(12px);
+	position: relative;
+	overflow: hidden;
+}
+
+.auth-card::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(
+			circle at 0% 0%,
+			rgba(191, 138, 38, 0.15),
+			transparent 55%
+		),
+		radial-gradient(
+			circle at 100% 100%,
+			rgba(239, 191, 133, 0.18),
+			transparent 55%
+		);
+	opacity: 0.9;
+	pointer-events: none;
+}
+
+.auth-card > * {
+	position: relative;
+	z-index: 1;
+}
+
+.auth-card-header {
+	text-align: center;
+	margin-bottom: 1.75rem;
+}
+
+.auth-icon {
+	width: 64px;
+	height: 64px;
+	margin: 0 auto 1rem;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, #bf8a26 0%, #efbf85 100%);
+	color: #fff;
+	box-shadow: 0 10px 26px rgba(191, 138, 38, 0.45);
+}
+
+.auth-icon i {
+	font-size: 1.8rem;
+}
+
+.auth-title {
+	margin: 0 0 0.35rem;
+	font-size: 1.9rem;
+	font-weight: 800;
+	background: linear-gradient(135deg, #bf8a26 0%, #bf7c2a 40%, #efbf85 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+.auth-subtitle {
+	margin: 0;
+	font-size: 0.95rem;
+	color: #6c757d;
+}
+
+.auth-card-body form {
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	border: none;
+}
+
+.auth-field {
+	margin-bottom: 1.05rem;
+}
+
+.auth-field label {
+	display: block;
+	margin-bottom: 0.35rem;
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: #495057;
+}
+
+.auth-field input[type="email"],
+.auth-field input[type="password"] {
+	width: 100%;
+	padding: 0.7rem 0.85rem;
+	border-radius: 10px;
+	border: 1px solid var(--color-input-border);
+	background-color: #fff;
+	font-size: 0.95rem;
+	transition: all 0.2s ease;
+}
+
+.auth-field input[type="email"]:focus,
+.auth-field input[type="password"]:focus {
+	outline: none;
+	border-color: #bf8a26;
+	box-shadow: 0 0 0 3px rgba(191, 138, 38, 0.16);
+}
+
+.auth-remember {
+	margin-bottom: 1.2rem;
+}
+
+.remember-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	font-size: 0.9rem;
+	color: #555;
+	cursor: pointer;
+}
+
+.remember-label input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+	accent-color: #bf8a26;
+	margin: 0;
+}
+
+.auth-actions {
+	display: flex;
+	justify-content: center;
+	margin-top: 0.5rem;
+}
+
+.auth-submit {
+	width: 100%;
+	justify-content: center;
+	padding: 0.85rem 1.5rem;
+	border-radius: 999px;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	background: linear-gradient(135deg, #bf8a26 0%, #bf7c2a 35%, #efbf85 100%);
+	border: none;
+	box-shadow: 0 10px 26px rgba(191, 138, 38, 0.5);
+}
+
+.auth-submit:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 14px 30px rgba(191, 138, 38, 0.6);
+}
+
+.auth-flash {
+	margin-top: 0.5rem;
+	margin-bottom: 0.75rem;
+	font-size: 0.9rem;
+}
+
+.auth-card-footer {
+	margin-top: 1.5rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid rgba(0, 0, 0, 0.06);
+	font-size: 0.9rem;
+	text-align: center;
+	color: #555;
+}
+
+.auth-card-footer a {
+	color: #bf8a26;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.auth-card-footer a:hover {
+	text-decoration: underline;
 }
