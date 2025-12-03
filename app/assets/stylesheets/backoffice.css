@@ -445,11 +445,23 @@ label {
 		left: 20px;
 		transform: none !important;
 	}
+
+	.sidebar.collapsed ~ .sidebar-toggle {
+		background: linear-gradient(
+			135deg,
+			#bf8a26 0%,
+			#bf7c2a 25%,
+			#cf8d3c 50%,
+			#fbbd72 75%,
+			#efbf85 100%
+		);
+	}
+
 	.sidebar {
 		width: 80px !important;
 		padding: 20px 10px !important;
 		backdrop-filter: blur(6px);
-		opacity: 0.90;
+		opacity: 0.9;
 		height: 100vh;
 	}
 
@@ -500,7 +512,7 @@ label {
 
 	.back-floating-btn {
 		width: 42px;
-  		height: 42px;
+		height: 42px;
 		font-size: 20px;
 	}
 }
