@@ -1,8 +1,10 @@
 <div class="show-header">
   <h1><%= @product.name %></h1>
-  <%= link_to edit_backoffice_product_path(@product), class: "icon-btn warning", aria: { label: "Editar #{@product.name}" }, data: { turbo_frame: "_top" } do %>
-    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-    <span class="sr-only">Editar</span>
+  <% unless @product.removed_at %>
+    <%= link_to edit_backoffice_product_path(@product), class: "icon-btn warning", aria: { label: "Editar #{@product.name}" }, data: { turbo_frame: "_top" } do %>
+      <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+      <span class="sr-only">Editar</span>
+    <% end %>
   <% end %>
   <% if @product.removed_at %>
     <%= button_to restore_backoffice_product_path(@product), method: :patch,
