@@ -85,7 +85,7 @@
         </div>
 
         <div class="filter-group">
-          <label>Año</label>
+          <label>Año de ingreso</label>
           <%= f.number_field :year_eq,
                 placeholder: "Ej: 2020",
                 class: "filter-input",
@@ -110,6 +110,9 @@
     <div class="category-buttons">
   <%= link_to root_path + '#category-nav', class: "category-btn #{'active' if params[:q].blank?}" do %>
         Todos
+      <% end %>
+  <%= link_to root_path(q: { stock_gt: 0 }) + '#category-nav', class: "category-btn #{'active' if params.dig(:q, :stock_gt).present?}" do %>
+        En stock
       <% end %>
   <%= link_to root_path(q: { format_eq: "0" }) + '#category-nav', class: "category-btn #{'active' if params.dig(:q, :format_eq) == '0'}" do %>
         Vinilos
@@ -136,7 +139,7 @@
     <% if @products.any? %>
       <div class="products-grid">
         <% @products.each do |product| %>
-          <div class="product-card">
+          <div class="product-card <%= 'out-of-stock' if product.stock.to_i <= 0 %>">
             <%= link_to product_path(product), class: "product-link" do %>
               <div class="product-image-wrapper">
                 <% if product.cover_image.present? %>
@@ -150,6 +153,11 @@
                   <span class="product-badge used">Usado</span>
                 <% else %>
                   <span class="product-badge new">Nuevo</span>
+                <% end %>
+                <% if product.stock.to_i <= 0 %>
+                  <div class="product-out-of-stock-overlay">
+                    <span>Sin stock</span>
+                  </div>
                 <% end %>
               </div>
               <div class="product-info">
@@ -166,8 +174,12 @@
                 </div>
                 <div class="product-footer">
                   <span class="product-price"><%= number_to_currency(product.price, unit: "$", separator: ".", delimiter: ",") %></span>
-                  <span class="product-stock <%= 'low-stock' if product.stock < 5 %>">
-                    <%= product.stock %> disponibles
+                  <span class="product-stock <%= 'low-stock' if product.stock.to_i < 5 && product.stock.to_i > 0 %>">
+                    <% if product.stock.to_i > 0 %>
+                      <%= product.stock %> disponibles
+                    <% else %>
+                      Sin stock
+                    <% end %>
                   </span>
                 </div>
               </div>

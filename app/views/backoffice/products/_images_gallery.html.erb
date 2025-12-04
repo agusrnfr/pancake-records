@@ -2,14 +2,38 @@
   <% # Usar attachments inyectados si se pasan desde turbo stream para asegurar consistencia %>
   <% imgs = (defined?(attachments) && attachments.present?) ? attachments : product.images.attachments %>
   <% imgs = imgs.select(&:persisted?) %>
+  <% imgs = imgs.sort_by { |att| [att.try(:position) || 0, att.created_at] } %>
   <% if imgs.any? %>
-    <div class="image-preview-list">
-      <% imgs.each do |att| %>
-        <div class="image-preview">
-          <%= image_tag att, class: "preview-img", alt: product.name %>
-        </div>
-      <% end %>
+    <div data-controller="images-sort">
+      <%= hidden_field_tag "product[image_order]",
+                           imgs.map(&:id).join(","),
+                           id: nil,
+                           data: { "images-sort-target": "hiddenInput" } %>
+      <%= hidden_field_tag "product[image_remove_ids]",
+                           "",
+                           id: nil,
+                           data: { "images-sort-target": "removeInput" } %>
+
+      <div class="image-preview-list">
+        <% imgs.each do |att| %>
+          <div class="image-preview"
+               data-images-sort-target="item"
+               data-attachment-id="<%= att.id %>"
+               draggable="true">
+            <%= image_tag att, class: "preview-img", alt: product.name %>
+            <button type="button"
+                    class="image-remove-btn"
+                    title="Eliminar imagen"
+                    data-action="click->images-sort#toggleRemove">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        <% end %>
+      </div>
     </div>
+    <p class="images-help-text">
+      Podés arrastrar las imágenes para cambiar el orden y hacer clic en el ícono de la papelera para marcarlas para eliminar.
+    </p>
   <% else %>
     <p class="empty-info">No hay imágenes adjuntas</p>
   <% end %>

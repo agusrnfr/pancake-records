@@ -11,7 +11,7 @@
             method: :get,
             class: "filters-form",
             data: { controller: "live-search", 'live-search-target': 'form' } do |f| %>
-  <%= hidden_field_tag :page, params[:page] || 1 %>
+    <%= hidden_field_tag :page, params[:page] || 1 %>
     <div class="filters-grid">
       <div class="filter-block">
         <label for="q_name_cont">Nombre</label>
@@ -42,67 +42,69 @@
               data: { action: "change->live-search#changed" } %>
       </div>
     </div>
-          <div class="buttons-block">
-        <button type="submit" class="icon-btn search" aria-label="Buscar">
-          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-          <span class="sr-only">Buscar</span>
-        </button>
-        <%= link_to backoffice_users_path,
+    <div class="buttons-block">
+      <button type="submit" class="icon-btn search" aria-label="Buscar">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <span class="sr-only">Buscar</span>
+      </button>
+      <%= link_to backoffice_users_path,
               class: "icon-btn clear",
               aria: { label: "Limpiar filtros" } do %>
-          <i class="fa-solid fa-broom" aria-hidden="true"></i>
-          <span class="sr-only">Limpiar</span>
-        <% end %>
-      </div>
+        <i class="fa-solid fa-broom" aria-hidden="true"></i>
+        <span class="sr-only">Limpiar</span>
+      <% end %>
+    </div>
   <% end %>
 </section>
 <% if @users.any? %>
   <%= turbo_frame_tag :users_list do %>
-    <table class="records-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Email</th>
-          <th>Rol</th>
-          <th>Estado</th>
-          <th class="actions-col">Acciones</th>
-        </tr>
-      </thead>
-      <tbody class="records-body">
-        <% @users.each do |u| %>
+    <div class="table-responsive">
+      <table class="records-table">
+        <thead>
           <tr>
-            <td><%= u.name %></td>
-            <td><%= u.surname %></td>
-            <td><%= u.email %></td>
-            <td><%= u.role_name %></td>
-            <td>
-              <% if u.removed? %>
-                <span class="badge badge-danger">Eliminado</span>
-              <% else %>
-                <span class="badge badge-success">Activo</span>
-              <% end %>
-            </td>
-            <td class="actions">
-               <%= link_to backoffice_user_path(u), 
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th class="actions-col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="records-body">
+          <% @users.each do |u| %>
+            <tr>
+              <td data-label="Nombre"><%= u.name %></td>
+              <td data-label="Apellido"><%= u.surname %></td>
+              <td data-label="Email"><%= u.email %></td>
+              <td data-label="Rol"><%= u.role_name %></td>
+              <td data-label="Estado">
+                <% if u.removed? %>
+                  <span class="badge badge-danger">Eliminado</span>
+                <% else %>
+                  <span class="badge badge-success">Activo</span>
+                <% end %>
+              </td>
+              <td data-label="Acciones" class="actions">
+                <div class="actions-cell">
+                  <%= link_to backoffice_user_path(u), 
                   class: "icon-btn view #{'disabled' unless can?(:read, u)}", 
                   aria: { label: "Ver #{u.name}" }, 
                   data: { turbo_frame: "_top" },
                   disabled: !can?(:read, u) do %>
-                <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                <span class="sr-only">Ver</span>
-              <% end %>
-              <% unless u == current_user %>
-                <% unless u.removed? %>
-                  <%= link_to edit_backoffice_user_path(u), 
+                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                    <span class="sr-only">Ver</span>
+                  <% end %>
+                  <% unless u == current_user %>
+                    <% unless u.removed? %>
+                      <%= link_to edit_backoffice_user_path(u), 
                       class: "icon-btn warning #{'disabled' unless can?(:update, u)}", 
                       aria: { label: "Editar #{u.name}" }, 
                       data: { turbo_frame: "_top" },
                       disabled: !can?(:update, u) do %>
-                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                    <span class="sr-only">Editar</span>
-                  <% end %>
-                  <%= button_to backoffice_user_path(u), method: :delete,
+                        <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+                        <span class="sr-only">Editar</span>
+                      <% end %>
+                      <%= button_to backoffice_user_path(u), method: :delete,
                       class: "icon-btn danger separator-left #{'disabled' unless can?(:destroy, u)}",
                       aria: { label: "Eliminar #{u.name}" },
                       data: { 
@@ -110,27 +112,29 @@
                         turbo_frame: "_top"
                       },
                       disabled: !can?(:destroy, u) do %>
-                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                    <span class="sr-only">Eliminar</span>
-                  <% end %>
-                <% else %>
-                  <%= button_to restore_backoffice_user_path(u), method: :patch,
+                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                        <span class="sr-only">Eliminar</span>
+                      <% end %>
+                    <% else %>
+                      <%= button_to restore_backoffice_user_path(u), method: :patch,
                       class: "icon-btn success separator-left",
                       aria: { label: "Restaurar #{u.name}" },
                       data: { 
                         turbo_confirm: "¿Seguro que querés restaurar #{u.name}?",
                         turbo_frame: "_top"
                       } do %>
-                    <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
-                    <span class="sr-only">Restaurar</span>
+                        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                        <span class="sr-only">Restaurar</span>
+                      <% end %>
+                    <% end %>
                   <% end %>
-                <% end %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   <% end%>
 <% end %>
 <div class="pagination wrapper">

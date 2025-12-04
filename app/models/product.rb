@@ -9,13 +9,13 @@ class Product < ApplicationRecord
   enum :format, { vinyl: 0, cd: 1 }
   enum :condition, { used: 0, brand_new: 1 }
 
-  attr_accessor :genre_names
+  attr_accessor :genre_names, :image_order, :image_remove_ids
 
   validates :name, :author, :price, :stock, :format, :condition, :inventory_entry_date, presence: true
 	validates :price, numericality: { greater_than_or_equal_to: 0 }
 	validates :stock, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-	validates :images, attached: true, content_type: ['image/png','image/jpeg'], size: { less_than: 6.megabytes , message: 'es demasiado grande (máx 6MB)' }
+	validates :images, attached: true, content_type: ['image/png', 'image/jpeg', 'image/webp'], size: { less_than: 6.megabytes, message: 'es demasiado grande (máx 6MB)' }
 	validates :audio_sample, content_type: /^audio\/(mpeg|mp3)$/i, size: { less_than: 10.megabytes }, allow_blank: true
 	
 	scope :available_for_sale, -> { where(removed_at: nil).where("stock > 0").order(:name) }
@@ -54,12 +54,14 @@ class Product < ApplicationRecord
     @genre_names.present? ? @genre_names : genres.pluck(:name).join(", ")
   end
 
-  # Método para obtener la imagen de portada (primera imagen)
   def cover_image
-    images.first
+    ordered_images_attachments.first
   end
 
-  # Método para verificar si el producto está disponible
+  def ordered_images_attachments
+    images_attachments.includes(:blob).order(:position, :created_at)
+  end
+
   def available?
     removed_at.nil? && stock > 0
   end
