@@ -3,6 +3,9 @@
   <head>
     <title>Backoffice | Pancake Records</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="<%= favicon_path('icon.png') %>" type="image/png">
+    <link rel="icon" href="<%= favicon_path('icon.svg') %>" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="<%= favicon_path('icon.png') %>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <%= stylesheet_link_tag "backoffice", media: "all" %>
@@ -21,7 +24,7 @@
           <% if current_user.avatar.attached? %>
             <%= image_tag current_user.avatar, alt: "avatar" %>
           <% else %>
-            <%= image_tag "https://via.placeholder.com/90", alt: "avatar" %>
+            <%= image_tag "/default-avatar.png", alt: "avatar" %>
           <% end %>
         </div>
         <div class="user-info">
@@ -53,6 +56,10 @@
             <%= link_to "/backoffice/sales", class: "nav-link", title: "Ventas", aria: { label: "Ventas" } do %>
               <i class="fa-solid fa-cash-register"></i>
               <span class="link-text">Ventas</span>
+            <% end %>
+						<%= link_to backoffice_reports_sales_path, class: "nav-link", title: "Reportes de ventas", aria: { label: "Reportes de ventas" } do %>
+              <i class="fa-solid fa-chart-line"></i>
+              <span class="link-text">Reportes</span>
             <% end %>
             <%= link_to "/", class: "nav-link", title: "Catálogo", aria: { label: "Catálogo" }, data: { turbo: false } do %>
               <i class="fa-solid fa-store"></i>

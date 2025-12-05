@@ -1,8 +1,0 @@
-<%= form_with model: [:backoffice, @sale], local: true do |f| %>
-  <%= f.label :date, "Fecha" %>
-  <%= f.date_field :date, class: "form-control" %>
-  <%= f.label :total, "Total" %>
-  <%= f.number_field :total, class: "form-control" %>
-  <%= f.submit "Crear", class: "btn btn-primary" %>
-<% end %>
-<%= render partial: "backoffice/back_button" %>

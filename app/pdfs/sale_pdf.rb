@@ -72,7 +72,7 @@ class SalePdf < Prawn::Document
     
     products_grouped.each do |product_id, sale_products_list|
       product = sale_products_list.first.product
-      quantity = sale_products_list.count
+      quantity = sale_products_list.sum(&:quantity)
       unit_price = sale_products_list.first.unit_price
       subtotal = unit_price * quantity
       
@@ -110,7 +110,7 @@ class SalePdf < Prawn::Document
     end
 
     move_down 10
-    text "Total de productos: #{@sale.sale_products.count} | Productos únicos: #{products_grouped.count}", size: 10, style: :italic
+    text "Total de unidades: #{@sale.sale_products.sum(&:quantity)} | Productos únicos: #{products_grouped.count}", size: 10, style: :italic
   end
 
   def footer

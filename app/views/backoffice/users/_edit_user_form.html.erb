@@ -1,30 +1,28 @@
 <div class="form-grid">
-  <div class="field mb-3">
-    <%= f.label :name, "Nombre Completo" %>
-    <%= f.text_field :name, class: "form-control", required: true %>
+  <div class="form-field">
+    <%= f.label :name, "Nombre", class: "required" %>
+    <%= f.text_field :name, class: "input", required: true %>
   </div>
 
-  <div class="field mb-3">
-    <%= f.label :surname, "Apellido" %>
-    <%= f.text_field :surname, class: "form-control", required: true %>
+  <div class="form-field">
+    <%= f.label :surname, "Apellido", class: "required" %>
+    <%= f.text_field :surname, class: "input", required: true %>
   </div>
 
-  <div class="field mb-3">
-    <%= f.label :email, "Email" %>
-    <%= f.email_field :email, class: "form-control", required: true %>
+  <div class="form-field">
+    <%= f.label :email, "Email", class: "required" %>
+    <%= f.email_field :email, class: "input", required: true %>
   </div>
 
-  <div class="field mb-3">
-    <%= f.label :address, "Dirección" %>
-    <%= f.text_field :address, class: "form-control" %>
+  <div class="form-field">
+    <%= f.label :address, "Dirección", class: "required" %>
+    <%= f.text_field :address, class: "input", required: true %>
   </div>
 
   <% unless @user == current_user %>
-    <div class="field mb-3">
-      <%= f.label :role, "Rol" %>
-      <%= f.select :role, available_roles.map { |r| [r.humanize, r] }, {}, class: "form-select" %>
+    <div class="form-field">
+      <%= f.label :role, "Rol", class: "required" %>
+      <%= f.select :role, available_roles.map { |r| [I18n.t("activerecord.enums.user.role.#{r}"), r] }, {}, class: "input", required: true %>
     </div>
   <% end %>
-  
-
 </div>

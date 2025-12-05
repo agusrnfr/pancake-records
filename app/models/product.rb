@@ -18,6 +18,8 @@ class Product < ApplicationRecord
 	validates :images, attached: true, content_type: ['image/png', 'image/jpeg', 'image/webp'], size: { less_than: 6.megabytes, message: 'es demasiado grande (máx 6MB)' }
 	validates :audio_sample, content_type: /^audio\/(mpeg|mp3)$/i, size: { less_than: 10.megabytes }, allow_blank: true
 	
+	scope :available_for_sale, -> { where(removed_at: nil).where("stock > 0").order(:name) }
+
 	ransacker :status, type: :string do |parent|
 		Arel.sql <<~SQL
 			CASE
@@ -64,4 +66,20 @@ class Product < ApplicationRecord
     removed_at.nil? && stock > 0
   end
 
+  # Decrementa el stock de forma segura
+  # Lanza una excepción si el stock queda negativo
+  def decrement_stock!
+    decrement!(:stock)
+    
+    if stock < 0
+      errors.add(:stock, "no puede quedar negativo")
+      raise ActiveRecord::RecordInvalid.new(self)
+    end
+  end
+
+  # Incrementa el stock
+  def increment_stock!
+    increment!(:stock)
+  end
+  
 end

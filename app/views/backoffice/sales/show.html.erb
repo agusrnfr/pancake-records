@@ -68,7 +68,7 @@
           products_grouped = @sale.sale_products.group_by(&:product_id)
           products_grouped.each do |product_id, sale_products_list|
             product = sale_products_list.first.product
-            quantity = sale_products_list.count
+            quantity = sale_products_list.sum(&:quantity)
             unit_price = sale_products_list.first.unit_price
             subtotal = unit_price * quantity
         %>
@@ -90,7 +90,7 @@
     </table>
     
     <div class="products-summary">
-      <p><strong>Total de productos:</strong> <%= @sale.sale_products.count %></p>
+      <p><strong>Total de unidades:</strong> <%= @sale.sale_products.sum(&:quantity) %></p>
       <p><strong>Productos únicos:</strong> <%= products_grouped.count %></p>
     </div>
   <% else %>
