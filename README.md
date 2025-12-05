@@ -175,9 +175,8 @@ rails c
 - Los archivos (imágenes, audio) se almacenan con **Active Storage**
 - Los reportes usan **Chartkick** para gráficos interactivos
 - Los PDFs se generan con **Prawn**
----
 
-## Desarrolladores
+## 👥 Desarrolladores
 
 * [Agustina Sol Rojas](https://github.com/agusrnfr)
 * [Antonio Felix Glorioso Ceretti](https://github.com/Ationno)
