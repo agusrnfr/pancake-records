@@ -24,7 +24,7 @@
           <% if current_user.avatar.attached? %>
             <%= image_tag current_user.avatar, alt: "avatar" %>
           <% else %>
-            <%= image_tag "https://via.placeholder.com/90", alt: "avatar" %>
+            <%= image_tag "/default-avatar.png", alt: "avatar" %>
           <% end %>
         </div>
         <div class="user-info">
