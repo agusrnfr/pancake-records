@@ -54,6 +54,10 @@
               <i class="fa-solid fa-cash-register"></i>
               <span class="link-text">Ventas</span>
             <% end %>
+						<%= link_to backoffice_reports_sales_path, class: "nav-link", title: "Reportes de ventas", aria: { label: "Reportes de ventas" } do %>
+              <i class="fa-solid fa-chart-line"></i>
+              <span class="link-text">Reportes</span>
+            <% end %>
             <%= link_to "/", class: "nav-link", title: "Catálogo", aria: { label: "Catálogo" }, data: { turbo: false } do %>
               <i class="fa-solid fa-store"></i>
               <span class="link-text">Catálogo</span>

@@ -88,3 +88,7 @@ gem 'prawn-table', '~> 0.2.2'
 
 gem "browser", '~> 6.2'
 
+gem "chartkick", "~> 5.2"
+
+gem "groupdate", "~> 6.7"
+

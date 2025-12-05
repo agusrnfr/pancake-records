@@ -1,0 +1,145 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "backoffice/reports" %>
+<% end %>
+
+<div class="reports-header">
+  <div class="reports-title">
+    <h1>Reportes de ventas</h1>
+    <p class="kpi-sub">
+      Rango seleccionado:
+      <span class="badge-muted">
+        <%= l(@from_date) %> &mdash; <%= l(@to_date) %>
+      </span>
+    </p>
+  </div>
+
+  <div class="reports-filters">
+    <%= form_with url: backoffice_reports_sales_path, method: :get, local: true do |f| %>
+      <div class="reports-filters">
+        <div class="filter-field">
+          <label for="from">Desde</label>
+          <%= f.date_field :from, value: @from_date, class: "input" %>
+        </div>
+        <div class="filter-field">
+          <label for="to">Hasta</label>
+          <%= f.date_field :to, value: @to_date, class: "input" %>
+        </div>
+        <div class="filter-field" style="margin-top: 18px;">
+          <button type="submit" class="btn-apply">
+            Aplicar filtros
+          </button>
+        </div>
+      </div>
+    <% end %>
+
+    <%= link_to backoffice_reports_sales_path(format: :pdf, from: @from_date, to: @to_date),
+                class: "btn-export" do %>
+      <i class="fa-solid fa-file-pdf"></i>
+      Exportar PDF
+    <% end %>
+  </div>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="kpi-label">Monto total vendido</div>
+    <div class="kpi-value">
+      $ <%= number_with_precision(@total_sales_amount, precision: 2, delimiter: ".", separator: ",") %>
+    </div>
+    <div class="kpi-sub">
+      Suma de todas las ventas efectivas del período.
+    </div>
+  </div>
+
+  <div class="kpi-card">
+    <div class="kpi-label">Cantidad de ventas</div>
+    <div class="kpi-value">
+      <%= @total_sales_count %>
+    </div>
+    <div class="kpi-sub">
+      Número de tickets emitidos en el rango seleccionado.
+    </div>
+  </div>
+
+  <div class="kpi-card">
+    <div class="kpi-label">Ticket promedio</div>
+    <div class="kpi-value">
+      <% avg = @total_sales_count.positive? ? (@total_sales_amount.to_f / @total_sales_count) : 0 %>
+      $ <%= number_with_precision(avg, precision: 2, delimiter: ".", separator: ",") %>
+    </div>
+    <div class="kpi-sub">
+      Monto promedio por venta.
+    </div>
+  </div>
+</div>
+
+<div class="charts-grid">
+  <div class="chart-card">
+    <h2>Evolución diaria de ventas</h2>
+    <div class="chart-wrapper">
+      <%= line_chart @sales_by_day,
+                     xtitle: "Fecha",
+                     ytitle: "Monto vendido",
+                     points: true,
+                     library: { tension: 0.3 } %>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <h2>Top 5 productos por unidades vendidas</h2>
+    <div class="chart-wrapper">
+      <% if @top_products.present? %>
+        <%= column_chart @top_products.transform_keys { |(id, name)| name },
+                         xtitle: "Producto",
+                         ytitle: "Unidades vendidas" %>
+      <% else %>
+        <p class="kpi-sub">No hay ventas en el período seleccionado.</p>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="table-card">
+  <h2>Detalle por producto</h2>
+  <div class="table-responsive">
+    <table class="table-report">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Unidades vendidas</th>
+          <th>Ingresos</th>
+          <th>Ticket promedio por unidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @sales_summary_by_product.any? %>
+          <% @sales_summary_by_product.each do |row| %>
+            <tr>
+              <td><%= row.name %></td>
+              <td><%= row.units_sold.to_i %></td>
+              <td>
+                $ <%= number_with_precision(row.revenue.to_f, precision: 2, delimiter: ".", separator: ",") %>
+              </td>
+              <td>
+                <% unit_avg = row.units_sold.to_i.positive? ? (row.revenue.to_f / row.units_sold.to_i) : 0 %>
+                $ <%= number_with_precision(unit_avg, precision: 2, delimiter: ".", separator: ",") %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="4" class="kpi-sub">
+              No hay datos para mostrar en este período.
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% content_for :scripts do %>
+  <%= javascript_include_tag "chartkick", "Chart.bundle", "data-turbo-track": "reload" %>
+<% end %>
+
+
