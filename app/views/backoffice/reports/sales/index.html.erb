@@ -2,6 +2,8 @@
   <%= stylesheet_link_tag "backoffice/products" %>
 <% end %>
 
+<%= render partial: "backoffice/back_button" %>
+
 <div class="reports-header">
   <div class="reports-title">
     <h1>Reportes de ventas</h1>
@@ -13,7 +15,7 @@
     </p>
   </div>
 
-  <div class="pdf-button" style="margin-top: 10px;">
+  <div class="pdf-button">
     <%= link_to backoffice_reports_sales_path(format: :pdf, from: @from_date, to: @to_date),
                 class: "btn-pdf", target: "_blank" do %>
       <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
@@ -96,7 +98,19 @@
                      xtitle: "Fecha",
                      ytitle: "Monto vendido",
                      points: true,
-                     library: { tension: 0.3 } %>
+                     library: { 
+                       tension: 0.3,
+                       responsive: true,
+                       maintainAspectRatio: false,
+                       scales: {
+                         x: {
+                           ticks: {
+                             maxRotation: 45,
+                             minRotation: 45
+                           }
+                         }
+                       }
+                     } %>
 		<% else %>
 			<p class="kpi-sub">No hay ventas en el período seleccionado.</p>
 		<% end %>
@@ -109,7 +123,19 @@
       <% if @top_products_chart_data.present? %>
         <%= column_chart @top_products_chart_data,
                          xtitle: "Producto",
-                         ytitle: "Unidades vendidas" %>
+                         ytitle: "Unidades vendidas",
+                         library: {
+                           responsive: true,
+                           maintainAspectRatio: false,
+                           scales: {
+                             x: {
+                               ticks: {
+                                 maxRotation: 45,
+                                 minRotation: 45
+                               }
+                             }
+                           }
+                         } %>
       <% else %>
         <p class="kpi-sub">No hay ventas en el período seleccionado.</p>
       <% end %>

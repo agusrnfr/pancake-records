@@ -586,12 +586,13 @@ form.button_to .icon-btn.success i {
 }
 
 .reports-header {
+	margin-top: 28px;
+	margin-bottom: 24px;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
 	gap: 16px;
-	margin-bottom: 24px;
 }
 
 .reports-title h1 {
@@ -657,6 +658,20 @@ form.button_to .icon-btn.success i {
 .chart-wrapper {
 	width: 100%;
 	min-height: 240px;
+	position: relative;
+	overflow: hidden;
+}
+
+.chart-wrapper > div {
+	width: 100% !important;
+	position: relative;
+	height: 240px;
+}
+
+.chart-wrapper canvas {
+	max-width: 100% !important;
+	width: 100% !important;
+	height: 100% !important;
 }
 
 .table-card {
@@ -825,5 +840,97 @@ form.button_to .icon-btn.success i {
 
 	.kpi-grid {
 		grid-template-columns: 1fr;
+	}
+
+	.reports-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+
+	.reports-title h1 {
+		font-size: 1.3rem;
+	}
+
+	.pdf-button {
+		width: 100%;
+		margin-top: 0 !important;
+	}
+
+	.pdf-button .btn-pdf {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.kpi-card {
+		padding: 12px 14px;
+	}
+
+	.kpi-value {
+		font-size: 1.2rem;
+		word-break: break-word;
+	}
+
+	.chart-card,
+	.table-card {
+		padding: 12px;
+	}
+
+	.chart-card h2,
+	.table-card h2 {
+		font-size: 0.9rem;
+		margin-bottom: 10px;
+	}
+
+	.chart-wrapper {
+		min-height: 200px;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.chart-wrapper > div {
+		width: 100% !important;
+		max-width: 100%;
+		height: 200px !important;
+	}
+
+	.chart-wrapper canvas {
+		max-width: 100% !important;
+		width: 100% !important;
+		height: 100% !important;
+	}
+
+	.table-report {
+		font-size: 0.8rem;
+	}
+
+	.table-report th,
+	.table-report td {
+		padding: 6px 8px;
+		white-space: normal;
+		word-break: break-word;
+	}
+
+	.table-report th {
+		font-size: 0.75rem;
+	}
+
+	.table-report td {
+		font-size: 0.8rem;
+	}
+
+	.badge-muted {
+		font-size: 0.7rem;
+		padding: 2px 6px;
+	}
+
+	.kpi-sub {
+		font-size: 0.75rem;
+		line-height: 1.4;
+	}
+
+	.reports-title .kpi-sub {
+		margin-top: 8px;
+		font-size: 0.8rem;
 	}
 }
