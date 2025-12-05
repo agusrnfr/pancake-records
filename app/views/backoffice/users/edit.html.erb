@@ -1,3 +1,6 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag "backoffice/products" %>
+<% end %>
 <h1>Editar usuario</h1>
 <%= form_with model: [:backoffice, @user], html: { multipart: true }, local: true do |f| %>
  <%= render "/devise/shared/error_messages", resource: @user %>

@@ -315,6 +315,12 @@ form.button_to .icon-btn {
 	font-weight: 700;
 }
 
+.form-field small {
+	color: #666;
+	font-size: 0.85rem;
+	display: block;
+}
+
 .product-meta {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
