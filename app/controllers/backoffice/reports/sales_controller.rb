@@ -14,19 +14,28 @@ class Backoffice::Reports::SalesController < Backoffice::BaseController
 
     sales_ids = scope.select(:id)
 
-    @top_products = Product.joins(sale_products: :sale)
-                           .where(sales: { id: sales_ids })
-                           .group("products.id", "products.name")
-                           .order("COUNT(sale_products.id) DESC")
-                           .limit(5)
-                           .count
+    sale_products_scope = SaleProduct.joins(:sale, :product)
+                                     .where(sales: { id: sales_ids })
 
-    @sales_summary_by_product = Product.joins(sale_products: :sale)
-                                       .where(sales: { id: sales_ids })
-                                       .group("products.id", "products.name")
-                                       .select(
-                                         "products.id, products.name, COUNT(sale_products.id) AS units_sold, SUM(sale_products.unit_price) AS revenue"
-                                       )
+    @top_products = sale_products_scope
+                      .group("products.id", "products.name")
+                      .select(
+                        "products.id AS product_id, products.name, SUM(sale_products.quantity) AS units_sold"
+                      )
+                      .order("units_sold DESC")
+                      .limit(5)
+
+    @top_products_chart_data = @top_products.map do |row|
+      ["#{row.name} (##{row.product_id})", row.units_sold.to_i]
+    end
+
+    @sales_summary_by_product = sale_products_scope
+                                  .group("products.id", "products.name")
+                                  .select(
+                                    "products.id AS product_id, products.name, " \
+                                    "SUM(sale_products.quantity) AS units_sold, " \
+                                    "SUM(sale_products.unit_price * sale_products.quantity) AS revenue"
+                                  )
 
     respond_to do |format|
       format.html

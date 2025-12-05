@@ -27,10 +27,11 @@ module Reports
         }
       )
       font "Helvetica"
-      text "Pancake Records - Reporte de ventas", size: 16, style: :bold, align: :center
+      text "Pancake Records", size: 24, style: :bold, align: :center
+      text "Reporte de Ventas", size: 18, align: :center
       move_down 10
       stroke_horizontal_rule
-      move_down 15
+			move_down 10
     end
 
     def header_section
@@ -113,13 +114,7 @@ module Reports
     end
 
     def format_money(amount)
-      ActionController::Base.helpers.number_to_currency(
-        amount.to_f,
-        unit: "$",
-        separator: ",",
-        delimiter: ".",
-        format: "%u %n"
-      )
+      "$#{amount.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse}"
     end
   end
 end

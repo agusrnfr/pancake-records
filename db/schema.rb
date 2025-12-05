@@ -72,6 +72,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_03_120001) do
   create_table "sale_products", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "product_id", null: false
+    t.integer "quantity", default: 1, null: false
     t.integer "sale_id", null: false
     t.decimal "unit_price", precision: 10, scale: 2, null: false
     t.datetime "updated_at", null: false

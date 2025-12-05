@@ -35,9 +35,15 @@
 
     // Calcular stock disponible para un producto (stock original - cantidad usada en otras filas)
     function getAvailableStock(productId, excludeRow = null) {
-      if (!productsData[productId]) return 0;
+      if (!productId || isNaN(productId)) return 0;
+      if (!productsData[productId]) {
+        console.warn('Producto no encontrado en productsData:', productId);
+        return 0;
+      }
       
       const originalStock = productsData[productId].stock;
+      if (!originalStock || originalStock <= 0) return 0;
+      
       let usedStock = 0;
       
       document.querySelectorAll('.product-row').forEach(function(row) {
@@ -59,6 +65,12 @@
 
     // Actualizar opciones disponibles en todos los selects
     function updateProductOptions() {
+      // Verificar que productsData esté cargado
+      if (!productsData || Object.keys(productsData).length === 0) {
+        console.warn('productsData no está cargado, saltando updateProductOptions');
+        return;
+      }
+      
       document.querySelectorAll('.product-select').forEach(function(select) {
         const currentValue = select.value;
         const currentRow = select.closest('.product-row');
@@ -71,6 +83,8 @@
           if (option.value === '') return; // No modificar la opción vacía
           
           const productId = parseInt(option.value);
+          if (!productId || isNaN(productId)) return; // Saltar si no es un ID válido
+          
           const availableStock = getAvailableStock(productId, currentRow);
           
           // Si es la opción seleccionada y no hay stock, deseleccionar
@@ -361,14 +375,18 @@
       }
     });
 
-    // Inicializar
-    updateProductOptions();
+    // Inicializar - solo actualizar cálculos, no deshabilitar opciones al inicio
     updateCalculations();
     
-    // Actualizar límites de stock en la fila inicial
+    // Actualizar límites de stock en la fila inicial (sin deshabilitar opciones)
     document.querySelectorAll('.product-row').forEach(function(row) {
       updateRowStockLimits(row);
     });
+    
+    // Actualizar opciones después de un pequeño delay para asegurar que todo esté cargado
+    setTimeout(function() {
+      updateProductOptions();
+    }, 100);
   }
 
   // Inicializar cuando el DOM esté listo

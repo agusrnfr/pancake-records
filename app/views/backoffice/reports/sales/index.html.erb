@@ -1,5 +1,5 @@
 <% content_for :styles do %>
-  <%= stylesheet_link_tag "backoffice/reports" %>
+  <%= stylesheet_link_tag "backoffice/products" %>
 <% end %>
 
 <div class="reports-header">
@@ -13,32 +13,46 @@
     </p>
   </div>
 
-  <div class="reports-filters">
-    <%= form_with url: backoffice_reports_sales_path, method: :get, local: true do |f| %>
-      <div class="reports-filters">
-        <div class="filter-field">
-          <label for="from">Desde</label>
-          <%= f.date_field :from, value: @from_date, class: "input" %>
-        </div>
-        <div class="filter-field">
-          <label for="to">Hasta</label>
-          <%= f.date_field :to, value: @to_date, class: "input" %>
-        </div>
-        <div class="filter-field" style="margin-top: 18px;">
-          <button type="submit" class="btn-apply">
-            Aplicar filtros
-          </button>
-        </div>
-      </div>
-    <% end %>
-
+  <div class="pdf-button" style="margin-top: 10px;">
     <%= link_to backoffice_reports_sales_path(format: :pdf, from: @from_date, to: @to_date),
-                class: "btn-export" do %>
-      <i class="fa-solid fa-file-pdf"></i>
-      Exportar PDF
+                class: "btn-pdf", target: "_blank" do %>
+      <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+      Exportar a PDF
     <% end %>
   </div>
 </div>
+
+<section class="filters">
+  <%= form_with url: backoffice_reports_sales_path,
+                method: :get,
+                local: true,
+                class: "filters-form",
+                data: { controller: "live-search" },
+                html: { 'data-live-search-target': 'form' } do |f| %>
+    <div class="filters-grid">
+      <div class="filter-block">
+        <label>Desde fecha</label>
+        <%= f.date_field :from,
+              value: @from_date,
+              class: "filter-input",
+              data: { action: "change->live-search#changed" } %>
+      </div>
+      <div class="filter-block">
+        <label>Hasta fecha</label>
+        <%= f.date_field :to,
+              value: @to_date,
+              class: "filter-input",
+              data: { action: "change->live-search#changed" } %>
+      </div>
+    </div>
+    <div class="buttons-block">
+      <%= link_to backoffice_reports_sales_path,
+            class: "icon-btn clear" do %>
+        <i class="fa-solid fa-broom"></i>
+      <% end %>
+    </div>
+  <% end %>
+</section>
 
 <div class="kpi-grid">
   <div class="kpi-card">
@@ -77,19 +91,23 @@
   <div class="chart-card">
     <h2>Evolución diaria de ventas</h2>
     <div class="chart-wrapper">
-      <%= line_chart @sales_by_day,
+      <% if @sales_by_day.any? %>
+        <%= line_chart @sales_by_day,
                      xtitle: "Fecha",
                      ytitle: "Monto vendido",
                      points: true,
                      library: { tension: 0.3 } %>
+		<% else %>
+			<p class="kpi-sub">No hay ventas en el período seleccionado.</p>
+		<% end %>
     </div>
   </div>
 
   <div class="chart-card">
     <h2>Top 5 productos por unidades vendidas</h2>
     <div class="chart-wrapper">
-      <% if @top_products.present? %>
-        <%= column_chart @top_products.transform_keys { |(id, name)| name },
+      <% if @top_products_chart_data.present? %>
+        <%= column_chart @top_products_chart_data,
                          xtitle: "Producto",
                          ytitle: "Unidades vendidas" %>
       <% else %>
