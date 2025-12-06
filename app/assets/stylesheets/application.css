@@ -8,7 +8,6 @@
 	--color-button-bg: #3498db;
 	--color-button-hover: #2980b9;
 	--color-button-text: #f2f2f2;
-	--color-link: #3498db;
 	--color-error-bg: #f8d7da;
 	--color-error-border: #f5c2c7;
 	--color-error-text: #842029;
@@ -18,18 +17,12 @@
 	--color-container-border: #e0e0e0;
 	--color-container-shadow: rgb(0 0 0 / 5%);
 	--color-danger: #c00;
-	--color-danger-hover: #900;
 	--color-flash-notice-text: #2e7d32;
 	--color-flash-notice-bg: #e2f0d9;
 	--color-flash-notice-border: #c8e6c9;
 	--color-flash-alert-text: #856404;
 	--color-flash-alert-bg: #fff3cd;
 	--color-flash-alert-border: #ffeeba;
-	--color-gray-light: #ccc;
-	--color-side-bar: #707f8c;
-	--color-side-bar-hover: #5a6a73;
-	--color-side-bar-border: #606f7a;
-	--color-background-color: #f2f2f2;
 	--color--selection-bg: #ffcf4d;
 	--color--selection-fg: #1d1d1d;
 	--color-scrollbar: #ffd400;
@@ -256,33 +249,6 @@ form.button_to:first-child::before {
 	background-color: var(--color-error-bg);
 	border: 1px solid var(--color-error-border);
 }
-
-.site-header {
-	display: flex;
-	align-items: flex-start;
-	justify-content: space-between;
-
-	margin-bottom: 1.5rem;
-	padding-bottom: 0.5rem;
-
-	border-bottom: 1px solid var(--color-border);
-}
-
-.header-right {
-	display: flex;
-	flex-direction: column;
-	gap: 0.25rem;
-	align-items: flex-end;
-}
-
-.user-meta {
-	margin: 0 0 0.8rem;
-}
-
-.user-meta p {
-	margin: 0.1rem 0;
-}
-
 
 * {
 	scrollbar-width: thin;

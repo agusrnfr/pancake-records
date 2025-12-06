@@ -1,7 +1,7 @@
 require "open-uri"
 
 puts "== Eliminando datos previos =="
-# Orden correcto: primero los que dependen de otros
+
 SaleProduct.destroy_all
 Sale.destroy_all
 Product.destroy_all
