@@ -77,6 +77,34 @@ rails server
 rails s
 ```
 
+### 🐳 Instalación con Docker (alternativa)
+
+Si preferís usar Docker, seguí estos pasos:
+
+#### 1. Construir la imagen
+
+docker compose build 
+
+#### 2. Crear la base de datos
+
+docker compose run web rails db:create
+
+#### 3. Ejecutar las migraciones
+
+docker compose run web rails db:migrate
+
+#### 4. Cargar datos iniciales
+
+docker compose run web rails db:seed
+
+#### 5. Iniciar la aplicación
+
+docker compose up
+
+**Nota**: Si ya tienes la base de datos configurada y solo quieres reiniciarla:
+
+docker compose run web rails db:reset
+
 La aplicación estará disponible en: **http://localhost:3000**
 
 ## 👤 Usuarios de Prueba

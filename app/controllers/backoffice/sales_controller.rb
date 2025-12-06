@@ -1,5 +1,6 @@
 class Backoffice::SalesController < Backoffice::BaseController
   before_action :set_sale, only: [:show, :cancel]
+  load_and_authorize_resource
 
   def index
     @q = Sale.ransack(params[:q])
