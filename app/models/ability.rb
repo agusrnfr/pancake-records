@@ -13,8 +13,8 @@ class Ability
       can :manage, Sale
       can :manage, Product
     elsif user.employee?
-      can :read, Product
-      can :create, Sale
+      can :manage, Product
+      can :manage, Sale
     end
   end
 end
