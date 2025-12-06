@@ -325,7 +325,8 @@ products = [
     price: 10000, stock: 5,
     format: :vinyl, condition: :brand_new,
     genre: [genres[:pop], genres[:electropop]],
-    image_url: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png"
+    image_url: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png",
+		audio_file: "1989"
   },
   {
     name: "Reputation",
@@ -451,7 +452,8 @@ products = [
 		price: 8700, stock: 5,
 		format: :cd, condition: :brand_new,
 		genre: [genres[:alternative], genres[:baroque_pop], genres[:alternative_rock]],
-		image_url: "https://upload.wikimedia.org/wikipedia/en/a/ad/Scarlets_Walk_cover.jpg"
+		image_url: "https://a5.mzstatic.com/us/r1000/0/Music/60/aa/42/mzi.gqpocdgb.jpg",
+		audio_file: "scarlets_walk"
 	},
   {
     name: "Fallen",
@@ -460,7 +462,8 @@ products = [
     price: 8800, stock: 9,
     format: :cd, condition: :brand_new,
     genre: [genres[:metal], genres[:numetal]],
-    image_url: "https://upload.wikimedia.org/wikipedia/en/2/25/Evanescence_-_Fallen.png"
+    image_url: "https://upload.wikimedia.org/wikipedia/en/2/25/Evanescence_-_Fallen.png",
+		audio_file: "fallen"
   },
   {
     name: "The Open Door",
@@ -497,8 +500,7 @@ products = [
     price: 9900, stock: 0,
     format: :cd, condition: :brand_new,
     genre: [genres[:pop], genres[:pop_rock]],
-    image_urls: ["https://upload.wikimedia.org/wikipedia/en/a/a0/Ariana_Grande_-_Positions.png", "https://i.pinimg.com/736x/e9/aa/92/e9aa92a5b62eb190de0a0b9ed357f4be.jpg"],
-    audio_file: "positions"
+    image_urls: ["https://upload.wikimedia.org/wikipedia/en/a/a0/Ariana_Grande_-_Positions.png", "https://i.pinimg.com/736x/e9/aa/92/e9aa92a5b62eb190de0a0b9ed357f4be.jpg"]
   },
   {
     name: "Eternal Sunshine (Deluxe Edition)",
@@ -508,7 +510,7 @@ products = [
     format: :vinyl, condition: :brand_new,
     genre: [genres[:pop], genres[:electropop]],
     image_urls: ["https://upload.wikimedia.org/wikipedia/en/1/12/Ariana_Grande_%E2%80%93_Eternal_Sunshine_Deluxe_%28album_cover%29.png", "https://suffragetterecords.com.au/cdn/shop/files/ariana2.jpg?v=1744017588&width=1445"],
-    audio_file: "eternal_sunshine_deluxe"
+    audio_file: "eternal_sunshine"
   },
   {
     name: "Preacher's Daughter",
@@ -517,8 +519,19 @@ products = [
     price: 9200, stock: 5,
     format: :vinyl, condition: :brand_new,
     genre: [genres[:alternative], genres[:indie_folk]],
-    image_urls: ["https://upload.wikimedia.org/wikipedia/en/7/74/Preachers_daughter_ethel_cain.png", "https://static.wikia.nocookie.net/ethel-cain/images/7/72/PD_%28Back_Cover%29.jpg/revision/latest/scale-to-width-down/250?cb=20251031195239"]
-  }
+    image_urls: ["https://upload.wikimedia.org/wikipedia/en/7/74/Preachers_daughter_ethel_cain.png", "https://static.wikia.nocookie.net/ethel-cain/images/7/72/PD_%28Back_Cover%29.jpg/revision/latest/scale-to-width-down/250?cb=20251031195239"],
+		audio_file: "preachers_daughter"
+	},
+	{
+		name: "Scarlet's Hidden Treasures",
+		author: "Tori Amos",
+		description: "Álbum de B-Sides de Scarlet's Walk. Incluye canciones como 'Ruby Through The Looking Glass' y 'Seaside'",
+		price: 8500, stock: 5,
+		format: :cd, condition: :brand_new,
+		genre: [genres[:alternative], genres[:indie_folk]],
+		image_url: "https://i.discogs.com/0mZvKHIjrW9t6BalQaPVoI6sWPW19BEhajD-Zj6cysg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4NzQz/ODM1LTE2OTg2MjY5/NTMtMjc4OS5qcGVn.jpeg",
+		audio_file: "hidden"
+	}
 
 ]
 
