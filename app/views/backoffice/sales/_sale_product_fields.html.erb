@@ -1,0 +1,39 @@
+<div class="product-row">
+  <% if f.object.persisted? %>
+    <%= f.hidden_field :id %>
+  <% end %>
+  
+  <%= f.hidden_field :_destroy, class: 'destroy-input', value: false %>
+
+  <div class="form-field">
+    <label>Producto <span class="required">*</span></label>
+    <%= f.select :product_id, 
+        available_products.map { |p| 
+          ["#{p.name} - #{p.author} (Stock disponible: #{p.stock}) - #{number_to_currency(p.price, unit: "$", separator: ".", delimiter: ",")}", 
+           p.id, 
+           { 'data-price': p.price, 'data-stock': p.stock, 'data-name': "#{p.name} - #{p.author}" }] 
+        }, 
+        { include_blank: 'Seleccione un producto' }, 
+        { class: "input product-select", required: true } %>
+  </div>
+  
+  <div class="form-field">
+    <label>Cantidad <span class="required">*</span></label>
+    <%= f.number_field :quantity, class: "input quantity-input", min: 1, value: f.object.quantity || 1, required: true %>
+  </div>
+  
+  <div class="form-field">
+    <label>Precio Unitario</label>
+    <input type="text" 
+           class="input unit-price" 
+           readonly 
+           value="<%= number_to_currency(f.object.unit_price || 0, unit: "$", separator: ".", delimiter: ",") %>">
+  </div>
+  
+  <div class="form-field">
+    <button type="button" class="btn-remove-product" style="display: none;">
+      <i class="fa-solid fa-trash"></i>
+    </button>
+  </div>
+</div>
+

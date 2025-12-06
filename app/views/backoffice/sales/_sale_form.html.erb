@@ -43,47 +43,22 @@
   <div class="form-section">
     <h2>Productos</h2>
     <div id="products-container">
-      <div class="product-row" data-product-index="0">
-        <div class="form-field">
-          <label>Producto <span class="required">*</span></label>
-          <select name="sale_products[0][product_id]" class="input product-select" required data-index="0">
-            <option value="">Seleccione un producto</option>
-            <% @available_products.each do |product| %>
-              <option value="<%= product.id %>" 
-                      data-price="<%= product.price %>" 
-                      data-stock="<%= product.stock %>"
-                      data-name="<%= product.name %> - <%= product.author %>"
-                      data-author="<%= product.author %>">
-                <%= product.name %> - <%= product.author %> (Stock disponible: <%= product.stock %>) - <%= number_to_currency(product.price, unit: "$", separator: ".", delimiter: ",") %>
-              </option>
-            <% end %>
-          </select>
-        </div>
-        <div class="form-field">
-          <label>Cantidad <span class="required">*</span></label>
-          <input type="number" 
-                 name="sale_products[0][quantity]" 
-                 class="input quantity-input" 
-                 min="1" 
-                 value="1" 
-                 required 
-                 data-index="0">
-        </div>
-        <div class="form-field">
-          <label>Precio Unitario</label>
-          <input type="text" 
-                 class="input unit-price" 
-                 readonly 
-                 data-index="0" 
-                 value="$0.00">
-        </div>
-        <div class="form-field">
-          <button type="button" class="btn-remove-product" data-index="0" style="display: none;">
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </div>
-      </div>
+      <%# Si @sale tiene productos existentes, f.fields_for los renderiza %>
+      <%# Si es nuevo, construimos un sale_product vacío para la plantilla inicial %>
+      <% @sale.sale_products.build if @sale.sale_products.empty? %>
+      
+      <%= f.fields_for :sale_products do |sp_builder| %>
+        <%= render 'sale_product_fields', f: sp_builder, available_products: @available_products %>
+      <% end %>
     </div>
+    
+    <%# Template (blueprint) para que JavaScript clone nuevas filas %>
+    <template id="sale-product-fields-template">
+      <%= f.fields_for :sale_products, SaleProduct.new, child_index: 'NEW_RECORD' do |sp_builder| %>
+        <%= render 'sale_product_fields', f: sp_builder, available_products: @available_products %>
+      <% end %>
+    </template>
+    
     <button type="button" id="add-product-btn" class="btn-add-product">
       <i class="fa-solid fa-plus"></i> Agregar Producto
     </button>
@@ -101,6 +76,5 @@
 <% end %>
 
 <script type="application/json" id="products-data">
-<%= @available_products.each_with_object({}) { |product, hash| hash[product.id] = { price: product.price, stock: product.stock, name: product.name } }.to_json.html_safe %>
+<%= @available_products.each_with_object({}) { |product, hash| hash[product.id] = { price: product.price, stock: product.stock, name: "#{product.name} - #{product.author}" } }.to_json.html_safe %>
 </script>
-

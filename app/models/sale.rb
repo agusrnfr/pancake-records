@@ -1,15 +1,33 @@
 class Sale < ApplicationRecord
-	belongs_to :employee, class_name: "User"
-  has_many :sale_products
+  belongs_to :employee, class_name: "User"
+  has_many :sale_products, dependent: :destroy
   has_many :products, through: :sale_products
+  accepts_nested_attributes_for :sale_products, allow_destroy: true, reject_if: :all_blank
 
-  validates :date, :total, :employee_id, presence: true
+  validates :date, :employee_id, presence: true
+  
+  before_validation :calculate_total
 
   def self.ransackable_attributes(auth_object = nil)
-    ["buyer_address", "buyer_email", "buyer_name", "buyer_phone", "buyer_surname", "created_at", "date", "employee_id", "id", "is_cancelled", "total", "updated_at"]
+    [
+      "created_at",
+      "date",
+      "employee_id",
+      "id",
+      "total",
+      "updated_at",
+      "is_cancelled"   
+    ]
   end
+  
 
+  private
+
+  def calculate_total
+    self.total = sale_products.sum { |sp| sp.total_line_price }
+  end
   def self.ransackable_associations(auth_object = nil)
     ["employee", "products", "sale_products"]
   end
+  
 end

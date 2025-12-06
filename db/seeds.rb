@@ -1,9 +1,12 @@
 require "open-uri"
 
 puts "== Eliminando datos previos =="
-User.destroy_all
+# Orden correcto: primero los que dependen de otros
+SaleProduct.destroy_all
+Sale.destroy_all
 Product.destroy_all
 Genre.destroy_all
+User.destroy_all
 
 puts "== Creando usuarios =="
 

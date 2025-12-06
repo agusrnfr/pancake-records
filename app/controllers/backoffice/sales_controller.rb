@@ -32,40 +32,17 @@ class Backoffice::SalesController < Backoffice::BaseController
   end
 
   def create
-    builder = ::SaleBuilder.new(sale_params: sale_params, employee: current_user)
+    @sale = Sale.new(sale_params)
+    @sale.employee = current_user
 
-    # Acumular cantidades por producto
-    products_quantities = {}
-    
-    if params[:sale_products].present?
-      params[:sale_products].each do |index, product_data|
-        product_id = product_data[:product_id]&.to_i || product_data["product_id"]&.to_i || 0
-        quantity = product_data[:quantity]&.to_i || product_data["quantity"]&.to_i || 0
-
-        next if product_id.zero? || quantity.zero?
-
-        products_quantities[product_id] = (products_quantities[product_id] || 0) + quantity
-      end
-    end
-
-    # Agregar items al builder
-    products_quantities.each do |product_id, total_quantity|
-      product = Product.find_by(id: product_id)
-      builder.add_item(product: product, quantity: total_quantity)
-    end
-
-    if builder.save
+    if @sale.save
       redirect_to backoffice_sales_path, notice: "Venta creada correctamente"
     else
-      @sale = builder.sale || Sale.new(sale_params)
-      @sale.employee = current_user
-      @sale.date ||= Date.current
-      builder.errors.each { |error| @sale.errors.add(:base, error) }
       @available_products = Product.available_for_sale
       render :new, status: :unprocessable_entity
     end
   rescue => e
-    @sale ||= Sale.new(sale_params)
+    @sale ||= Sale.new
     @sale.errors.add(:base, "Error al crear la venta: #{e.message}")
     @available_products = Product.available_for_sale
     render :new, status: :unprocessable_entity
@@ -111,7 +88,8 @@ class Backoffice::SalesController < Backoffice::BaseController
       :buyer_surname,
       :buyer_phone,
       :buyer_email,
-      :buyer_address
+      :buyer_address,
+      sale_products_attributes: [:id, :product_id, :quantity, :_destroy]
     )
   end
 end
