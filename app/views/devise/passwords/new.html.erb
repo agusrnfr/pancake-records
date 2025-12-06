@@ -1,7 +1,6 @@
 <% content_for :styles do %>
   <%= stylesheet_link_tag "storefront" %>
 <% end %>
-
 <div class="auth-page auth-password-reset">
   <div class="auth-card">
     <div class="auth-card-header">
@@ -11,22 +10,18 @@
       <h2 class="auth-title">Recuperar contraseña</h2>
       <p class="auth-subtitle">Ingresá tu correo y te enviaremos instrucciones para restablecerla</p>
     </div>
-
     <div class="auth-card-body">
       <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
-
         <div class="field auth-field">
           <%= f.label :email, "Correo electrónico" %>
           <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
         </div>
-
         <div class="actions auth-actions">
           <%= f.submit "Enviar instrucciones", class: "btn btn-primary auth-submit" %>
         </div>
       <% end %>
     </div>
-
     <div class="auth-card-footer">
       <%= render "devise/shared/links" %>
     </div>

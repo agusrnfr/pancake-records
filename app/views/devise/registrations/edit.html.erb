@@ -1,62 +1,78 @@
 <% content_for :styles do %>
-  <%= stylesheet_link_tag "backoffice/index" %>
+  <%= stylesheet_link_tag "backoffice/products" %>
 <% end %>
+
 <section class="header-section">
   <h1>Editar perfil</h1>
 </section>
+
 <%= render partial: "backoffice/back_button" %>
+
 <%= form_for(resource, as: resource_name, url: backoffice_user_registration_path, html: { method: :put, multipart: true }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
+  
   <div class="form-grid">
-    <div class="field mb-3">
-      <%= f.label :name, "Nombre Completo" %>
-      <%= f.text_field :name, class: "form-control", required: true %>
+    <div class="form-field">
+      <%= f.label :name, "Nombre", class: "required" %>
+      <%= f.text_field :name, class: "input", required: true %>
     </div>
-    <div class="field mb-3">
-      <%= f.label :surname, "Apellido" %>
-      <%= f.text_field :surname, class: "form-control", required: true %>
+
+    <div class="form-field">
+      <%= f.label :surname, "Apellido", class: "required" %>
+      <%= f.text_field :surname, class: "input", required: true %>
     </div>
-    <div class="field mb-3">
-      <%= f.label :email, "Email" %>
-      <%= f.email_field :email, class: "form-control", required: true %>
+
+    <div class="form-field">
+      <%= f.label :email, "Email", class: "required" %>
+      <%= f.email_field :email, class: "input", required: true %>
     </div>
-    <div class="field mb-3">
-      <%= f.label :address, "Dirección" %>
-      <%= f.text_field :address, class: "form-control" %>
+
+    <div class="form-field">
+      <%= f.label :address, "Dirección", class: "required" %>
+      <%= f.text_field :address, class: "input", required: true %>
     </div>
-    <% unless @user == current_user %>
-      <div class="field mb-3">
-        <%= f.label :role, "Rol" %>
-        <%= f.select :role, User.roles.keys.map { |r| [r.humanize, r] }, {}, class: "form-select" %>
-      </div>
-    <% end %>
+
     <div class="form-field full">
       <%= f.label :avatar, "Avatar" %>
-      <%= f.file_field :avatar, uniq: true, accept: "image/*", class: "input-file", required: !f.object.avatar.attached? %>
+      <%= f.file_field :avatar, accept: "image/*", class: "input-file" %>
+      <% if f.object.avatar.attached? %>
+        <div class="image-preview-list" style="margin-top: 12px;">
+          <div class="image-preview">
+            <%= image_tag f.object.avatar, class: "preview-img", alt: "Avatar" %>
+          </div>
+        </div>
+      <% end %>
     </div>
-    <% if f.object.avatar.attached? &&
-      f.object.avatar.attachment.blob.present? &&
-      f.object.avatar.attachment.blob.persisted? %>
-    <%= image_tag f.object.avatar, alt: "avatar", class: "avatar" %>
-  <% end %>
-  <div class="field">
-    <%= f.label :current_password %> <i>(necesitamos tu contraseña actual para confirmar los cambios)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
+
+    <div class="form-field full">
+      <%= f.label :current_password, "Contraseña actual", class: "required" %>
+      <%= f.password_field :current_password, autocomplete: "current-password", class: "input", required: true %>
+      <small>
+        (necesitamos tu contraseña actual para confirmar los cambios)
+      </small>
+    </div>
+
+    <div class="form-field">
+      <%= f.label :password, "Nueva contraseña (mínimo #{@minimum_password_length} caracteres)" %>
+      <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "input" %>
+      <% if @minimum_password_length %>
+        <small>
+          (dejar en blanco si no quieres cambiarla)
+        </small>
+      <% else %>
+        <small>
+          (dejar en blanco si no quieres cambiarla)
+        </small>
+      <% end %>
+    </div>
+
+    <div class="form-field">
+      <%= f.label :password_confirmation, "Confirmar nueva contraseña" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input" %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :password %> <i>(dejar en blanco si no quieres cambiarla)</i><br />
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> caracteres mínimo</em>
-    <% end %>
+
+  <div class="form-actions">
+    <%= f.submit "Actualizar", class: "btn-submit" %>
   </div>
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-  <div class="actions">
-    <%= f.submit "Actualizar" %>
-  </div>
-</div>
 <% end %>

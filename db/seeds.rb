@@ -572,4 +572,152 @@ products.each do |data|
 end
 
 puts "==== Productos creados ===="
+
+puts "== Creando ventas =="
+
+employees = User.where(role: [:employee, :manager, :administrator]).limit(5).to_a
+products_list = Product.where(removed_at: nil).where("stock > 0").where.not(price: nil).to_a
+
+if employees.any? && products_list.any?
+  30.times do |i|
+    begin
+      date = Date.current - rand(0..60).days
+      employee = employees.sample
+      
+      available_products = products_list.select { |p| p.stock > 0 && p.price.present? }
+      next if available_products.empty?
+      
+      num_products = [rand(1..4), available_products.size].min
+      selected_products = available_products.sample(num_products)
+      
+      total = 0.0
+      sale_products_data = []
+      
+      selected_products.each do |product|
+        product.reload
+        next if product.stock <= 0 || product.price.nil?
+        
+        quantity = rand(1..[product.stock, 3].min)
+        unit_price = product.price.to_f
+        next if unit_price.nil? || unit_price <= 0
+        
+        subtotal = unit_price * quantity
+        total += subtotal
+        
+        sale_products_data << {
+          product: product,
+          quantity: quantity,
+          unit_price: unit_price
+        }
+      end
+      
+      next if sale_products_data.empty? || total <= 0
+      
+      buyer_names = [
+        ["María", "González"], ["Juan", "Pérez"], ["Ana", "Martínez"],
+        ["Carlos", "López"], ["Laura", "García"], ["Diego", "Rodríguez"],
+        ["Sofía", "Fernández"], ["Lucas", "Sánchez"], ["Valentina", "Torres"],
+        ["Nicolás", "Ramírez"], ["Camila", "Flores"], ["Mateo", "Vargas"]
+      ]
+      
+      buyer_name, buyer_surname = buyer_names.sample
+      
+      sale = Sale.create!(
+        date: date,
+        total: total,
+        employee: employee,
+        buyer_name: buyer_name,
+        buyer_surname: buyer_surname,
+        buyer_phone: rand(1000000000..9999999999).to_s,
+        buyer_email: "#{buyer_name.downcase}.#{buyer_surname.downcase}@example.com",
+        buyer_address: "Calle #{rand(100..9999)} #{"Norte" if rand(2) == 1}",
+        is_cancelled: false
+      )
+      
+      sale_products_data.each do |data|
+        SaleProduct.create!(
+          sale: sale,
+          product: data[:product],
+          quantity: data[:quantity],
+          unit_price: data[:unit_price]
+        )
+      end
+      
+      puts "💰 Venta creada: #{sale.id} - #{buyer_name} #{buyer_surname} - $#{total} - #{date}"
+    rescue => e
+      puts "⚠️  Error al crear venta: #{e.message}"
+      puts "   Backtrace: #{e.backtrace.first(3).join("\n   ")}"
+    end
+  end
+  
+  5.times do |i|
+    begin
+      date = Date.current - rand(0..30).days
+      employee = employees.sample
+      
+      available_products = products_list.select { |p| p.stock > 0 && p.price.present? }
+      next if available_products.empty?
+      
+      num_products = [rand(1..3), available_products.size].min
+      selected_products = available_products.sample(num_products)
+      
+      total = 0.0
+      sale_products_data = []
+      
+      selected_products.each do |product|
+        product.reload
+        next if product.stock <= 0 || product.price.nil?
+        
+        quantity = rand(1..[product.stock, 2].min)
+        unit_price = product.price.to_f
+        next if unit_price.nil? || unit_price <= 0
+        
+        subtotal = unit_price * quantity
+        total += subtotal
+        
+        sale_products_data << {
+          product: product,
+          quantity: quantity,
+          unit_price: unit_price
+        }
+      end
+      
+      next if sale_products_data.empty? || total <= 0
+      
+      buyer_names = [
+        ["Roberto", "Mendoza"], ["Patricia", "Castro"], ["Fernando", "Morales"]
+      ]
+      buyer_name, buyer_surname = buyer_names.sample
+      
+      sale = Sale.create!(
+        date: date,
+        total: total,
+        employee: employee,
+        buyer_name: buyer_name,
+        buyer_surname: buyer_surname,
+        buyer_phone: rand(1000000000..9999999999).to_s,
+        buyer_email: "#{buyer_name.downcase}.#{buyer_surname.downcase}@example.com",
+        buyer_address: "Av. #{rand(100..999)}",
+        is_cancelled: true
+      )
+      
+      sale_products_data.each do |data|
+        SaleProduct.create!(
+          sale: sale,
+          product: data[:product],
+          quantity: data[:quantity],
+          unit_price: data[:unit_price]
+        )
+      end
+      
+      puts "❌ Venta cancelada creada: #{sale.id} - #{buyer_name} #{buyer_surname} - $#{total} - #{date}"
+    rescue => e
+      puts "⚠️  Error al crear venta cancelada: #{e.message}"
+      puts "   Backtrace: #{e.backtrace.first(3).join("\n   ")}"
+    end
+  end
+else
+  puts "⚠️  No se pueden crear ventas: faltan empleados o productos"
+end
+
 puts "== Seed finalizado =="

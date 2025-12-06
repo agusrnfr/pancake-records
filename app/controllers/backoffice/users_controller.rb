@@ -6,7 +6,7 @@ class Backoffice::UsersController < Backoffice::BaseController
 
   
 	def index
-		@q = User.not_removed.ransack(params[:q])
+		@q = User.ransack(params[:q])
 		@users = @q.result(distinct: true)
 									.order(created_at: :desc)
 									.page(params[:page])

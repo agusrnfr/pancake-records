@@ -18,51 +18,30 @@
             <li>Administrar roles de todos.</li>
           <% elsif current_user.manager? %>
             <li>Crear, editar y desactivar usuarios (excepto administradores).</li>
-            <li>No puede crear ni modificar usuarios con rol de administrador.</li>
           <% else %>
-            <li>No puede gestionar usuarios.</li>
-            <li>Solo ver y editar sus propios datos (sin cambiar rol).</li>
+            <li>Solo podes ver y editar tus propios datos (sin cambiar rol).</li>
           <% end %>
         </ul>
       </div>
       <div class="permiso-card">
         <h3>Discos</h3>
         <ul>
-          <% if current_user.administrator? || current_user.manager? %>
-            <li>Alta, edición y baja lógica.</li>
-            <li>Gestión de stock, precios e imágenes.</li>
-            <li>Audio (items usados) y metadatos.</li>
-          <% else %>
-            <li>Consultar y gestionar productos según política interna.</li>
-            <li>Actualizar stock y precios dentro de límites.</li>
-          <% end %>
+					<li>Alta, edición y baja lógica de discos.</li>
+					<li>Gestión de stock, precios y estado de los discos.</li>
         </ul>
       </div>
       <div class="permiso-card">
         <h3>Ventas</h3>
         <ul>
-          <% if current_user.administrator? || current_user.manager? %>
-            <li>Registrar y cancelar ventas.</li>
-            <li>Ver historial completo.</li>
-            <li>Generar facturas PDF.</li>
-          <% else %>
-            <li>Registrar y cancelar ventas (reposición stock al cancelar).</li>
-          <% end %>
+					<li>Registrar y cancelar ventas.</li>
+					<li>Ver historial completo.</li>
+					<li>Generar facturas PDF.</li>
         </ul>
       </div>
-      <div class="permiso-card">
-        <h3>Otros</h3>
+			<div class="permiso-card">
+        <h3>Reportes</h3>
         <ul>
-          <% if current_user.administrator? %>
-            <li>Acceso total y auditoría.</li>
-            <li>Modificar propios datos (excepto rol) y de cualquiera.</li>
-          <% elsif current_user.manager? %>
-            <li>Modificar propios datos (excepto rol).</li>
-            <li>Sin acceso a auditoría completa.</li>
-          <% else %>
-            <li>Sin acceso a auditoría.</li>
-            <li>Modificar solo datos propios (excepto rol).</li>
-          <% end %>
+					<li>Ver reportes de ventas.</li>
         </ul>
       </div>
     </div>

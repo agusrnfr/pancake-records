@@ -1,8 +1,9 @@
 <% content_for :styles do %>
   <%= stylesheet_link_tag "backoffice/products" %>
 <% end %>
+
 <div class="show-header">
-  <h1><%= @user.name %></h1>
+  <h1><%= @user.name %> <%= @user.surname %></h1>
   <% unless @user == current_user || @user.removed? %>
     <%= link_to edit_backoffice_user_path(@user), class: "icon-btn warning", aria: { label: "Editar #{@user.name}" }, data: { turbo_frame: "_top" } do %>
       <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
@@ -10,22 +11,38 @@
     <% end %>
   <% end %>
 </div>
-<section class="user-meta">
-  <p><strong>Nombre Completo:</strong> <%= @user.name %> 
+
+<section class="product-meta">
+  <p><strong>Nombre:</strong> <%= @user.name %></p>
   <p><strong>Apellido:</strong> <%= @user.surname %></p>
   <p><strong>Email:</strong> <%= @user.email %></p>
   <p><strong>Dirección:</strong> <%= @user.address %></p>
   <p><strong>Rol:</strong> <%= @user.role_name %></p>
-  <p><strong>Fecha de ingreso:</strong> <%= l(@user.created_at) %></p>
-  <p><strong>Fecha de actualización:</strong> <%= l(Time.at(@user.updated_at).to_date) %></p>
-  <section class="user-avatar">
-  <p><strong>Avatar:</strong>
+  <p><strong>Fecha de ingreso:</strong> <%= l(@user.created_at.to_date) %></p>
+  <p><strong>Fecha de actualización:</strong> <%= l(@user.updated_at.to_date) %></p>
+  <% if @user.removed_at %>
+    <p><strong>Fecha de eliminación:</strong> <%= l(@user.removed_at.to_date) %></p>
+  <% end %>
+  <p><strong>Estado:</strong>
+    <% if @user.removed? %>
+      <span class="status removed">Eliminado</span>
+    <% else %>
+      <span class="status ok">Activo</span>
+    <% end %>
+  </p>
+</section>
+
+<section class="product-images">
+  <h2>Avatar</h2>
   <% if @user.avatar.attached? %>
     <div class="image-preview-list">
-        <%= image_tag @user.avatar, class: "avatar", alt: @user.name %>
+      <div class="image-preview">
+        <%= image_tag @user.avatar, class: "preview-img", alt: @user.name %>
+      </div>
     </div>
   <% else %>
-    <p class="empty-info">No hay imágenes adjuntas</p>
+    <p class="empty-info">No hay avatar adjunto</p>
   <% end %>
 </section>
+
 <%= render partial: "backoffice/back_button" %>
