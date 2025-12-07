@@ -11,11 +11,11 @@
     <%= stylesheet_link_tag "backoffice", media: "all" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= yield :styles %>
-    <%= javascript_include_tag "backoffice", defer: true %>
-    <%= yield :scripts %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= javascript_importmap_tags %>
+    <%= javascript_include_tag "backoffice", defer: true %>
+    <%= yield :scripts %>
   </head>
   <body>
     <div class="backoffice-wrapper">

@@ -26,6 +26,8 @@ class Backoffice::SalesController < Backoffice::BaseController
   def new
     @sale = Sale.new
     @sale.date = Date.current
+    current_time = Time.current
+    @sale.time = Time.new(2000, 1, 1, current_time.hour, current_time.min, 0)
     @available_products = Product.available_for_sale
   rescue => e
     @available_products = []
@@ -54,23 +56,11 @@ class Backoffice::SalesController < Backoffice::BaseController
       return
     end
 
-    # Usar transacción para asegurar atomicidad
-    ActiveRecord::Base.transaction do
-      # Sumar las cantidades de sale_products por cada producto y restaurar stock
-      product_quantities = @sale.sale_products.group(:product_id).sum(:quantity)
-
-      product_quantities.each do |product_id, total_quantity|
-        product = Product.find_by(id: product_id)
-        next unless product
-
-        # Incrementar el stock por la cantidad total de productos vendidos
-        product.increment!(:stock, total_quantity)
-      end
-
-      @sale.update!(is_cancelled: true)
+    if @sale.cancel!
+      redirect_to backoffice_sales_path, notice: "Venta cancelada correctamente"
+    else
+      redirect_to backoffice_sales_path, alert: "Error al cancelar la venta"
     end
-
-    redirect_to backoffice_sales_path, notice: "Venta cancelada correctamente"
   rescue => e
     redirect_to backoffice_sales_path, alert: "Error al cancelar la venta: #{e.message}"
   end
@@ -84,6 +74,7 @@ class Backoffice::SalesController < Backoffice::BaseController
   def sale_params
     params.require(:sale).permit(
       :date,
+      :time,
       :buyer_name,
       :buyer_surname,
       :buyer_phone,

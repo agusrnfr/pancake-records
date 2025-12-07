@@ -638,8 +638,14 @@ if employees.any? && products_list.any?
       
       buyer_name, buyer_surname = buyer_names.sample
       
+  
+      hour = rand(9..20)
+      minute = rand(0..59)
+      time = Time.new(2000, 1, 1, hour, minute, 0)
+      
       sale = Sale.create!(
         date: date,
+        time: time,
         total: total,
         employee: employee,
         buyer_name: buyer_name,
@@ -705,8 +711,13 @@ if employees.any? && products_list.any?
       ]
       buyer_name, buyer_surname = buyer_names.sample
       
+      hour = rand(9..20)
+      minute = rand(0..59)
+      time = Time.new(2000, 1, 1, hour, minute, 0)
+      
       sale = Sale.create!(
         date: date,
+        time: time,
         total: total,
         employee: employee,
         buyer_name: buyer_name,

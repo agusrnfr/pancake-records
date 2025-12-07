@@ -37,6 +37,10 @@
         <%= f.label :date, "Fecha", class: "required" %>
         <%= f.date_field :date, class: "input", required: true, title: "Fecha de la venta" %>
       </div>
+      <div class="form-field">
+        <%= f.label :time, "Hora", class: "required" %>
+        <%= f.time_field :time, class: "input", required: true, title: "Hora de la venta", step: 60 %>
+      </div>
     </div>
   </div>
 
@@ -78,3 +82,5 @@
 <script type="application/json" id="products-data">
 <%= @available_products.each_with_object({}) { |product, hash| hash[product.id] = { price: product.price, stock: product.stock, name: "#{product.name} - #{product.author}" } }.to_json.html_safe %>
 </script>
+
+<%= javascript_include_tag "sale_form", defer: false %>

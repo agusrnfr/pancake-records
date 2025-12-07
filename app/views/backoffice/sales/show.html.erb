@@ -2,7 +2,7 @@
   <%= stylesheet_link_tag "backoffice/products" %>
 <% end %>
 <div class="show-header">
-  <h1>Venta #<%= @sale.id %> - <%= @sale.date.strftime("%d/%m/%Y") %></h1>
+  <h1>Venta #<%= @sale.id %> - <%= @sale.date.strftime("%d/%m/%Y") %><% if @sale.time.present? %> <%= @sale.time.strftime("%H:%M") %><% end %></h1>
   <% unless @sale.is_cancelled? %>
     <%= button_to cancel_backoffice_sale_path(@sale), method: :patch,
         class: "icon-btn danger separator-left",
@@ -17,6 +17,9 @@
 <section class="sale-info">
   <h2>Información de la Venta</h2>
   <p><strong>Fecha:</strong> <%= @sale.date.strftime("%d/%m/%Y") %></p>
+  <% if @sale.time.present? %>
+    <p><strong>Hora:</strong> <%= @sale.time.strftime("%H:%M") %></p>
+  <% end %>
   <p><strong>Total:</strong> <%= number_to_currency(@sale.total, unit: "$", separator: ".", delimiter: ",") %></p>
   <p><strong>Estado:</strong>
     <% if @sale.is_cancelled? %>

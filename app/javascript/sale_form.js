@@ -1,6 +1,47 @@
-document.addEventListener("turbo:load", function() {
-  new SaleFormHandler();
-});
+(function() {
+  let handlerInstance = null;
+
+  function initSaleForm() {
+    const form = document.getElementById('sale-form');
+    if (!form) return;
+
+    if (handlerInstance) return;
+
+    try {
+      handlerInstance = new SaleFormHandler();
+    } catch (error) {
+      console.error('SaleForm: Error al inicializar', error);
+    }
+  }
+
+  function resetHandler() {
+    handlerInstance = null;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(initSaleForm, 100);
+    });
+  } else {
+    setTimeout(initSaleForm, 100);
+  }
+
+  document.addEventListener('turbo:load', function() {
+    resetHandler();
+    setTimeout(initSaleForm, 100);
+  });
+
+  document.addEventListener('turbo:render', function() {
+    resetHandler();
+    setTimeout(initSaleForm, 100);
+  });
+
+  window.addEventListener('load', function() {
+    if (!handlerInstance) {
+      setTimeout(initSaleForm, 100);
+    }
+  });
+})();
 
 class SaleFormHandler {
   constructor() {
@@ -9,8 +50,6 @@ class SaleFormHandler {
     this.addProductBtn = document.getElementById('add-product-btn');
     this.totalElement = document.getElementById('total-amount');
     this.template = document.getElementById('sale-product-fields-template');
-    
-    // Cargamos los datos una sola vez
     this.productsData = this.loadProductsData();
 
     if (this.form && this.container) {
@@ -19,26 +58,23 @@ class SaleFormHandler {
   }
 
   init() {
-    // Listeners globales para eventos delegados
+    if (!this.form || !this.container) return;
+
     this.container.addEventListener('click', (e) => this.handleRemoveRow(e));
-    
-    // Al cambiar producto o cantidad, recalculamos stock y totales
     this.container.addEventListener('change', (e) => this.handleChange(e));
     this.container.addEventListener('input', (e) => this.handleInput(e));
     
     if (this.addProductBtn) {
       this.addProductBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         this.addNewRow();
       });
     }
 
     this.form.addEventListener('submit', (e) => this.handleSubmit(e));
 
-    // Mostrar/ocultar botones de eliminar según cantidad de filas
     this.updateRemoveButtons();
-    
-    // Ejecutar lógica inicial
     this.updateProductOptions();
     this.updateStockValidation();
     this.calculateTotal();
@@ -50,12 +86,10 @@ class SaleFormHandler {
     try {
       return JSON.parse(el.textContent);
     } catch (e) {
-      console.error("Error cargando JSON", e);
       return {};
     }
   }
 
-  // Calcula stock disponible para un producto excluyendo lo usado en una fila específica
   getAvailableStock(productId, excludeRow = null) {
     if (!productId || !this.productsData[productId]) return 0;
 
@@ -65,7 +99,6 @@ class SaleFormHandler {
     this.container.querySelectorAll('.product-row').forEach(row => {
       if (row === excludeRow) return;
       
-      // Ignorar filas marcadas para destrucción
       const destroyInput = row.querySelector('.destroy-input');
       if (destroyInput && destroyInput.value === 'true') return;
 
@@ -80,12 +113,10 @@ class SaleFormHandler {
     return Math.max(0, originalStock - usedInOtherRows);
   }
 
-  // Actualiza los textos de las opciones de TODOS los selects
   updateProductOptions() {
     if (!this.productsData) return;
 
     this.container.querySelectorAll('.product-row').forEach(row => {
-      // Ignorar filas marcadas para destrucción
       const destroyInput = row.querySelector('.destroy-input');
       if (destroyInput && destroyInput.value === 'true') return;
 
@@ -95,13 +126,16 @@ class SaleFormHandler {
       const currentSelectedValue = select.value;
 
       Array.from(select.options).forEach(option => {
-        if (!option.value) return; // Saltar placeholder
+        if (!option.value) return;
 
         const productId = option.value;
         const product = this.productsData[productId];
         if (!product) return;
 
-        // Stock disponible para ESTA fila (ignorando su propio consumo)
+        if (option.value === currentSelectedValue) {
+          return;
+        }
+
         const availableStock = this.getAvailableStock(productId, row);
 
         const productName = option.getAttribute('data-name') || product.name;
@@ -110,10 +144,7 @@ class SaleFormHandler {
 
         if (availableStock === 0) {
           option.textContent = `${productName} - Sin stock disponible`;
-          // Deshabilitar si no es el seleccionado actualmente
-          if (option.value !== currentSelectedValue) {
-            option.disabled = true;
-          }
+          option.disabled = true;
         } else {
           option.textContent = `${productName} (Stock disponible: ${availableStock}) - $${formattedPrice}`;
           option.disabled = false;
@@ -123,29 +154,18 @@ class SaleFormHandler {
   }
 
   addNewRow() {
-    // Usar el template de Rails
-    if (!this.template) {
-      console.error('Template no encontrado');
-      return;
-    }
+    if (!this.template) return;
 
-    // Obtener el HTML del template
     let newHtml = this.template.innerHTML;
-
-    // Generar un índice único (Timestamp)
     const newIndex = new Date().getTime();
-
-    // Reemplazar el marcador de posición de Rails (NEW_RECORD) por el índice real
     newHtml = newHtml.replace(/NEW_RECORD/g, newIndex);
 
-    // Crear contenedor temporal para parsear el HTML
     const tempContainer = document.createElement('div');
     tempContainer.innerHTML = newHtml.trim();
 
     const newRow = tempContainer.querySelector('.product-row');
     if (!newRow) return;
 
-    // Limpiar valores
     const productSelect = newRow.querySelector('.product-select');
     const quantityInput = newRow.querySelector('.quantity-input');
     const unitPriceInput = newRow.querySelector('.unit-price');
@@ -156,13 +176,11 @@ class SaleFormHandler {
     if (unitPriceInput) unitPriceInput.value = '$0.00';
     if (destroyInput) destroyInput.value = 'false';
 
-    // Mostrar botón eliminar en la nueva fila
     const removeBtn = newRow.querySelector('.btn-remove-product');
     if (removeBtn) removeBtn.style.display = 'block';
 
     this.container.appendChild(newRow);
 
-    // Actualizar botones de eliminar y recalcular
     this.updateRemoveButtons();
     this.updateProductOptions();
     this.updateStockValidation();
@@ -171,19 +189,17 @@ class SaleFormHandler {
   handleRemoveRow(e) {
     if (e.target.closest('.btn-remove-product')) {
       const row = e.target.closest('.product-row');
-      const visibleRows = this.container.querySelectorAll('.product-row:not([style*="display: none"])');
+      const visibleRows = this.getVisibleRows();
       
       if (visibleRows.length > 1) {
-        // Si la fila tiene un ID (existe en BD), marcarla para destrucción
         const idInput = row.querySelector('input[name*="[id]"]');
         const destroyInput = row.querySelector('.destroy-input');
         
         if (idInput && idInput.value) {
-          // Marcar para destrucción y ocultar
           if (destroyInput) destroyInput.value = 'true';
+          row.classList.add('hidden-row');
           row.style.display = 'none';
         } else {
-          // Si es nueva (sin ID), simplemente remover del DOM
           row.remove();
         }
         
@@ -197,13 +213,22 @@ class SaleFormHandler {
     }
   }
 
+  getVisibleRows() {
+    const allRows = this.container.querySelectorAll('.product-row');
+    return Array.from(allRows).filter(row => {
+      if (row.classList.contains('hidden-row')) return false;
+      const destroyInput = row.querySelector('.destroy-input');
+      if (destroyInput && destroyInput.value === 'true') return false;
+      return true;
+    });
+  }
+
   updateRemoveButtons() {
-    const visibleRows = this.container.querySelectorAll('.product-row:not([style*="display: none"])');
+    const visibleRows = this.getVisibleRows();
     
     visibleRows.forEach((row, index) => {
       const removeBtn = row.querySelector('.btn-remove-product');
       if (removeBtn) {
-        // Mostrar el botón solo si hay más de una fila visible
         removeBtn.style.display = visibleRows.length > 1 ? 'block' : 'none';
       }
     });
@@ -212,33 +237,44 @@ class SaleFormHandler {
   handleChange(e) {
     const target = e.target;
 
-    // Cuando cambia el SELECT
     if (target.classList.contains('product-select')) {
       const row = target.closest('.product-row');
       this.updateRowPrice(row);
       
-      // Si seleccionó un producto y la cantidad está vacía o es 0, poner 1 por defecto
       const qtyInput = row.querySelector('.quantity-input');
-      if (qtyInput && (!qtyInput.value || qtyInput.value == 0)) {
-        const productId = target.value;
-        if (productId) {
-          const available = this.getAvailableStock(productId, row);
-          if (available > 0) qtyInput.value = 1;
+      const productId = target.value;
+      
+      if (productId && qtyInput) {
+        const available = this.getAvailableStock(productId, row);
+        
+        if (!qtyInput.value || qtyInput.value == 0) {
+          if (available > 0) {
+            qtyInput.value = 1;
+          }
+        } else {
+          const currentQty = parseInt(qtyInput.value) || 0;
+          if (currentQty > available && available > 0) {
+            qtyInput.value = available;
+            alert(`La cantidad ingresada (${currentQty}) excede el stock disponible. Se ajustó automáticamente a ${available}.`);
+          } else if (currentQty > available && available === 0) {
+            qtyInput.value = 0;
+            alert(`La cantidad ingresada (${currentQty}) excede el stock disponible. No hay stock disponible para este producto.`);
+          }
         }
       }
     }
     
-    // Recalcular todo
     this.updateProductOptions();
-    this.updateStockValidation();
+    const editedRow = target.closest('.product-row');
+    this.updateStockValidation(editedRow);
     this.calculateTotal();
   }
 
   handleInput(e) {
-    // Mientras escribe en QUANTITY
     if (e.target.classList.contains('quantity-input')) {
       this.updateProductOptions();
-      this.updateStockValidation();
+      const editedRow = e.target.closest('.product-row');
+      this.updateStockValidation(editedRow);
       this.calculateTotal();
     }
   }
@@ -255,10 +291,8 @@ class SaleFormHandler {
     }
   }
 
-  // Validación y actualización de inputs de cantidad
-  updateStockValidation() {
+  updateStockValidation(editedRow = null) {
     this.container.querySelectorAll('.product-row').forEach(row => {
-      // Ignorar filas marcadas para destrucción
       const destroyInput = row.querySelector('.destroy-input');
       if (destroyInput && destroyInput.value === 'true') return;
 
@@ -274,21 +308,41 @@ class SaleFormHandler {
       }
 
       const productId = select.value;
+      const product = this.productsData[productId];
+      if (!product) return;
+
       const currentQty = parseInt(qtyInput.value) || 0;
-      
-      // Stock disponible TOTAL para esta fila (stock original - lo que usan los demás)
       const availableForThisRow = this.getAvailableStock(productId, row);
 
-      // Actualizar atributo max
       qtyInput.max = availableForThisRow;
 
-      // Validación visual
-      if (currentQty > availableForThisRow) {
-        qtyInput.classList.add('is-invalid');
-        qtyInput.title = `Stock insuficiente. Máximo disponible: ${availableForThisRow}`;
+      const isBeingEdited = editedRow && row === editedRow;
+      
+      if (isBeingEdited) {
+        if (currentQty > availableForThisRow && availableForThisRow > 0) {
+          const previousQty = currentQty;
+          qtyInput.value = availableForThisRow;
+          qtyInput.classList.remove('is-invalid');
+          qtyInput.title = '';
+          alert(`La cantidad ingresada (${previousQty}) excede el stock disponible. Se ajustó automáticamente a ${availableForThisRow}.`);
+        } else if (currentQty > availableForThisRow && availableForThisRow === 0) {
+          const previousQty = currentQty;
+          qtyInput.value = 0;
+          qtyInput.classList.add('is-invalid');
+          qtyInput.title = 'No hay stock disponible';
+          alert(`La cantidad ingresada (${previousQty}) excede el stock disponible. No hay stock disponible para este producto.`);
+        } else {
+          qtyInput.classList.remove('is-invalid');
+          qtyInput.title = '';
+        }
       } else {
-        qtyInput.classList.remove('is-invalid');
-        qtyInput.title = '';
+        if (currentQty > availableForThisRow) {
+          qtyInput.classList.add('is-invalid');
+          qtyInput.title = `Stock insuficiente. Máximo disponible: ${availableForThisRow}`;
+        } else {
+          qtyInput.classList.remove('is-invalid');
+          qtyInput.title = '';
+        }
       }
     });
   }
@@ -296,7 +350,6 @@ class SaleFormHandler {
   calculateTotal() {
     let total = 0;
     this.container.querySelectorAll('.product-row').forEach(row => {
-      // Ignorar filas marcadas para destrucción
       const destroyInput = row.querySelector('.destroy-input');
       if (destroyInput && destroyInput.value === 'true') return;
 
@@ -318,10 +371,8 @@ class SaleFormHandler {
   handleSubmit(e) {
     let isValid = true;
     
-    // Ejecutamos la validación una última vez
     this.updateStockValidation();
     
-    // Verificar inputs inválidos (exceso de stock)
     const invalidInputs = this.container.querySelectorAll('.quantity-input.is-invalid');
     if (invalidInputs.length > 0) {
       isValid = false;
@@ -332,7 +383,6 @@ class SaleFormHandler {
       return;
     }
 
-    // Verificar que haya al menos un producto seleccionado
     let hasProduct = false;
     let hasZero = false;
     

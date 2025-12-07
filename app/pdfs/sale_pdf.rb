@@ -33,6 +33,7 @@ class SalePdf < Prawn::Document
     data = [
       ["Número de Venta:", "##{@sale.id}"],
       ["Fecha:", @sale.date.strftime("%d/%m/%Y")],
+      ["Hora:", @sale.time.present? ? @sale.time.strftime("%H:%M") : "No especificada"],
       ["Empleado:", "#{@sale.employee.name} #{@sale.employee.surname}"],
       ["Email del empleado:", @sale.employee.email],
       ["Estado:", @sale.is_cancelled? ? "Cancelada" : "Activa"]
