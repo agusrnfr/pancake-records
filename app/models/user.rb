@@ -47,6 +47,14 @@ class User < ApplicationRecord
     update_column(:removed_at, nil)
   end
 
+  def restore_with_new_password!
+    temporary_password = Devise.friendly_token.first(20)
+    restore!
+    self.password = temporary_password
+    save!
+    temporary_password
+  end
+
   def removed?
     removed_at.present?
   end

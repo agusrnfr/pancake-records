@@ -563,9 +563,22 @@ form.button_to .icon-btn.success i {
 	gap: 10px;
 }
 
+.form-inline-reset {
+	display: inline;
+	margin: 0;
+	padding: 0;
+	background: none;
+	border: none;
+	border-radius: 0;
+}
+
 .btn-restore {
-	background-color: #27ae60;
+	background-color: blue;
+	text-decoration: none;
+	display: inline-block;
 	padding: 12px 22px;
+	color: black;
+	border-radius: 8px;
 	height: auto;
 }
 
