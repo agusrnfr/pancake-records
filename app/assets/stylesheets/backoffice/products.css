@@ -113,6 +113,13 @@
 	overflow: visible;
 }
 
+.records-table td[data-label="Email"] {
+	white-space: normal;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+	overflow: hidden;
+}
+
 .records-table tbody tr:last-child td {
 	border-bottom: 1px solid #ddd;
 }

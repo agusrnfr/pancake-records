@@ -246,13 +246,8 @@ body > .container {
 }
 
 @media (max-width: 768px) {
-	body {
-		padding-top: 70px !important;
-	}
-
-	.hero-landing {
-		margin-top: 0;
-		min-height: calc(100vh - 70px);
+	.body {
+		margin-top: 64px;
 	}
 
 	.header-container {
@@ -1014,7 +1009,7 @@ body > .container {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.5rem;
-	margin-bottom: 0.50rem;
+	margin-bottom: 0.5rem;
 	color: #fff;
 	text-decoration: none;
 	font-size: 0.95rem;
@@ -1374,10 +1369,16 @@ body > .container {
 	scroll-margin-top: 80px;
 }
 
+input {
+	font-family: Montserrat, sans-serif;
+}
+
 @media (max-width: 768px) {
 	.hero-landing {
 		min-height: 70vh;
 		padding: 2rem 1rem;
+		margin-top: 64px;
+		min-height: calc(100vh - 70px);
 	}
 
 	.hero-content {
