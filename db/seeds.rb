@@ -643,10 +643,9 @@ if employees.any? && products_list.any?
       minute = rand(0..59)
       time = Time.new(2000, 1, 1, hour, minute, 0)
       
-      sale = Sale.create!(
+      sale = Sale.new(
         date: date,
         time: time,
-        total: total,
         employee: employee,
         buyer_name: buyer_name,
         buyer_surname: buyer_surname,
@@ -657,15 +656,16 @@ if employees.any? && products_list.any?
       )
       
       sale_products_data.each do |data|
-        SaleProduct.create!(
-          sale: sale,
+        sale.sale_products.build(
           product: data[:product],
           quantity: data[:quantity],
           unit_price: data[:unit_price]
         )
       end
       
-      puts "💰 Venta creada: #{sale.id} - #{buyer_name} #{buyer_surname} - $#{total} - #{date}"
+      sale.save!
+      
+      puts "💰 Venta creada: #{sale.id} - #{buyer_name} #{buyer_surname} - $#{sale.total} - #{date}"
     rescue => e
       puts "⚠️  Error al crear venta: #{e.message}"
       puts "   Backtrace: #{e.backtrace.first(3).join("\n   ")}"
@@ -715,10 +715,9 @@ if employees.any? && products_list.any?
       minute = rand(0..59)
       time = Time.new(2000, 1, 1, hour, minute, 0)
       
-      sale = Sale.create!(
+      sale = Sale.new(
         date: date,
         time: time,
-        total: total,
         employee: employee,
         buyer_name: buyer_name,
         buyer_surname: buyer_surname,
@@ -729,15 +728,16 @@ if employees.any? && products_list.any?
       )
       
       sale_products_data.each do |data|
-        SaleProduct.create!(
-          sale: sale,
+        sale.sale_products.build(
           product: data[:product],
           quantity: data[:quantity],
           unit_price: data[:unit_price]
         )
       end
       
-      puts "❌ Venta cancelada creada: #{sale.id} - #{buyer_name} #{buyer_surname} - $#{total} - #{date}"
+      sale.save!
+      
+      puts "❌ Venta cancelada creada: #{sale.id} - #{buyer_name} #{buyer_surname} - $#{sale.total} - #{date}"
     rescue => e
       puts "⚠️  Error al crear venta cancelada: #{e.message}"
       puts "   Backtrace: #{e.backtrace.first(3).join("\n   ")}"

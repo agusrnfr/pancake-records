@@ -35,7 +35,7 @@
     <div class="form-field full">
       <%= f.label :avatar, "Avatar" %>
       <%= f.file_field :avatar, accept: "image/*", class: "input-file" %>
-      <% if f.object.avatar.attached? %>
+      <% if f.object.avatar.attached? && f.object.avatar.blob&.persisted? %>
         <div class="image-preview-list" style="margin-top: 12px;">
           <div class="image-preview">
             <%= image_tag f.object.avatar, class: "preview-img", alt: "Avatar" %>
