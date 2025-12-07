@@ -27,7 +27,7 @@ class Backoffice::SalesController < Backoffice::BaseController
     @sale = Sale.new
     @sale.date = Date.current
     current_time = Time.current
-    @sale.time = Time.new(2000, 1, 1, current_time.hour, current_time.min, 0)
+    @sale.time = Time.zone.local(2000, 1, 1, current_time.hour, current_time.min, 0)
     @available_products = Product.available_for_sale
   rescue => e
     @available_products = []
@@ -52,17 +52,17 @@ class Backoffice::SalesController < Backoffice::BaseController
 
   def cancel
     if @sale.is_cancelled?
-      redirect_to backoffice_sales_path, alert: "La venta ya está cancelada"
+      redirect_back fallback_location: backoffice_sales_path, alert: "La venta ya está cancelada"
       return
     end
 
     if @sale.cancel!
-      redirect_to backoffice_sales_path, notice: "Venta cancelada correctamente"
+      redirect_back fallback_location: backoffice_sales_path, notice: "Venta cancelada correctamente"
     else
-      redirect_to backoffice_sales_path, alert: "Error al cancelar la venta"
+      redirect_back fallback_location: backoffice_sales_path, alert: "Error al cancelar la venta"
     end
   rescue => e
-    redirect_to backoffice_sales_path, alert: "Error al cancelar la venta: #{e.message}"
+    redirect_back fallback_location: backoffice_sales_path, alert: "Error al cancelar la venta: #{e.message}"
   end
 
   private

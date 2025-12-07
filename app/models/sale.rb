@@ -34,7 +34,18 @@ class Sale < ApplicationRecord
 
   def normalize_time
     return unless time.present?
-    self.time = Time.new(2000, 1, 1, time.hour, time.min, 0)
+    
+    if time.is_a?(String)
+      time_parts = time.split(':')
+      if time_parts.length >= 2
+        hour = time_parts[0].to_i
+        min = time_parts[1].to_i
+        self.time = Time.zone.local(2000, 1, 1, hour, min, 0)
+      end
+    elsif time.is_a?(Time)
+      time_in_zone = time.in_time_zone(Time.zone)
+      self.time = Time.zone.local(2000, 1, 1, time_in_zone.hour, time_in_zone.min, 0)
+    end
   end
 
   def merge_duplicate_products

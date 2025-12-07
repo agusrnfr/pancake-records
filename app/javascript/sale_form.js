@@ -64,6 +64,12 @@ class SaleFormHandler {
     this.container.addEventListener('change', (e) => this.handleChange(e));
     this.container.addEventListener('input', (e) => this.handleInput(e));
     
+    const timeInput = this.form.querySelector('input[type="time"]');
+    if (timeInput) {
+      timeInput.addEventListener('change', () => this.normalizeTimeField());
+      timeInput.addEventListener('blur', () => this.normalizeTimeField());
+    }
+    
     if (this.addProductBtn) {
       this.addProductBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -74,10 +80,24 @@ class SaleFormHandler {
 
     this.form.addEventListener('submit', (e) => this.handleSubmit(e));
 
+    this.normalizeTimeField();
     this.updateRemoveButtons();
     this.updateProductOptions();
     this.updateStockValidation();
     this.calculateTotal();
+  }
+
+  normalizeTimeField() {
+    const timeInput = this.form.querySelector('input[type="time"]');
+    if (timeInput && timeInput.value) {
+      const timeValue = timeInput.value;
+      const timeParts = timeValue.split(':');
+      if (timeParts.length >= 2) {
+        const hours = timeParts[0].padStart(2, '0');
+        const minutes = timeParts[1].padStart(2, '0');
+        timeInput.value = `${hours}:${minutes}`;
+      }
+    }
   }
 
   loadProductsData() {
@@ -268,6 +288,12 @@ class SaleFormHandler {
     const editedRow = target.closest('.product-row');
     this.updateStockValidation(editedRow);
     this.calculateTotal();
+    
+    if (target.classList.contains('product-select')) {
+      setTimeout(() => {
+        this.updateStockValidation(editedRow);
+      }, 100);
+    }
   }
 
   handleInput(e) {
@@ -325,6 +351,11 @@ class SaleFormHandler {
           qtyInput.classList.remove('is-invalid');
           qtyInput.title = '';
           alert(`La cantidad ingresada (${previousQty}) excede el stock disponible. Se ajustó automáticamente a ${availableForThisRow}.`);
+          setTimeout(() => {
+            this.updateProductOptions();
+            this.updateStockValidation(editedRow);
+            this.calculateTotal();
+          }, 50);
         } else if (currentQty > availableForThisRow && availableForThisRow === 0) {
           const previousQty = currentQty;
           qtyInput.value = 0;
@@ -370,6 +401,17 @@ class SaleFormHandler {
 
   handleSubmit(e) {
     let isValid = true;
+    
+    const timeInput = this.form.querySelector('input[type="time"]');
+    if (timeInput && timeInput.value) {
+      const timeValue = timeInput.value;
+      const timeParts = timeValue.split(':');
+      if (timeParts.length >= 2) {
+        const hours = timeParts[0].padStart(2, '0');
+        const minutes = timeParts[1].padStart(2, '0');
+        timeInput.value = `${hours}:${minutes}`;
+      }
+    }
     
     this.updateStockValidation();
     
